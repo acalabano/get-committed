@@ -1,0 +1,64 @@
+[debug] [2017-08-09T22:02:31.881Z] ----------------------------------------------------------------------
+[debug] [2017-08-09T22:02:31.884Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-08-09T22:02:31.884Z] CLI Version:   3.9.2
+[debug] [2017-08-09T22:02:31.884Z] Platform:      darwin
+[debug] [2017-08-09T22:02:31.884Z] Node Version:  v7.10.0
+[debug] [2017-08-09T22:02:31.885Z] Time:          Wed Aug 09 2017 18:02:31 GMT-0400 (EDT)
+[debug] [2017-08-09T22:02:31.885Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-08-09T22:02:31.910Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-08-09T22:02:31.911Z] > authorizing via signed-in user
+[debug] [2017-08-09T22:02:31.915Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/getcommittedapp  
+ Wed Aug 09 2017 18:02:31 GMT-0400 (EDT)
+[debug] [2017-08-09T22:02:32.582Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-09T22:02:32.583Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/getcommittedapp/tokens  
+ Wed Aug 09 2017 18:02:32 GMT-0400 (EDT)
+[debug] [2017-08-09T22:02:32.942Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/ana/usingMoodBase/mood-color-on-firebase'...
+[info] 
+[debug] [2017-08-09T22:02:32.946Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/getcommittedapp  
+ Wed Aug 09 2017 18:02:32 GMT-0400 (EDT)
+[debug] [2017-08-09T22:02:33.309Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-09T22:02:33.309Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/459123561795/clients/_:getWebAppConfig  
+ Wed Aug 09 2017 18:02:33 GMT-0400 (EDT)
+[debug] [2017-08-09T22:02:33.803Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+
+[debug] [2017-08-10T06:35:24.168Z] ----------------------------------------------------------------------
+[debug] [2017-08-10T06:35:24.174Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-08-10T06:35:24.175Z] CLI Version:   3.9.2
+[debug] [2017-08-10T06:35:24.175Z] Platform:      darwin
+[debug] [2017-08-10T06:35:24.175Z] Node Version:  v7.10.0
+[debug] [2017-08-10T06:35:24.178Z] Time:          Thu Aug 10 2017 02:35:24 GMT-0400 (EDT)
+[debug] [2017-08-10T06:35:24.178Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-08-10T06:35:24.208Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-08-10T06:35:24.208Z] > authorizing via signed-in user
+[debug] [2017-08-10T06:35:24.212Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-08-10T06:35:24.213Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/kzIOsG3FKKQEupenedrrn_jALiaLW55y_9ityJSUm-U',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Thu Aug 10 2017 02:35:24 GMT-0400 (EDT)
+[debug] [2017-08-10T06:35:24.477Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-10T06:35:24.492Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/getcommittedapp  
+ Thu Aug 10 2017 02:35:24 GMT-0400 (EDT)
+[debug] [2017-08-10T06:35:25.102Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-10T06:35:25.102Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/getcommittedapp/tokens  
+ Thu Aug 10 2017 02:35:25 GMT-0400 (EDT)
+[debug] [2017-08-10T06:35:25.548Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/ana/usingMoodBase/mood-color-on-firebase'...
+[info] 
+[debug] [2017-08-10T06:35:25.552Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/getcommittedapp  
+ Thu Aug 10 2017 02:35:25 GMT-0400 (EDT)
+[debug] [2017-08-10T06:35:26.047Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-10T06:35:26.048Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/459123561795/clients/_:getWebAppConfig  
+ Thu Aug 10 2017 02:35:26 GMT-0400 (EDT)
+[debug] [2017-08-10T06:35:26.640Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+
