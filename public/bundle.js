@@ -31191,15 +31191,13 @@ var AllPixels = function (_React$Component) {
     value: function onPixelSubmit(event) {
       event.preventDefault();
       console.log('EVENT TARGETSSSS', event.target);
-      console.log(event.target.color);
       console.log(event.target.day);
       console.log(event.target.content);
       var pixelInfo = {
-        color: event.target.color.value,
         day: event.target.day.value,
         content: event.target.content.value
       };
-      this.props.addAPixel(pixelInfo.color, pixelInfo.day, pixelInfo.content, null);
+      this.props.addAPixel('#E3E3E3', pixelInfo.day, pixelInfo.content);
       this.setState({ addButtonClicked: false });
     }
   }, {
@@ -31296,16 +31294,6 @@ var AllPixels = function (_React$Component) {
                 { className: 'form-group' },
                 _react2.default.createElement(
                   'label',
-                  { htmlFor: 'color' },
-                  'Pixel Color:'
-                ),
-                _react2.default.createElement('input', { className: 'form-control', type: 'color', id: 'color' })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'form-group' },
-                _react2.default.createElement(
-                  'label',
                   { htmlFor: 'day' },
                   'Date: '
                 ),
@@ -31347,8 +31335,8 @@ var mapState = function mapState(_ref) {
 
 var mapDispatch = function mapDispatch(dispatch) {
   return {
-    addAPixel: function addAPixel(pixelColor, pixelDay, pixelContent, pixelTasks) {
-      dispatch((0, _pixel.addPixel)(pixelColor, pixelDay, pixelContent, pixelTasks));
+    addAPixel: function addAPixel(pixelColor, pixelDay, pixelContent) {
+      dispatch((0, _pixel.addPixel)(pixelColor, pixelDay, pixelContent));
     },
     loadPixels: function loadPixels() {
       dispatch((0, _pixel.getPixels)());
@@ -32115,7 +32103,7 @@ var SinglePixel = function (_React$Component) {
       if (this.props.tasks.filter(function (task) {
         return task.taskDone === false;
       }).size + 1 >= this.props.tasks.size) {
-        this.props.updateOnePixel(this.props.pixelId, 'grey', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props);
       }
     }
   }, {

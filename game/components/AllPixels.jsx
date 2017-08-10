@@ -27,15 +27,13 @@ class AllPixels extends React.Component {
   onPixelSubmit(event) {
     event.preventDefault()
     console.log('EVENT TARGETSSSS', event.target)
-    console.log(event.target.color)
     console.log(event.target.day)
     console.log(event.target.content)
     let pixelInfo = {
-      color: event.target.color.value,
       day: event.target.day.value,
       content: event.target.content.value
     }
-    this.props.addAPixel(pixelInfo.color, pixelInfo.day, pixelInfo.content, null)
+    this.props.addAPixel('#E3E3E3', pixelInfo.day, pixelInfo.content)
     this.setState({addButtonClicked: false})
   }
 
@@ -92,10 +90,6 @@ class AllPixels extends React.Component {
               <div className="row col-lg-4">
                 <form onSubmit={this.onPixelSubmit}>
                 <div className="form-group">
-                  <label htmlFor="color">Pixel Color:</label>
-                  <input className="form-control" type="color" id="color" />
-                </div>
-                <div className="form-group">
                   <label htmlFor="day">Date: </label>
                   <input className="form-control" type="date" id="day" />
                 </div>
@@ -123,8 +117,8 @@ const mapState = ({pixel}) => ({
 })
 
 const mapDispatch = dispatch => ({
-  addAPixel: (pixelColor, pixelDay, pixelContent, pixelTasks) => {
-    dispatch(addPixel(pixelColor, pixelDay, pixelContent, pixelTasks))
+  addAPixel: (pixelColor, pixelDay, pixelContent) => {
+    dispatch(addPixel(pixelColor, pixelDay, pixelContent))
   },
   loadPixels: () => {
     dispatch(getPixels())

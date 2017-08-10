@@ -72,7 +72,7 @@ class SinglePixel extends React.Component {
     this.props.updateATask(idx, false)
     this.setState({completedTasks: ([...(this.props.tasks.filter(task => task.taskDone === true))])})
     if ((this.props.tasks.filter((task) => task.taskDone === false)).size+1 >= this.props.tasks.size) {
-      this.props.updateOnePixel(this.props.pixelId, 'grey', '', '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props)
     }
   }
 
