@@ -50,7 +50,7 @@ class SinglePixel extends React.Component {
       done: false,
       taskFrequency: event.target.taskFrequency.value
     }
-    this.props.addAPixelTask(parseInt(this.props.pixelId), taskInfo.content, taskInfo.done, taskInfo.taskFrequency)
+    this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency)
   }
 
   removeTaskCallback(index) {
@@ -63,21 +63,13 @@ class SinglePixel extends React.Component {
     console.log('TESTING DONNNE TASKS BEFORE', [...(this.props.tasks.filter(task => task.taskDone === true))])
     this.setState({completedTasks: ([...(this.props.tasks.filter(task => task.taskDone === true))])})
     console.log('TESTING DONNNE TASKS AFTER', [...(this.props.tasks.filter(task => task.taskDone === true))])
-    if ([...(this.props.tasks.filter(task => task.taskDone === true))].length < 1) {
-      this.props.updateOnePixel(this.props.pixelId, 'white', '', '')
-    } else if ([...(this.props.tasks.filter(task => task.taskDone === true))].length >0) {
-      this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '')
-    }
+    this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props)
   }
 
   markIncomplete(idx) {
     this.props.updateATask(idx, false)
     this.setState({completedTasks: ([...(this.props.tasks.filter(task => task.taskDone === true))])})
-    if ([...(this.props.tasks.filter(task => task.taskDone === true))].length < 1) {
-      this.props.updateOnePixel(this.props.pixelId, 'white', '', '')
-    } else if ([...(this.props.tasks.filter(task => task.taskDone === true))].length >0) {
-      this.props.updateOnePixel(parseInt(this.props.pixelId), '#00FF00', '', '')
-    }
+    this.props.updateOnePixel(this.props.pixelId, 'grey', '', '', this.props)
   }
 
   onResetTasks(frequencyString) {
@@ -94,7 +86,7 @@ class SinglePixel extends React.Component {
 
       <div>
         {
-          console.log('heyaae ababeiuabiegwf', this.props.pixels.get(this.props.pixelId).pixelTasks)
+          console.log('heyaae ababeiuabiegwf heeeyyyy yoooo', this.props.tasks)
         }
         <h1>{thatPixel.pixelDay} Pixel</h1>
         <div id="wrapper" style={{backgroundColor: thatPixel.pixelColor, width: `${10}vh`, height: `${10}vh`}}><p className="text">{thatPixel.pixelColor}</p></div>
@@ -150,7 +142,15 @@ class SinglePixel extends React.Component {
                <h3>Incomplete tasks</h3>
                <div>
                {
-                 thatPixel.pixelTasks
+                 this.props.tasks.filter((task) => task.taskFrequency === 'daily' && task.taskDone === false).map(task => {
+                   let taskIndex= this.props.tasks.indexOf(task)
+                   return (
+                     <div key={taskIndex}><input className="task-item" type="checkbox" onChange={(event) => {
+                       event.preventDefault()
+                       this.markTaskDone(taskIndex)
+                     }}/>{task.taskContent} <button className="btn-danger" onClick={() => this.removeTaskCallback(taskIndex)}>X</button></div>
+                   )
+                 })
                }
               </div>
              </div>
@@ -160,7 +160,10 @@ class SinglePixel extends React.Component {
                this.props.tasks.filter((task) => task.taskFrequency === 'daily' && task.taskDone === true).map(task => {
                  let taskIndex= this.props.tasks.indexOf(task)
                  return (
-                   <div key={taskIndex}><input className="task-item" type="checkbox" checked={true} onChange={() => this.markIncomplete(taskIndex)}/>{task.taskContent} <button className="btn-danger" onClick={() => this.removeTaskCallback(taskIndex)}>X</button></div>
+                   <div key={taskIndex}><input className="task-item" type="checkbox" checked={true} onChange={(event) => {
+                     event.preventDefault
+                     this.markIncomplete(taskIndex)
+                   }}/>{task.taskContent} <button className="btn-danger" onClick={() => this.removeTaskCallback(taskIndex)}>X</button></div>
                  )
                })
              }

@@ -12,12 +12,11 @@ export const loadPixel = (pixelId) => ({
   pixelId
 })
 export const ADD_PIXEL = 'ADD_PIXEL'
-export const addPixel = (pixelColor, pixelDay, pixelContent, pixelTasks) => ({
+export const addPixel = (pixelColor, pixelDay, pixelContent) => ({
   type: ADD_PIXEL,
   pixelColor,
   pixelDay,
-  pixelContent,
-  pixelTasks
+  pixelContent
 })
 
 export const REMOVE_PIXEL = 'REMOVE_PIXEL'
@@ -27,42 +26,12 @@ export const removePixel = (pixelIndex) => ({
 })
 
 export const UPDATE_PIXEL = 'UPDATE_PIXEL'
-export const updatePixel = (pixelIndex, pixelColor, pixelDay, pixelContent, pixelTasks) => ({
+export const updatePixel = (pixelIndex, pixelColor, pixelDay, pixelContent, ) => ({
   type: UPDATE_PIXEL,
   pixelIndex,
   pixelColor,
   pixelDay,
-  pixelContent,
-  pixelTasks
-})
-
-export const CREATE_PIXEL_TASK = 'CREATE_PIXEL_TASK'
-export const createPixelTask = (pixelId, taskContent, taskDone, taskFrequency) => ({
-  type: CREATE_PIXEL_TASK,
-  pixelId,
-  taskContent,
-  taskDone,
-  taskFrequency
-})
-
-export const REMOVE_PIXEL_TASK = 'REMOVE_PIXEL_TASK'
-export const removePixelTask = (pixelId, taskIndex) => ({
-  type: REMOVE_PIXEL_TASK,
-  taskIndex
-})
-
-export const UPDATE_PIXEL_TASK = 'UPDATE_PIXEL_TASK'
-export const updatePixelTask = (pixelId, taskIndex, taskDone) => ({
-  type: UPDATE_PIXEL_TASK,
-  pixelId,
-  taskIndex,
-  taskDone,
-})
-
-export const GET_PIXEL_TASKS='GET_PIXEL_TASKS'
-export const getPixelTasks = (pixelId) => ({
-  type: GET_PIXEL_TASKS,
-  pixelId
+  pixelContent
 })
 
 // -- // -- // State // -- // -- //
@@ -81,8 +50,7 @@ const pixelReducer = (state = initial, action) => {
       pixels: state.pixels.push({
         pixelColor: action.pixelColor,
         pixelDay: action.pixelDay,
-        pixelContent: action.pixelContent,
-        pixelTasks: List()
+        pixelContent: action.pixelContent
       })
     }
 
@@ -98,33 +66,6 @@ const pixelReducer = (state = initial, action) => {
         pixelColor: action.pixelColor,
         pixelDay: action.pixelDay,
         pixelContent: action.pixelContent,
-        pixelTasks: action.pixelTasks
-      })
-    }
-
-  case CREATE_PIXEL_TASK:
-    console.log('supppp', [...state.pixels.get(action.pixelId).pixelTasks])
-    return {...state,
-      pixels: state.pixels.set(action.pixelId, {
-        ...state.pixels.get(action.pixelId),
-        pixelTasks: [...state.pixels.get(action.pixelId).pixelTasks].push({
-          taskContent: action.taskContent,
-          taskDone: false,
-          taskFrequency: action.taskFrequency,
-          error: null
-        })
-      })
-    }
-
-  case REMOVE_PIXEL_TASK:
-    return {...state,
-      tasks: state.tasks.delete(action.taskIndex)
-    }
-  case UPDATE_PIXEL_TASK:
-    return {...state,
-      tasks: state.tasks.set(action.taskIndex, {
-        ...state.tasks.get(action.taskIndex),
-        pixelTasks: this
       })
     }
   }
