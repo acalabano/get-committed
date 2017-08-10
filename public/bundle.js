@@ -32099,7 +32099,11 @@ var SinglePixel = function (_React$Component) {
       console.log('TESTING DONNNE TASKS AFTER', [].concat(_toConsumableArray(this.props.tasks.filter(function (task) {
         return task.taskDone === true;
       }))));
-      this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
+      if (this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size + 1 > 1) {
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
+      }
     }
   }, {
     key: 'markIncomplete',
@@ -32108,7 +32112,11 @@ var SinglePixel = function (_React$Component) {
       this.setState({ completedTasks: [].concat(_toConsumableArray(this.props.tasks.filter(function (task) {
           return task.taskDone === true;
         }))) });
-      this.props.updateOnePixel(this.props.pixelId, 'grey', '', '', this.props);
+      if (this.props.tasks.filter(function (task) {
+        return task.taskDone === false;
+      }).size + 1 >= this.props.tasks.size) {
+        this.props.updateOnePixel(this.props.pixelId, 'grey', '', '', this.props);
+      }
     }
   }, {
     key: 'onResetTasks',

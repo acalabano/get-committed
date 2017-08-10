@@ -63,13 +63,17 @@ class SinglePixel extends React.Component {
     console.log('TESTING DONNNE TASKS BEFORE', [...(this.props.tasks.filter(task => task.taskDone === true))])
     this.setState({completedTasks: ([...(this.props.tasks.filter(task => task.taskDone === true))])})
     console.log('TESTING DONNNE TASKS AFTER', [...(this.props.tasks.filter(task => task.taskDone === true))])
-    this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props)
+    if ((this.props.tasks.filter((task) => task.taskDone === true)).size+1 > 1) {
+      this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props)
+    }
   }
 
   markIncomplete(idx) {
     this.props.updateATask(idx, false)
     this.setState({completedTasks: ([...(this.props.tasks.filter(task => task.taskDone === true))])})
-    this.props.updateOnePixel(this.props.pixelId, 'grey', '', '', this.props)
+    if ((this.props.tasks.filter((task) => task.taskDone === false)).size+1 >= this.props.tasks.size) {
+      this.props.updateOnePixel(this.props.pixelId, 'grey', '', '', this.props)
+    }
   }
 
   onResetTasks(frequencyString) {
