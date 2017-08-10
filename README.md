@@ -1,6 +1,6 @@
-The pixel mood-app now allows you some privacy through Google Oauth.  Of course, public pixel boards are available too.
-
-Git cloning is no longer necessary and installing PostGres is needed to use the app!  Enjoy the glory of Firebase's Cloud Database!
-
-You can use my app here: https://pixel-moodapp.firebaseapp.com
 # get-committed
+
+This app is a to-do-up that uses the git commit feature of github
+It's not done yet.
+So far if you commit at least 2 done tasks for the day you get green pixel.
+If you haven't or mark all of your tasks as incomplete again, you stay or go back to a grey pixel.
