@@ -3,12 +3,12 @@ const firebase = require('firebase')
 // -- // -- // -- // Firebase Config // -- // -- // -- //
 
 export const config = {
-  apiKey: 'AIzaSyBK5SXInX30KCOfYLgPgvlY1AFpflt1h74',
-  authDomain: 'pixel-moodapp.firebaseapp.com',
-  databaseURL: 'https://pixel-moodapp.firebaseio.com',
-  projectId: 'pixel-moodapp',
+  apiKey: 'AIzaSyClWZXJ5bJdjzKtEAZdjl5FR-yQyUKYK2c',
+  authDomain: 'getcommittedapp.firebaseapp.com',
+  databaseURL: 'https://getcommittedapp.firebaseio.com',
+  projectId: 'getcommittedapp',
   storageBucket: '',
-  messagingSenderId: '985415008681'
+  messagingSenderId: '459123561795'
 }
 
 // -- // -- // -- // -- // -- // -- // -- // -- // -- //

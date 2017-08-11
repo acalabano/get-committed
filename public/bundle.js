@@ -1588,12 +1588,12 @@ var firebase = __webpack_require__(407);
 // -- // -- // -- // Firebase Config // -- // -- // -- //
 
 var config = exports.config = {
-  apiKey: 'AIzaSyBK5SXInX30KCOfYLgPgvlY1AFpflt1h74',
-  authDomain: 'pixel-moodapp.firebaseapp.com',
-  databaseURL: 'https://pixel-moodapp.firebaseio.com',
-  projectId: 'pixel-moodapp',
+  apiKey: 'AIzaSyClWZXJ5bJdjzKtEAZdjl5FR-yQyUKYK2c',
+  authDomain: 'getcommittedapp.firebaseapp.com',
+  databaseURL: 'https://getcommittedapp.firebaseio.com',
+  projectId: 'getcommittedapp',
   storageBucket: '',
-  messagingSenderId: '985415008681'
+  messagingSenderId: '459123561795'
 
   // -- // -- // -- // -- // -- // -- // -- // -- // -- //
 
@@ -19059,10 +19059,11 @@ var _immutable = __webpack_require__(99);
 // -- // -- // Actions // -- // -- //
 
 var CREATE_GAME = exports.CREATE_GAME = 'CREATE_GAME';
-var createGame = exports.createGame = function createGame(id) {
+var createGame = exports.createGame = function createGame(id, name) {
   return {
     type: CREATE_GAME,
-    id: id
+    id: id,
+    name: name
   };
 };
 
@@ -19100,6 +19101,7 @@ var initial = {
       return _extends({}, state, {
         games: state.games.push({
           id: action.id,
+          name: action.name,
           error: null
         })
       });
@@ -31192,12 +31194,10 @@ var AllPixels = function (_React$Component) {
       event.preventDefault();
       console.log('EVENT TARGETSSSS', event.target);
       console.log(event.target.day);
-      console.log(event.target.content);
       var pixelInfo = {
-        day: event.target.day.value,
-        content: event.target.content.value
+        day: event.target.day.value
       };
-      this.props.addAPixel('#E3E3E3', pixelInfo.day, pixelInfo.content);
+      this.props.addAPixel('#E3E3E3', pixelInfo.day, '');
       this.setState({ addButtonClicked: false });
     }
   }, {
@@ -31274,17 +31274,6 @@ var AllPixels = function (_React$Component) {
           ),
           _react2.default.createElement(
             'div',
-            null,
-            _react2.default.createElement('br', null),
-            _react2.default.createElement(
-              'a',
-              { href: '/mirror.html' },
-              ' Click here for the mirror page to check your mood!'
-            ),
-            _react2.default.createElement('br', null)
-          ),
-          _react2.default.createElement(
-            'div',
             { className: 'row col-lg-4' },
             _react2.default.createElement(
               'form',
@@ -31298,16 +31287,6 @@ var AllPixels = function (_React$Component) {
                   'Date: '
                 ),
                 _react2.default.createElement('input', { className: 'form-control', type: 'date', id: 'day' })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'form-group' },
-                _react2.default.createElement(
-                  'label',
-                  { htmlFor: 'content' },
-                  'What happened on this day: '
-                ),
-                _react2.default.createElement('textarea', { className: 'form-control', cols: '40', rows: '5', id: 'content' })
               ),
               _react2.default.createElement(
                 'button',
@@ -31705,9 +31684,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var n = 5;
-var added = false;
-
 var Lobby = function (_React$Component) {
   _inherits(Lobby, _React$Component);
 
@@ -31717,14 +31693,13 @@ var Lobby = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Lobby.__proto__ || Object.getPrototypeOf(Lobby)).call(this, props));
 
     _this.state = {
-      currentN: 6,
-      gamesArray: [1, 2, 3, 4, 5],
       didUserAddNewLobby: false,
       currentUserId: '',
       currentUsername: ''
     };
 
     _this.onLobbySubmit = _this.onLobbySubmit.bind(_this);
+    _this.removeGameCallback = _this.removeGameCallback.bind(_this);
     return _this;
   }
 
@@ -31742,12 +31717,23 @@ var Lobby = function (_React$Component) {
     }
   }, {
     key: 'onLobbySubmit',
-    value: function onLobbySubmit() {
-      this.props.createAGame(this.props.games.size + 1);
+    value: function onLobbySubmit(event) {
+      event.preventDefault();
+      console.log('ADDING HUB?', event.target.name.value);
+      this.props.createAGame(this.props.games.size + 1, event.target.name.value);
+    }
+  }, {
+    key: 'removeGameCallback',
+    value: function removeGameCallback(event) {
+      var removeAGame = this.props.removeAGame;
+      event.stopPropagation();
+      removeAGame(event.target.id);
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       return _react2.default.createElement(
         'div',
         { className: 'lobby-background' },
@@ -31759,7 +31745,7 @@ var Lobby = function (_React$Component) {
           _react2.default.createElement(
             'p',
             { className: 'choose-lobby text-center' },
-            'CHOOSE A LOBBY'
+            'CHOOSE A HUB'
           ),
           _react2.default.createElement(
             'div',
@@ -31770,27 +31756,60 @@ var Lobby = function (_React$Component) {
               _react2.default.createElement(
                 _reactRouter.Link,
                 { key: this.state.currentUserId, className: 'lobby-link', to: '/pixels/' + this.state.currentUserId },
-                this.state.currentUsername,
-                's PIXEL BOARD'
+                this.state.currentUsername + "'",
+                's Main Commit Hub'
               )
             ),
             this.props.games.size > 0 ? this.props.games.map(function (game) {
+              var idx = _this3.props.games.indexOf(game);
               return _react2.default.createElement(
-                'h2',
-                null,
+                'div',
+                { key: idx },
                 _react2.default.createElement(
-                  _reactRouter.Link,
-                  { key: game, className: 'lobby-link', to: '/pixels/' + game.id },
-                  'PUBLIC PIXEL BOARD # ',
-                  game.id
+                  'h2',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouter.Link,
+                    { className: 'lobby-link', to: '/pixels/' + game.name + '-' + game.id },
+                    'Hub Name: ',
+                    game.name
+                  )
+                ),
+                _react2.default.createElement(
+                  'button',
+                  { className: 'btn btn-danger', name: 'delete', id: idx, onClick: _this3.removeGameCallback },
+                  'X'
                 )
               );
-            }) : _react2.default.createElement('h2', null),
+            }) : _react2.default.createElement('div', null),
             _react2.default.createElement(
-              'button',
-              { className: 'add-lobby', type: 'button', onClick: this.onLobbySubmit },
-              _react2.default.createElement('img', { src: '/images/avatars/YellowPuppy.png', style: { width: '70px', height: '70px' } }),
-              ' Add Lobby'
+              'div',
+              { className: 'row' },
+              _react2.default.createElement('div', { className: 'col-lg-4' }),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-lg-4' },
+                _react2.default.createElement(
+                  'form',
+                  { onSubmit: this.onLobbySubmit },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'form-group' },
+                    _react2.default.createElement(
+                      'label',
+                      { htmlFor: 'name' },
+                      'Name: '
+                    ),
+                    _react2.default.createElement('input', { className: 'form-control', type: 'text', id: 'name' })
+                  ),
+                  _react2.default.createElement(
+                    'button',
+                    { className: 'btn btn-default', type: 'submit' },
+                    'Add Hub'
+                  )
+                )
+              ),
+              _react2.default.createElement('div', { className: 'col-lg-4' })
             )
           )
         )
@@ -31807,8 +31826,8 @@ var mapStateToProps = function mapStateToProps(_ref) {
 };
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    createAGame: function createAGame(id) {
-      dispatch((0, _game.createGame)(id));
+    createAGame: function createAGame(id, name) {
+      dispatch((0, _game.createGame)(id, name));
     },
     removeAGame: function removeAGame(id) {
       dispatch((0, _game.removeGame)(id));
@@ -32078,18 +32097,14 @@ var SinglePixel = function (_React$Component) {
     key: 'markTaskDone',
     value: function markTaskDone(idx) {
       this.props.updateATask(idx, true);
-      console.log('TESTING DONNNE TASKS BEFORE', [].concat(_toConsumableArray(this.props.tasks.filter(function (task) {
-        return task.taskDone === true;
-      }))));
-      this.setState({ completedTasks: [].concat(_toConsumableArray(this.props.tasks.filter(function (task) {
-          return task.taskDone === true;
-        }))) });
-      console.log('TESTING DONNNE TASKS AFTER', [].concat(_toConsumableArray(this.props.tasks.filter(function (task) {
-        return task.taskDone === true;
-      }))));
+      console.log('TESTING DONNNE TASKS AFTER', this.props.tasks.size);
       if (this.props.tasks.filter(function (task) {
         return task.taskDone === true;
-      }).size + 1 > 1) {
+      }).size + 1 * 1.0 / this.props.tasks.size > 0.6) {
+        this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props);
+      } else if (this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size + 1 * 1.0 / this.props.tasks.size > 0.3) {
         this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
       }
     }
@@ -32104,6 +32119,14 @@ var SinglePixel = function (_React$Component) {
         return task.taskDone === false;
       }).size + 1 >= this.props.tasks.size) {
         this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props);
+      } else if (this.props.tasks.filter(function (task) {
+        return task.taskDone === false;
+      }).size + 1 * 1.0 / this.props.tasks.size > 0.6) {
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
+      } else if (this.props.tasks.filter(function (task) {
+        return task.taskDone === false;
+      }).size + 1 * 1.0 / this.props.tasks.size > 0.3) {
+        this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props);
       }
     }
   }, {

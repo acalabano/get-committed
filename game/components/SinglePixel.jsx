@@ -60,10 +60,10 @@ class SinglePixel extends React.Component {
 
   markTaskDone(idx) {
     this.props.updateATask(idx, true)
-    console.log('TESTING DONNNE TASKS BEFORE', [...(this.props.tasks.filter(task => task.taskDone === true))])
-    this.setState({completedTasks: ([...(this.props.tasks.filter(task => task.taskDone === true))])})
-    console.log('TESTING DONNNE TASKS AFTER', [...(this.props.tasks.filter(task => task.taskDone === true))])
-    if ((this.props.tasks.filter((task) => task.taskDone === true)).size+1 > 1) {
+    console.log('TESTING DONNNE TASKS AFTER', (this.props.tasks).size)
+    if ((this.props.tasks.filter((task) => task.taskDone === true)).size+1 *1.0/(this.props.tasks).size > 0.6) {
+      this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props)
+    } else if ((this.props.tasks.filter((task) => task.taskDone === true)).size+1 *1.0/(this.props.tasks).size > (0.3)) {
       this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props)
     }
   }
@@ -73,6 +73,10 @@ class SinglePixel extends React.Component {
     this.setState({completedTasks: ([...(this.props.tasks.filter(task => task.taskDone === true))])})
     if ((this.props.tasks.filter((task) => task.taskDone === false)).size+1 >= this.props.tasks.size) {
       this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props)
+    } else if ((this.props.tasks.filter((task) => task.taskDone === false)).size+1 *1.0/(this.props.tasks).size > 0.6) {
+      this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props)
+    } else if ((this.props.tasks.filter((task) => task.taskDone === false)).size+1 *1.0/(this.props.tasks).size > 0.3) {
+      this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props)
     }
   }
 
