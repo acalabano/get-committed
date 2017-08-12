@@ -26,6 +26,8 @@ const NavbarComp = ({ auth, userId }) => {
   )
 }
 
+// export default NavbarComp
+
 export default class extends React.Component {
   constructor(props) {
     super(props)

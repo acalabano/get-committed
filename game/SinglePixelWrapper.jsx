@@ -5,7 +5,7 @@ const db = firebase.database()
 
 import SinglePixelPage from './components/SinglePixelPage'
 
-export default ({params: {uid, id}}) =>
+export default ({params: {uid, hubId, pixelId}}) =>
     <div className='gamePage'>
-      <SinglePixelPage fireRef={db.ref('board').child(uid)} boardId={uid} gameId={id}/>
+      <SinglePixelPage fireRef={db.ref('board').child(hubId)} userId={uid} hubId= {hubId} pixelId={pixelId}/>
   </div>

@@ -8,7 +8,7 @@ class SuccessfullyDeleted extends React.Component {
         <h1>
           Pixel Successfully Deleted!
         </h1>
-        <button className="btn btn-default" name="deletePixel" onClick={() => browserHistory.push(`/pixels/${this.props.wrapperId}`)}>Click to go Back to Your Pixel Board</button>
+        <button className="btn btn-default" name="deletePixel" onClick={() => browserHistory.push(`/lobby/${this.props.wrapperId}`)}>Click to go Back to the Lobby</button>
       </div>
     )
   }

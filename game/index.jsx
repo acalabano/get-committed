@@ -23,9 +23,9 @@ export default <Route path="/home" component={({ children }) => children}>
   <IndexRoute component={WelcomePage} />
   <Route path='/home' component={WelcomePage} />
   <Route path='/lobby/:uid' component={LobbyPageWrapper} />
-  <Route path='/pixels/:uid/:id' component={GamePageWrapper} />
+  <Route path='/pixels/:uid/:hubId' component={GamePageWrapper} />
   <Route path='/pixels/:uid/add' component={AddPixelWrapper} />
-  <Route path='/pixel/:uid/:id' component={SinglePixelWrapper} />
+  <Route path='/pixel/:uid/:hubId/:pixelId' component={SinglePixelWrapper} />
   <Route path='/deleted/:uid' component={DeletedPageWrapper} />
 
 </Route>

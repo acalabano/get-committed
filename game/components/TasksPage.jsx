@@ -13,11 +13,13 @@ import Tasks from './Tasks'
 
 export default class extends React.Component {
   componentDidMount() {
-    this.mountStoreAtRef(this.props.fireRef)
+    this.mountStoreAtRef(this.props.hubRef)
+    this.mountStoreAtRef(this.props.tasksRef)
   }
 
   componentWillReceiveProps(incoming, outgoing) {
-    this.mountStoreAtRef(incoming.fireRef)
+    this.mountStoreAtRef(incoming.hubRef)
+    this.mountStoreAtRef(incoming.tasksRef)
   }
 
   componentWillUnmount() {
@@ -55,9 +57,11 @@ export default class extends React.Component {
   }
 
   clear = () => {
-    this.props.fireRef.set(null)
+    this.props.hubRef.set(null)
+    this.props.tasksRef.set(null)
     // Reload the store
-    this.mountStoreAtRef(this.props.fireRef)
+    this.mountStoreAtRef(this.props.hubRef)
+    this.mountStoreAtRef(this.props.tasksRef)
   }
 
   render() {
@@ -67,7 +71,7 @@ export default class extends React.Component {
     console.log('TasksPageeeeeeeeee', this.props.gameId)
     return <Provider store={store}>
       <Grid className="main-grid">
-        <Tasks fireRef={this.props.fireRef} pixelId={this.props.gameId} userId={this.props.boardId}/>
+        <Tasks hubRef={this.props.hubRef} tasksRef={this.props.tasksRef} pixelId={this.props.pixelId} userId={this.props.userId}/>
       </Grid>
     </Provider>
   }

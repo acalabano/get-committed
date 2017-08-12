@@ -7,5 +7,5 @@ import TasksPage from './components/TasksPage'
 
 export default () =>
     <div className='lobbyPage'>
-      <TasksPage fireRef={db.ref('tasks')}/>
+      <TasksPage tasksRef={db.ref('tasks')}/>
   </div>

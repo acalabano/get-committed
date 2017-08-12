@@ -2,6 +2,7 @@ import React from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import {createTask, removeTask, updateTask, getTasks} from '../reducers/task'
+import {removePixel, updatePixel, loadPixel, createPixelTask} from '../reducers/pixel'
 
 class SinglePixel extends React.Component {
   constructor(props) {
@@ -138,6 +139,19 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  removeOnePixel: (pixelId) => {
+    dispatch(removePixel(pixelId))
+  },
+  updateOnePixel: (pixelId, pixelColor, pixelDay, pixelContent, pixelTasks) => {
+    console.log('DISPATCHING WORKS?', pixelColor)
+    dispatch(updatePixel(pixelId, pixelColor, pixelDay, pixelContent, pixelTasks))
+  },
+  loadSinglePixel: (pixelId) => {
+    dispatch(loadPixel(pixelId))
+  },
+  addAPixelTask: (pixelId, taskContent, taskDone, taskFrequency) => {
+    dispatch(createPixelTask(pixelId, taskContent, taskDone, taskFrequency))
+  },
   addATask: (taskContent, taskDone, taskFrequency) => {
     dispatch(createTask(taskContent, taskDone, taskFrequency))
   },

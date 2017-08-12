@@ -64,10 +64,10 @@ export default class extends React.Component {
     const {store} = this.state || {}
         , {children} = this.props
     if (!store) return null
-    console.log('SinglePixelPageeeeeeeeee', this.props.gameId)
+    console.log('SinglePixelPageeeeeeeeee', this.props.pixelId)
     return <Provider store={store}>
       <Grid className="main-grid">
-        <SinglePixel fireRef={this.props.fireRef} pixelId={this.props.gameId} userId={this.props.boardId}/>
+        <SinglePixel fireRef={this.props.fireRef} userId={this.props.userId} hubId={this.props.hubId} pixelId={this.props.pixelId}/>
       </Grid>
     </Provider>
   }

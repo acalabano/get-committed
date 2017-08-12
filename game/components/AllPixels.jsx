@@ -36,7 +36,7 @@ class AllPixels extends React.Component {
   }
 
   render() {
-    console.log('ALLLL PIXELSSSSSS AFTER RENDER', [...this.props.pixels])
+    console.log('THESE ARE the PROPS IN ALL PIXELS', this.props)
     let pixLength= this.props.pixels.size
     let height=100/(pixLength)
     let width
@@ -68,7 +68,7 @@ class AllPixels extends React.Component {
                     this.props.pixels.map(pixel => {
                       let pixelIndex= this.props.pixels.indexOf(pixel)
                       return (
-                          <Link to={`/pixel/${this.props.gameId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
+                          <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
                             <div className={`col-md-${offset}`} id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `${width}vh`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
                           </Link>
 

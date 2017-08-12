@@ -106,13 +106,15 @@ class SinglePixel extends React.Component {
   }
 
   render() {
+    console.log('BEFORE THE RETURN, THESE ARE THE PROPS FROM THE SINGLE PIXEL COMPONENT', this.props)
+
     let thatPixel=this.props.pixels.get(parseInt(this.props.pixelId))
     return (thatPixel)?
     (
 
       <div>
         {
-          console.log('heyaae ababeiuabiegwf heeeyyyy yoooo', this.props.tasks)
+          console.log('THESE ARE THE PROPS FROM THE SINGLE PIXEL COMPONENT', this.props)
         }
         <div className="row">
         <div className= "col-lg-6">

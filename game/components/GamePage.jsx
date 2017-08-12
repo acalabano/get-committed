@@ -67,7 +67,7 @@ export default class extends React.Component {
 
     return <Provider store={store}>
       <Grid className="main-grid">
-        <AllPixels fireRef={this.props.fireRef} gameId={this.props.gameId} hubId= {this.props.hubId}/>
+        <AllPixels fireRef={this.props.fireRef} userId={this.props.userId} hubId={this.props.hubId}/>
       </Grid>
     </Provider>
   }
