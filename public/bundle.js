@@ -30787,7 +30787,7 @@ exports.default = function (_ref) {
     return _react2.default.createElement(
         'div',
         { className: 'gamePage' },
-        _react2.default.createElement(_GamePage2.default, { fireRef: db.ref('board').child(hubId), userId: uid, hubId: hubId })
+        _react2.default.createElement(_GamePage2.default, { fireRef: db.ref('board').child(uid).child(hubId), userId: uid, hubId: hubId })
     );
 };
 
@@ -30866,7 +30866,7 @@ exports.default = function (_ref) {
     return _react2.default.createElement(
         'div',
         { className: 'gamePage' },
-        _react2.default.createElement(_SinglePixelPage2.default, { fireRef: db.ref('board').child(hubId), userId: uid, hubId: hubId, pixelId: pixelId })
+        _react2.default.createElement(_SinglePixelPage2.default, { fireRef: db.ref('board').child(uid).child(hubId), userId: uid, hubId: hubId, pixelId: pixelId })
     );
 };
 
