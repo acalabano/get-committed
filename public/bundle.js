@@ -31770,7 +31770,7 @@ var Lobby = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _reactRouter.Link,
-                    { className: 'lobby-link', to: '/pixels/' + game.name + '-' + game.id },
+                    { className: 'lobby-link', to: '/pixels/' + _this3.state.currentUserId + '-' + game.name + '-' + game.id },
                     'Hub Name: ',
                     game.name
                   )
@@ -32016,6 +32016,14 @@ var _task = __webpack_require__(179);
 
 var _pixel = __webpack_require__(90);
 
+var _fire = __webpack_require__(23);
+
+var _fire2 = _interopRequireDefault(_fire);
+
+var _TasksPage = __webpack_require__(689);
+
+var _TasksPage2 = _interopRequireDefault(_TasksPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -32025,6 +32033,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var db = _fire2.default.database();
 
 var SinglePixel = function (_React$Component) {
   _inherits(SinglePixel, _React$Component);
@@ -32081,7 +32091,7 @@ var SinglePixel = function (_React$Component) {
     value: function onTaskSubmit(event) {
       event.preventDefault();
       var taskInfo = {
-        content: event.target.content.value,
+        content: event.target.taskContent.value,
         done: false,
         taskFrequency: event.target.taskFrequency.value
       };
@@ -32097,15 +32107,21 @@ var SinglePixel = function (_React$Component) {
     key: 'markTaskDone',
     value: function markTaskDone(idx) {
       this.props.updateATask(idx, true);
-      console.log('TESTING DONNNE TASKS AFTER', this.props.tasks.size);
-      if (this.props.tasks.filter(function (task) {
+      console.log('TESTING DONNNE TASKS AFTER', this.props.tasks.filter(function (task) {
         return task.taskDone === true;
-      }).size + 1 * 1.0 / this.props.tasks.size > 0.6) {
+      }).size + 1);
+      if ((this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size + 1) * 1.0 / this.props.tasks.size > 2.0 / 3 && this.props.tasks.size >= 6) {
         this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props);
-      } else if (this.props.tasks.filter(function (task) {
+      } else if ((this.props.tasks.filter(function (task) {
         return task.taskDone === true;
-      }).size + 1 * 1.0 / this.props.tasks.size > 0.3) {
+      }).size + 1) * 1.0 / this.props.tasks.size > 1.0 / 3 && this.props.tasks.size >= 3) {
         this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
+      } else if (this.props.tasks.size <= 5 || this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size + 1 * 1.0 / this.props.tasks.size < 1.0 / 3) {
+        this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props);
       }
     }
   }, {
@@ -32119,13 +32135,17 @@ var SinglePixel = function (_React$Component) {
         return task.taskDone === false;
       }).size + 1 >= this.props.tasks.size) {
         this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props);
-      } else if (this.props.tasks.filter(function (task) {
+      } else if (this.props.tasks.size <= 5 || (this.props.tasks.filter(function (task) {
         return task.taskDone === false;
-      }).size + 1 * 1.0 / this.props.tasks.size > 0.6) {
+      }).size + 1) * 1.0 / this.props.tasks.size > 2.0 / 3) {
+        this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props);
+      } else if ((this.props.tasks.filter(function (task) {
+        return task.taskDone === false;
+      }).size + 1) * 1.0 / this.props.tasks.size > 2.0 / 6 && this.props.tasks.size >= 3) {
         this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
-      } else if (this.props.tasks.filter(function (task) {
+      } else if ((this.props.tasks.filter(function (task) {
         return task.taskDone === false;
-      }).size + 1 * 1.0 / this.props.tasks.size > 0.3) {
+      }).size + 1) * 1.0 / this.props.tasks.size > 1.0 / 3 && this.props.tasks.size > 5) {
         this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props);
       }
     }
@@ -32140,6 +32160,7 @@ var SinglePixel = function (_React$Component) {
         var taskIndex = _this2.props.tasks.indexOf(task);
         _this2.markIncomplete(taskIndex);
       });
+      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props);
     }
   }, {
     key: 'render',
@@ -32152,95 +32173,70 @@ var SinglePixel = function (_React$Component) {
         null,
         console.log('heyaae ababeiuabiegwf heeeyyyy yoooo', this.props.tasks),
         _react2.default.createElement(
-          'h1',
-          null,
-          thatPixel.pixelDay,
-          ' Pixel'
-        ),
-        _react2.default.createElement(
           'div',
-          { id: 'wrapper', style: { backgroundColor: thatPixel.pixelColor, width: 10 + 'vh', height: 10 + 'vh' } },
+          { className: 'row' },
           _react2.default.createElement(
-            'p',
-            { className: 'text' },
-            thatPixel.pixelColor
-          )
-        ),
-        _react2.default.createElement(
-          'h3',
-          null,
-          'Entry: '
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          thatPixel.pixelContent
-        ),
-        _react2.default.createElement('hr', null),
-        _react2.default.createElement(
-          'h3',
-          null,
-          'Update Pixel Information:'
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'row col-lg-4' },
+            'div',
+            { className: 'col-lg-6' },
+            _react2.default.createElement(
+              'h1',
+              null,
+              thatPixel.pixelDay,
+              ' Pixel'
+            ),
+            _react2.default.createElement(
+              'div',
+              { id: 'wrapper', style: { backgroundColor: thatPixel.pixelColor, width: 10 + 'vh', height: 10 + 'vh' } },
+              _react2.default.createElement(
+                'p',
+                { className: 'text' },
+                thatPixel.pixelColor
+              )
+            )
+          ),
           _react2.default.createElement(
-            'form',
-            { onSubmit: this.onUpdatePixelSubmit },
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'color', className: 'mr-sm-2' },
-              'Pixel Color:'
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'form-group' },
-              _react2.default.createElement('input', { className: 'form-control mb-2 mr-sm-2 mb-sm-0', type: 'color', id: 'color' })
-            ),
-            _react2.default.createElement(
-              'a',
-              { href: '/mirror.html' },
-              ' Click here for the mirror page to check your mood!'
-            ),
-            _react2.default.createElement('br', null),
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'day', className: 'mr-sm-2' },
-              ' Day: '
-            ),
+            'h3',
+            null,
+            'Update Pixel Information:'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-lg-6' },
             _react2.default.createElement(
               'div',
-              { className: 'form-group' },
-              _react2.default.createElement('input', { className: 'form-control', type: 'date', id: 'day' })
-            ),
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'content', className: 'mr-sm-2' },
-              'Content: '
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'form-group' },
-              _react2.default.createElement('textarea', { className: 'form-control', cols: '40', rows: '5', id: 'content' })
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'btn btn-default', type: 'submit' },
-              'Update'
+              { className: 'row col-lg-4' },
+              _react2.default.createElement(
+                'form',
+                { onSubmit: this.onUpdatePixelSubmit },
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: 'day', className: 'mr-sm-2' },
+                  ' Day: '
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'form-group' },
+                  _react2.default.createElement('input', { className: 'form-control', type: 'date', id: 'day' })
+                ),
+                _react2.default.createElement(
+                  'button',
+                  { className: 'btn btn-default', type: 'submit' },
+                  'Update'
+                )
+              )
             )
           )
         ),
         _react2.default.createElement(
           'div',
           { className: 'row col-lg-12' },
-          _react2.default.createElement('hr', null),
           _react2.default.createElement(
             'button',
-            { className: 'btn btn-default', name: 'deletePixel', onClick: this.removePixelCallback },
+            { className: 'btn btn-danger', name: 'deletePixel', onClick: this.removePixelCallback },
             'Delete Pixel'
           )
         ),
+        _react2.default.createElement('hr', null),
         _react2.default.createElement(
           'div',
           { className: 'row' },
@@ -32251,9 +32247,14 @@ var SinglePixel = function (_React$Component) {
               'form',
               { onSubmit: this.onTaskSubmit },
               _react2.default.createElement(
+                'label',
+                { htmlFor: 'taskContent', className: 'mr-sm-2' },
+                ' Task Content: '
+              ),
+              _react2.default.createElement(
                 'div',
                 { className: 'form-group' },
-                _react2.default.createElement('input', { className: 'form-control', type: 'text', id: 'content' })
+                _react2.default.createElement('input', { className: 'form-control', placeholder: 'Do my project, make a thing', type: 'text', id: 'taskContent' })
               ),
               _react2.default.createElement(
                 'select',
@@ -68718,6 +68719,464 @@ module.exports = function() {
 	throw new Error("define cannot be used indirect");
 };
 
+
+/***/ }),
+/* 687 */,
+/* 688 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(19);
+
+var _reactRedux = __webpack_require__(37);
+
+var _task = __webpack_require__(179);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SinglePixel = function (_React$Component) {
+  _inherits(SinglePixel, _React$Component);
+
+  function SinglePixel(props) {
+    _classCallCheck(this, SinglePixel);
+
+    var _this = _possibleConstructorReturn(this, (SinglePixel.__proto__ || Object.getPrototypeOf(SinglePixel)).call(this, props));
+
+    _this.state = {
+      completedTasks: [].concat(_toConsumableArray(_this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      })))
+    };
+    _this.onTaskSubmit = _this.onTaskSubmit.bind(_this);
+    _this.removeTaskCallback = _this.removeTaskCallback.bind(_this);
+    _this.markTaskDone = _this.markTaskDone.bind(_this);
+    _this.onResetTasks = _this.onResetTasks.bind(_this);
+    return _this;
+  }
+
+  _createClass(SinglePixel, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      console.log('GETTING HERE AGAIN');
+    }
+  }, {
+    key: 'onTaskSubmit',
+    value: function onTaskSubmit(event) {
+      event.preventDefault();
+      var taskInfo = {
+        content: event.target.content.value,
+        done: false,
+        taskFrequency: event.target.taskFrequency.value
+      };
+      this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency);
+    }
+  }, {
+    key: 'removeTaskCallback',
+    value: function removeTaskCallback(index) {
+      var removeATask = this.props.removeATask;
+      removeATask(index);
+    }
+  }, {
+    key: 'markTaskDone',
+    value: function markTaskDone(idx) {
+      this.props.updateATask(idx, true);
+      console.log('TESTING DONNNE TASKS AFTER', this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size + 1);
+      if ((this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size + 1) * 1.0 / this.props.tasks.size > 2.0 / 3 && this.props.tasks.size >= 6) {
+        this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props);
+      } else if ((this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size + 1) * 1.0 / this.props.tasks.size > 1.0 / 3 && this.props.tasks.size >= 3) {
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
+      } else if (this.props.tasks.size <= 5 || this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size + 1 * 1.0 / this.props.tasks.size < 1.0 / 3) {
+        this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props);
+      }
+    }
+  }, {
+    key: 'markIncomplete',
+    value: function markIncomplete(idx) {
+      this.props.updateATask(idx, false);
+      this.setState({ completedTasks: [].concat(_toConsumableArray(this.props.tasks.filter(function (task) {
+          return task.taskDone === true;
+        }))) });
+      if (this.props.tasks.filter(function (task) {
+        return task.taskDone === false;
+      }).size + 1 >= this.props.tasks.size) {
+        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props);
+      } else if (this.props.tasks.size <= 5 || (this.props.tasks.filter(function (task) {
+        return task.taskDone === false;
+      }).size + 1) * 1.0 / this.props.tasks.size > 2.0 / 3) {
+        this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props);
+      } else if ((this.props.tasks.filter(function (task) {
+        return task.taskDone === false;
+      }).size + 1) * 1.0 / this.props.tasks.size > 2.0 / 6 && this.props.tasks.size >= 3) {
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
+      } else if ((this.props.tasks.filter(function (task) {
+        return task.taskDone === false;
+      }).size + 1) * 1.0 / this.props.tasks.size > 1.0 / 3 && this.props.tasks.size > 5) {
+        this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props);
+      }
+    }
+  }, {
+    key: 'onResetTasks',
+    value: function onResetTasks(frequencyString) {
+      var _this2 = this;
+
+      this.props.tasks.filter(function (task) {
+        return task.taskFrequency === frequencyString && task.taskDone === true;
+      }).forEach(function (task) {
+        var taskIndex = _this2.props.tasks.indexOf(task);
+        _this2.markIncomplete(taskIndex);
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        console.log('heyaae ababeiuabiegwf heeeyyyy yoooo', this.props),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-lg-4' },
+            _react2.default.createElement(
+              'form',
+              { onSubmit: this.onTaskSubmit },
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group' },
+                _react2.default.createElement('input', { className: 'form-control', type: 'text', id: 'content' })
+              ),
+              _react2.default.createElement(
+                'select',
+                { id: 'taskFrequency' },
+                _react2.default.createElement(
+                  'option',
+                  { value: 'daily' },
+                  'Daily'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'weekly' },
+                  'Weekly'
+                )
+              ),
+              _react2.default.createElement(
+                'button',
+                { className: 'btn btn-default', type: 'submit' },
+                'Add Task'
+              )
+            )
+          )
+        ),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'h2',
+          null,
+          'Daily Tasks'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-warning', onClick: function onClick() {
+              return _this3.onResetTasks('daily');
+            } },
+          'Reset my Dailies'
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'container-fluid' },
+          _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-lg-6' },
+              _react2.default.createElement(
+                'h3',
+                null,
+                'Incomplete tasks'
+              ),
+              _react2.default.createElement(
+                'div',
+                null,
+                this.props.tasks.filter(function (task) {
+                  return task.taskFrequency === 'daily' && task.taskDone === false;
+                }).map(function (task) {
+                  var taskIndex = _this3.props.tasks.indexOf(task);
+                  return _react2.default.createElement(
+                    'div',
+                    { key: taskIndex },
+                    _react2.default.createElement('input', { className: 'task-item', type: 'checkbox', onChange: function onChange(event) {
+                        event.preventDefault();
+                        _this3.markTaskDone(taskIndex);
+                      } }),
+                    task.taskContent,
+                    ' ',
+                    _react2.default.createElement(
+                      'button',
+                      { className: 'btn-danger', onClick: function onClick() {
+                          return _this3.removeTaskCallback(taskIndex);
+                        } },
+                      'X'
+                    )
+                  );
+                })
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'col-lg-6' },
+              _react2.default.createElement(
+                'h3',
+                null,
+                'Done!'
+              ),
+              this.props.tasks.filter(function (task) {
+                return task.taskFrequency === 'daily' && task.taskDone === true;
+              }).map(function (task) {
+                var taskIndex = _this3.props.tasks.indexOf(task);
+                return _react2.default.createElement(
+                  'div',
+                  { key: taskIndex },
+                  _react2.default.createElement('input', { className: 'task-item', type: 'checkbox', checked: true, onChange: function onChange(event) {
+                      event.preventDefault;
+                      _this3.markIncomplete(taskIndex);
+                    } }),
+                  task.taskContent,
+                  ' ',
+                  _react2.default.createElement(
+                    'button',
+                    { className: 'btn-danger', onClick: function onClick() {
+                        return _this3.removeTaskCallback(taskIndex);
+                      } },
+                    'X'
+                  )
+                );
+              })
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return SinglePixel;
+}(_react2.default.Component);
+
+/* ---CONTAINERS--- */
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    pixels: state.pixel.pixels,
+    tasks: state.task.tasks,
+    userId: ownProps.userId,
+    pixelId: ownProps.pixelId
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    addATask: function addATask(taskContent, taskDone, taskFrequency) {
+      dispatch((0, _task.createTask)(taskContent, taskDone, taskFrequency));
+    },
+    removeATask: function removeATask(taskId) {
+      dispatch((0, _task.removeTask)(taskId));
+    },
+    updateATask: function updateATask(taskId, taskDone) {
+      dispatch((0, _task.updateTask)(taskId, taskDone));
+    },
+    loadTasks: function loadTasks() {
+      dispatch((0, _task.getTasks)());
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SinglePixel);
+
+/***/ }),
+/* 689 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _redux = __webpack_require__(41);
+
+var _reduxDevtoolsExtension = __webpack_require__(74);
+
+var _reactRedux = __webpack_require__(37);
+
+var _reduxLogger = __webpack_require__(75);
+
+var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
+
+var _reduxThunk = __webpack_require__(76);
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
+var _reactBootstrap = __webpack_require__(28);
+
+var _RaisedButton = __webpack_require__(83);
+
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+var _clear = __webpack_require__(84);
+
+var _clear2 = _interopRequireDefault(_clear);
+
+var _reducers = __webpack_require__(50);
+
+var _reducers2 = _interopRequireDefault(_reducers);
+
+var _Tasks = __webpack_require__(688);
+
+var _Tasks2 = _interopRequireDefault(_Tasks);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _class = function (_React$Component) {
+  _inherits(_class, _React$Component);
+
+  function _class() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, _class);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.clear = function () {
+      _this.props.fireRef.set(null);
+      // Reload the store
+      _this.mountStoreAtRef(_this.props.fireRef);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(_class, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.mountStoreAtRef(this.props.fireRef);
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(incoming, outgoing) {
+      this.mountStoreAtRef(incoming.fireRef);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.unsubscribe && this.unsubscribe();
+    }
+  }, {
+    key: 'mountStoreAtRef',
+    value: function mountStoreAtRef(ref) {
+      var _this2 = this;
+
+      if (this.state && this.state.store) {
+        // If we already have a store, let's destroy it.
+        this.unsubscribe && this.unsubscribe();
+        this.unsubscribe = null;
+        this.setState({ store: null });
+        return process.nextTick(function () {
+          return _this2.mountStoreAtRef(ref);
+        });
+      }
+
+      var store = (0, _redux.createStore)(_reducers2.default, (0, _reduxDevtoolsExtension.composeWithDevTools)((0, _redux.applyMiddleware)((0, _reduxLogger2.default)({ collapsed: true }), _reduxThunk2.default, function (store) {
+        return function (next) {
+          var listener = ref.on('child_added', function (snapshot) {
+            return next(snapshot.val());
+          });
+          _this2.unsubscribe = function () {
+            return ref.off('child_added', listener);
+          };
+
+          return function (action) {
+            if (action.doNotSync) {
+              return next(action);
+            }
+            return ref.push(action);
+          };
+        };
+      })));
+      this.setState({ store: store });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _ref2 = this.state || {},
+          store = _ref2.store,
+          children = this.props.children;
+
+      if (!store) return null;
+      console.log('TasksPageeeeeeeeee', this.props.gameId);
+      return _react2.default.createElement(
+        _reactRedux.Provider,
+        { store: store },
+        _react2.default.createElement(
+          _reactBootstrap.Grid,
+          { className: 'main-grid' },
+          _react2.default.createElement(_Tasks2.default, { fireRef: this.props.fireRef, pixelId: this.props.gameId, userId: this.props.boardId })
+        )
+      );
+    }
+  }]);
+
+  return _class;
+}(_react2.default.Component);
+
+exports.default = _class;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ })
 /******/ ]);

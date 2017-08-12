@@ -3,6 +3,9 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import {createTask, removeTask, updateTask, getTasks} from '../reducers/task'
 import {removePixel, updatePixel, loadPixel, createPixelTask} from '../reducers/pixel'
+import firebase from 'APP/fire'
+const db = firebase.database()
+import TasksPage from './TasksPage'
 
 class SinglePixel extends React.Component {
   constructor(props) {
@@ -46,7 +49,7 @@ class SinglePixel extends React.Component {
   onTaskSubmit(event) {
     event.preventDefault()
     let taskInfo = {
-      content: event.target.content.value,
+      content: event.target.taskContent.value,
       done: false,
       taskFrequency: event.target.taskFrequency.value
     }
@@ -60,11 +63,13 @@ class SinglePixel extends React.Component {
 
   markTaskDone(idx) {
     this.props.updateATask(idx, true)
-    console.log('TESTING DONNNE TASKS AFTER', (this.props.tasks).size)
-    if ((this.props.tasks.filter((task) => task.taskDone === true)).size+1 *1.0/(this.props.tasks).size > 0.6) {
+    console.log('TESTING DONNNE TASKS AFTER', (this.props.tasks.filter((task) => task.taskDone === true)).size+1)
+    if (((this.props.tasks.filter((task) => task.taskDone === true).size+1) *1.0/(this.props.tasks).size > (2.0/3)) && ((this.props.tasks).size>=6)) {
       this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props)
-    } else if ((this.props.tasks.filter((task) => task.taskDone === true)).size+1 *1.0/(this.props.tasks).size > (0.3)) {
+    } else if (((this.props.tasks.filter((task) => task.taskDone === true)).size+1) *1.0/(this.props.tasks).size > (1.0/3) && (this.props.tasks).size >= 3) {
       this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props)
+    } else if ((this.props.tasks).size <=5 || (this.props.tasks.filter((task) => task.taskDone === true)).size+1 *1.0/(this.props.tasks).size < (1.0/3)) {
+      this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props)
     }
   }
 
@@ -73,9 +78,11 @@ class SinglePixel extends React.Component {
     this.setState({completedTasks: ([...(this.props.tasks.filter(task => task.taskDone === true))])})
     if ((this.props.tasks.filter((task) => task.taskDone === false)).size+1 >= this.props.tasks.size) {
       this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props)
-    } else if ((this.props.tasks.filter((task) => task.taskDone === false)).size+1 *1.0/(this.props.tasks).size > 0.6) {
+    } else if ((this.props.tasks).size <=5 || ((this.props.tasks.filter((task) => task.taskDone === false)).size+1) *1.0/(this.props.tasks).size > (2.0/3)) {
+      this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props)
+    } else if (((this.props.tasks.filter((task) => task.taskDone === false)).size+1) *1.0/(this.props.tasks).size > (2.0/6) && (this.props.tasks).size>=3) {
       this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props)
-    } else if ((this.props.tasks.filter((task) => task.taskDone === false)).size+1 *1.0/(this.props.tasks).size > 0.3) {
+    } else if ((((this.props.tasks.filter((task) => task.taskDone === false)).size+1) *1.0/(this.props.tasks).size > (1.0/3)) && ((this.props.tasks).size> 5)) {
       this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props)
     }
   }
@@ -85,6 +92,7 @@ class SinglePixel extends React.Component {
       const taskIndex= this.props.tasks.indexOf(task)
       this.markIncomplete(taskIndex)
     })
+    this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props)
   }
 
   render() {
@@ -96,42 +104,36 @@ class SinglePixel extends React.Component {
         {
           console.log('heyaae ababeiuabiegwf heeeyyyy yoooo', this.props.tasks)
         }
+        <div className="row">
+        <div className= "col-lg-6">
         <h1>{thatPixel.pixelDay} Pixel</h1>
         <div id="wrapper" style={{backgroundColor: thatPixel.pixelColor, width: `${10}vh`, height: `${10}vh`}}><p className="text">{thatPixel.pixelColor}</p></div>
-        <h3>Entry: </h3>
-        <p>{thatPixel.pixelContent}</p>
-        <hr />
+        </div>
         <h3>Update Pixel Information:</h3>
+        <div className= "col-lg-6">
         <div className="row col-lg-4">
           <form onSubmit={this.onUpdatePixelSubmit}>
-            <label htmlFor="color" className="mr-sm-2">Pixel Color:</label>
-            <div className="form-group">
-              <input className="form-control mb-2 mr-sm-2 mb-sm-0" type="color" id="color" />
-            </div>
-            <a href="/mirror.html"> Click here for the mirror page to check your mood!</a>
-            <br></br>
             <label htmlFor="day" className="mr-sm-2"> Day: </label>
             <div className="form-group">
               <input className="form-control" type="date" id="day" />
             </div>
-            <label htmlFor="content" className="mr-sm-2">Content: </label>
-            <div className="form-group">
-              <textarea className="form-control" cols="40" rows="5" id="content"></textarea>
-            </div>
             <button className="btn btn-default" type="submit">Update</button>
           </form>
         </div>
+        </div>
+        </div>
         <div className="row col-lg-12">
-        <hr />
 
-          <button className="btn btn-default" name="deletePixel" onClick={this.removePixelCallback}>Delete Pixel</button>
+          <button className="btn btn-danger" name="deletePixel" onClick={this.removePixelCallback}>Delete Pixel</button>
 
         </div>
+        <hr />
         <div className="row">
         <div className="col-lg-4">
           <form onSubmit={this.onTaskSubmit}>
+            <label htmlFor="taskContent" className="mr-sm-2"> Task Content: </label>
           <div className="form-group">
-            <input className="form-control" type="text" id="content"></input>
+            <input className="form-control" placeholder="Do my project, make a thing" type="text" id="taskContent"></input>
           </div>
           <select id="taskFrequency">
               <option value="daily">Daily</option>
@@ -178,6 +180,7 @@ class SinglePixel extends React.Component {
               </div>
             </div>
            </div>
+      {/*  <TasksPage fireRef={db.ref('tasks')} pixelId={this.props.pixelId} userId={this.props.userId}/> */}
       </div>
     ):null
   }
