@@ -16,16 +16,27 @@ injectTapEventPlugin()
 
 const auth = firebase.auth()
 auth.onAuthStateChanged(user => user || auth.signInAnonymously())
+// var authData = firebase.getAuth()
+// if (authData) {
+//   console.log('Authenticated user with uid:', authData.uid)
+// }
 
-const App = ({children}) => (
-  <MuiThemeProvider>
-    <div>
-      <Navbar auth={auth}/>
-      {children}
-      <Alert stack={{limit: 3}} position='bottom-right' effect='slide'/>
-    </div>
-  </MuiThemeProvider>
-)
+const App = ({children}) => {
+  const jsonObj= auth.toJSON()
+  const currentUserId= jsonObj.currentUser!==null? jsonObj.currentUser.uid:null
+  console.log('APPPPPPPPP MAIINNNNNNN UGGGGUUU', currentUserId)
+  return (
+    <MuiThemeProvider>
+      <div>
+        {console.log(auth)}
+          {}
+        <Navbar />
+        {children}
+        <Alert stack={{limit: 3}} position='bottom-right' effect='slide'/>
+      </div>
+    </MuiThemeProvider>
+  )
+}
 
 render(
   <Router history={browserHistory}>

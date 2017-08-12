@@ -59,6 +59,16 @@ class SinglePixel extends React.Component {
   removeTaskCallback(index) {
     const removeATask = this.props.removeATask
     removeATask(index)
+    console.log('current SIZE ISSSS', this.props.tasks.size)
+    if (this.props.tasks.size-1 ===0 || (this.props.tasks.filter((task) => task.taskDone === true)).size ===0) {
+      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props)
+    } else if (((this.props.tasks.filter((task) => task.taskDone === true).size-1) *1.0/(this.props.tasks).size > (2.0/3)) && ((this.props.tasks).size>=6)) {
+      this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props)
+    } else if (((this.props.tasks.filter((task) => task.taskDone === true)).size-1) *1.0/(this.props.tasks).size > (1.0/3) && (this.props.tasks.filter((task) => task.taskDone === true)).size >= 3) {
+      this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props)
+    } else if ((this.props.tasks.filter((task) => task.taskDone === true)).size <=5 || (this.props.tasks.filter((task) => task.taskDone === true)).size-1 *1.0/(this.props.tasks).size < (1.0/3)) {
+      this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props)
+    }
   }
 
   markTaskDone(idx) {
@@ -158,7 +168,10 @@ class SinglePixel extends React.Component {
                      <div key={taskIndex}><input className="task-item" type="checkbox" onChange={(event) => {
                        event.preventDefault()
                        this.markTaskDone(taskIndex)
-                     }}/>{task.taskContent} <button className="btn-danger" onClick={() => this.removeTaskCallback(taskIndex)}>X</button></div>
+                     }}/>{task.taskContent} <button className="btn-danger" onClick={(event) => {
+                       event.preventDefault()
+                       this.removeTaskCallback(taskIndex)
+                     }}>X</button></div>
                    )
                  })
                }
@@ -173,7 +186,10 @@ class SinglePixel extends React.Component {
                    <div key={taskIndex}><input className="task-item" type="checkbox" checked={true} onChange={(event) => {
                      event.preventDefault
                      this.markIncomplete(taskIndex)
-                   }}/>{task.taskContent} <button className="btn-danger" onClick={() => this.removeTaskCallback(taskIndex)}>X</button></div>
+                   }}/>{task.taskContent} <button className="btn-danger" onClick={(event) => {
+                     event.preventDefault()
+                     this.removeTaskCallback(taskIndex)
+                   }}>X</button></div>
                  )
                })
              }

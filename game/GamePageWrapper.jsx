@@ -5,7 +5,7 @@ const db = firebase.database()
 
 import GamePage from './components/GamePage'
 
-export default ({params: {uid}}) =>
+export default ({params: {uid, id}}) =>
     <div className='gamePage'>
-      <GamePage fireRef={db.ref('board').child(uid)} gameId={uid}/>
+      <GamePage fireRef={db.ref('board').child(uid)} gameId={uid} hubId={id}/>
   </div>

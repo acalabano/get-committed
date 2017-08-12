@@ -5,7 +5,7 @@ const db = firebase.database()
 
 import LobbyPage from './components/LobbyPage'
 
-export default () =>
+export default ({params: {uid}}) =>
     <div className='lobbyPage'>
-      <LobbyPage fireRef={db.ref('lobbies')}/>
+      <LobbyPage fireRef={db.ref('lobbies').child(uid)}/>
   </div>

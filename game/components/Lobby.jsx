@@ -53,13 +53,13 @@ class Lobby extends React.Component {
             CHOOSE A HUB
           </p>
           <div className ='lobby-list text-center'>
-            <h2><Link key={this.state.currentUserId} className='lobby-link' to={`/pixels/${this.state.currentUserId}`}>{this.state.currentUsername + "'"}s Main Commit Hub</Link></h2>
+            <h2><Link key={this.state.currentUserId} className='lobby-link' to={`/pixels/${this.state.currentUserId}/main`}>{this.state.currentUsername + "'"}s Main Commit Hub</Link></h2>
               {
                  (this.props.games.size>0)?
                  this.props.games.map((game) => {
                    let idx= this.props.games.indexOf(game)
                    return (
-                   <div key={idx}><h2><Link className='lobby-link' to={`/pixels/${this.state.currentUserId}-${game.name}-${game.id}`}>Hub Name: {game.name}</Link></h2>
+                   <div key={idx}><h2><Link className='lobby-link' to={`/pixels/${this.state.currentUserId}/${game.name}-${game.id}`}>Hub Name: {game.name}</Link></h2>
                      <button className="btn btn-danger" name="delete" id={idx} onClick={this.removeGameCallback}>X</button>
                    </div>)
                  })

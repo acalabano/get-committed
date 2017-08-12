@@ -29914,6 +29914,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
@@ -29932,12 +29934,23 @@ var _WhoAmI2 = _interopRequireDefault(_WhoAmI);
 
 var _reactBootstrap = __webpack_require__(28);
 
+var _fire = __webpack_require__(23);
+
+var _fire2 = _interopRequireDefault(_fire);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 /* -----------------    COMPONENT     ------------------ */
 
 var NavbarComp = function NavbarComp(_ref) {
-  var auth = _ref.auth;
+  var auth = _ref.auth,
+      userId = _ref.userId;
 
   return _react2.default.createElement(
     'nav',
@@ -29962,7 +29975,7 @@ var NavbarComp = function NavbarComp(_ref) {
           null,
           _react2.default.createElement(
             _reactRouter.Link,
-            { to: '/lobby' },
+            { to: '/lobby/' + userId },
             'PIXELS'
           )
         ),
@@ -29985,7 +29998,43 @@ var NavbarComp = function NavbarComp(_ref) {
   );
 };
 
-exports.default = NavbarComp;
+var _class = function (_React$Component) {
+  _inherits(_class, _React$Component);
+
+  function _class(props) {
+    _classCallCheck(this, _class);
+
+    var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
+
+    _this.state = {
+      currentUserId: '',
+      currentUsername: ''
+    };
+    return _this;
+  }
+
+  _createClass(_class, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      _fire2.default.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          _this2.setState({ currentUserId: user.uid, currentUsername: user.displayName });
+        }
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(NavbarComp, { auth: _fire2.default.auth(), userId: this.state.currentUserId });
+    }
+  }]);
+
+  return _class;
+}(_react2.default.Component);
+
+exports.default = _class;
 
 /***/ }),
 /* 293 */
@@ -30122,8 +30171,8 @@ exports.default = _react2.default.createElement(
     } },
   _react2.default.createElement(_reactRouter.IndexRoute, { component: _WelcomePage2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '/home', component: _WelcomePage2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/lobby', component: _LobbyPageWrapper2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/pixels/:uid', component: _GamePageWrapper2.default }),
+  _react2.default.createElement(_reactRouter.Route, { path: '/lobby/:uid', component: _LobbyPageWrapper2.default }),
+  _react2.default.createElement(_reactRouter.Route, { path: '/pixels/:uid/:id', component: _GamePageWrapper2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '/pixels/:uid/add', component: _AddPixelWrapper2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '/pixel/:uid/:id', component: _SinglePixelWrapper2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '/deleted/:uid', component: _DeletedPageWrapper2.default })
@@ -30515,8 +30564,8 @@ var WelcomePage = function (_React$Component) {
           { className: 'enter-game btn btn-default' },
           _react2.default.createElement(
             _reactRouter.Link,
-            { to: '/pixels/' + this.state.currentUserId, activeClassName: 'active' },
-            'Click to go to Your Pixel Board'
+            { to: '/pixels/' + this.state.currentUserId + '/main', activeClassName: 'active' },
+            'Click to go to Your Main Commit Hub'
           )
         ) : _react2.default.createElement(
           'h1',
@@ -30593,16 +30642,25 @@ var auth = _fire2.default.auth();
 auth.onAuthStateChanged(function (user) {
   return user || auth.signInAnonymously();
 });
+// var authData = firebase.getAuth()
+// if (authData) {
+//   console.log('Authenticated user with uid:', authData.uid)
+// }
 
 var App = function App(_ref) {
   var children = _ref.children;
+
+  var jsonObj = auth.toJSON();
+  var currentUserId = jsonObj.currentUser !== null ? jsonObj.currentUser.uid : null;
+  console.log('APPPPPPPPP MAIINNNNNNN UGGGGUUU', currentUserId);
   return _react2.default.createElement(
     _MuiThemeProvider2.default,
     null,
     _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement(_Navbar2.default, { auth: auth }),
+      console.log(auth),
+      _react2.default.createElement(_Navbar2.default, null),
       children,
       _react2.default.createElement(_reactSAlert2.default, { stack: { limit: 3 }, position: 'bottom-right', effect: 'slide' })
     )
@@ -30726,11 +30784,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var db = _fire2.default.database();
 
 exports.default = function (_ref) {
-    var uid = _ref.params.uid;
+    var _ref$params = _ref.params,
+        uid = _ref$params.uid,
+        id = _ref$params.id;
     return _react2.default.createElement(
         'div',
         { className: 'gamePage' },
-        _react2.default.createElement(_GamePage2.default, { fireRef: db.ref('board').child(uid), gameId: uid })
+        _react2.default.createElement(_GamePage2.default, { fireRef: db.ref('board').child(uid), gameId: uid, hubId: id })
     );
 };
 
@@ -30763,11 +30823,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var db = _fire2.default.database();
 
-exports.default = function () {
+exports.default = function (_ref) {
+    var uid = _ref.params.uid;
     return _react2.default.createElement(
         'div',
         { className: 'lobbyPage' },
-        _react2.default.createElement(_LobbyPage2.default, { fireRef: db.ref('lobbies') })
+        _react2.default.createElement(_LobbyPage2.default, { fireRef: db.ref('lobbies').child(uid) })
     );
 };
 
@@ -31621,7 +31682,7 @@ var _class = function (_React$Component) {
         _react2.default.createElement(
           _reactBootstrap.Grid,
           { className: 'main-grid' },
-          _react2.default.createElement(_AllPixels2.default, { fireRef: this.props.fireRef, gameId: this.props.gameId })
+          _react2.default.createElement(_AllPixels2.default, { fireRef: this.props.fireRef, gameId: this.props.gameId, hubId: this.props.hubId })
         )
       );
     }
@@ -31755,7 +31816,7 @@ var Lobby = function (_React$Component) {
               null,
               _react2.default.createElement(
                 _reactRouter.Link,
-                { key: this.state.currentUserId, className: 'lobby-link', to: '/pixels/' + this.state.currentUserId },
+                { key: this.state.currentUserId, className: 'lobby-link', to: '/pixels/' + this.state.currentUserId + '/main' },
                 this.state.currentUsername + "'",
                 's Main Commit Hub'
               )
@@ -31770,7 +31831,7 @@ var Lobby = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _reactRouter.Link,
-                    { className: 'lobby-link', to: '/pixels/' + _this3.state.currentUserId + '-' + game.name + '-' + game.id },
+                    { className: 'lobby-link', to: '/pixels/' + _this3.state.currentUserId + '/' + game.name + '-' + game.id },
                     'Hub Name: ',
                     game.name
                   )
@@ -32102,6 +32163,28 @@ var SinglePixel = function (_React$Component) {
     value: function removeTaskCallback(index) {
       var removeATask = this.props.removeATask;
       removeATask(index);
+      console.log('current SIZE ISSSS', this.props.tasks.size);
+      if (this.props.tasks.size - 1 === 0 || this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size === 0) {
+        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props);
+      } else if ((this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size - 1) * 1.0 / this.props.tasks.size > 2.0 / 3 && this.props.tasks.size >= 6) {
+        this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props);
+      } else if ((this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size - 1) * 1.0 / this.props.tasks.size > 1.0 / 3 && this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size >= 3) {
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
+      } else if (this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size <= 5 || this.props.tasks.filter(function (task) {
+        return task.taskDone === true;
+      }).size - 1 * 1.0 / this.props.tasks.size < 1.0 / 3) {
+        this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props);
+      }
     }
   }, {
     key: 'markTaskDone',
@@ -32323,8 +32406,9 @@ var SinglePixel = function (_React$Component) {
                     ' ',
                     _react2.default.createElement(
                       'button',
-                      { className: 'btn-danger', onClick: function onClick() {
-                          return _this3.removeTaskCallback(taskIndex);
+                      { className: 'btn-danger', onClick: function onClick(event) {
+                          event.preventDefault();
+                          _this3.removeTaskCallback(taskIndex);
                         } },
                       'X'
                     )
@@ -32355,8 +32439,9 @@ var SinglePixel = function (_React$Component) {
                   ' ',
                   _react2.default.createElement(
                     'button',
-                    { className: 'btn-danger', onClick: function onClick() {
-                        return _this3.removeTaskCallback(taskIndex);
+                    { className: 'btn-danger', onClick: function onClick(event) {
+                        event.preventDefault();
+                        _this3.removeTaskCallback(taskIndex);
                       } },
                     'X'
                   )

@@ -4,16 +4,17 @@ import { Link } from 'react-router'
 import Login from 'APP/app/components/Login'
 import WhoAmI from 'APP/app/components/WhoAmI'
 import { NavItem, Navbar, Nav } from 'react-bootstrap'
+import firebase from 'APP/fire'
 
 /* -----------------    COMPONENT     ------------------ */
 
-const NavbarComp = ({ auth }) => {
+const NavbarComp = ({ auth, userId }) => {
   return (
         <nav className="navbar navbar-default navbar-fixed-top" style={{display: 'flex'}}>
           <div className="container">
           <ul className="nav navbar-nav">
             <li><Link to="/">HOME</Link></li>
-            <li><Link to="/lobby">PIXELS</Link></li>
+            <li><Link to={`/lobby/${userId}`}>PIXELS</Link></li>
             <li><a href="/mirror.html">MIRROR</a></li>
           </ul>
           </div>
@@ -25,4 +26,24 @@ const NavbarComp = ({ auth }) => {
   )
 }
 
-export default NavbarComp
+export default class extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state= {
+      currentUserId: '',
+      currentUsername: '',
+    }
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ currentUserId: user.uid, currentUsername: user.displayName })
+      }
+    })
+  }
+
+  render() {
+    return <NavbarComp auth={firebase.auth()} userId= {this.state.currentUserId}/>
+  }
+}
