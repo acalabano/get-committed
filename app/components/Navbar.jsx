@@ -14,8 +14,7 @@ const NavbarComp = ({ auth, userId }) => {
           <div className="container">
           <ul className="nav navbar-nav">
             <li><Link to="/">HOME</Link></li>
-            <li><Link to={`/lobby/${userId}`}>PIXELS</Link></li>
-            <li><a href="/mirror.html">MIRROR</a></li>
+            <li><Link to={`/lobby/${userId}`}>HUBS</Link></li>
           </ul>
           </div>
           <div className="login-navbar">

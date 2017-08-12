@@ -29976,16 +29976,7 @@ var NavbarComp = function NavbarComp(_ref) {
           _react2.default.createElement(
             _reactRouter.Link,
             { to: '/lobby/' + userId },
-            'PIXELS'
-          )
-        ),
-        _react2.default.createElement(
-          'li',
-          null,
-          _react2.default.createElement(
-            'a',
-            { href: '/mirror.html' },
-            'MIRROR'
+            'HUBS'
           )
         )
       )
