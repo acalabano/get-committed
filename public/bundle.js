@@ -32127,12 +32127,10 @@ var SinglePixel = function (_React$Component) {
     value: function onUpdatePixelSubmit(event) {
       event.preventDefault();
       var updatedPixelInfo = {
-        color: event.target.color.value,
-        day: event.target.day.value,
-        content: event.target.content.value
+        day: event.target.day.value
       };
       console.log('PIXEL INFO UPDATED', updatedPixelInfo);
-      this.props.updateOnePixel(this.props.pixelId, updatedPixelInfo.color, updatedPixelInfo.day, updatedPixelInfo.content, this.props.pixels.get(this.props.pixelId).pixelTasks);
+      this.props.updateOnePixel(this.props.pixelId, this.props.pixels.get(this.props.pixelId).pixelColor, updatedPixelInfo.day, '', this.props.pixels.get(this.props.pixelId).pixelTasks);
     }
   }, {
     key: 'onTaskSubmit',
@@ -32154,23 +32152,23 @@ var SinglePixel = function (_React$Component) {
       if (this.props.tasks.size - 1 === 0 || this.props.tasks.filter(function (task) {
         return task.taskDone === true;
       }).size === 0) {
-        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       } else if ((this.props.tasks.filter(function (task) {
         return task.taskDone === true;
       }).size - 1) * 1.0 / this.props.tasks.size > 2.0 / 3 && this.props.tasks.size >= 6) {
-        this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       } else if ((this.props.tasks.filter(function (task) {
         return task.taskDone === true;
       }).size - 1) * 1.0 / this.props.tasks.size > 1.0 / 3 && this.props.tasks.filter(function (task) {
         return task.taskDone === true;
       }).size >= 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       } else if (this.props.tasks.filter(function (task) {
         return task.taskDone === true;
       }).size <= 5 || this.props.tasks.filter(function (task) {
         return task.taskDone === true;
       }).size - 1 * 1.0 / this.props.tasks.size < 1.0 / 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       }
     }
   }, {
@@ -32183,15 +32181,15 @@ var SinglePixel = function (_React$Component) {
       if ((this.props.tasks.filter(function (task) {
         return task.taskDone === true;
       }).size + 1) * 1.0 / this.props.tasks.size > 2.0 / 3 && this.props.tasks.size >= 6) {
-        this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       } else if ((this.props.tasks.filter(function (task) {
         return task.taskDone === true;
       }).size + 1) * 1.0 / this.props.tasks.size > 1.0 / 3 && this.props.tasks.size >= 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       } else if (this.props.tasks.size <= 5 || this.props.tasks.filter(function (task) {
         return task.taskDone === true;
       }).size + 1 * 1.0 / this.props.tasks.size < 1.0 / 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       }
     }
   }, {
@@ -32204,19 +32202,19 @@ var SinglePixel = function (_React$Component) {
       if (this.props.tasks.filter(function (task) {
         return task.taskDone === false;
       }).size + 1 >= this.props.tasks.size) {
-        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       } else if (this.props.tasks.size <= 5 || (this.props.tasks.filter(function (task) {
         return task.taskDone === false;
       }).size + 1) * 1.0 / this.props.tasks.size > 2.0 / 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#99FF33', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       } else if ((this.props.tasks.filter(function (task) {
         return task.taskDone === false;
       }).size + 1) * 1.0 / this.props.tasks.size > 2.0 / 6 && this.props.tasks.size >= 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#00FF00', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       } else if ((this.props.tasks.filter(function (task) {
         return task.taskDone === false;
       }).size + 1) * 1.0 / this.props.tasks.size > 1.0 / 3 && this.props.tasks.size > 5) {
-        this.props.updateOnePixel(this.props.pixelId, '#006600', '', '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
       }
     }
   }, {
@@ -32230,7 +32228,7 @@ var SinglePixel = function (_React$Component) {
         var taskIndex = _this2.props.tasks.indexOf(task);
         _this2.markIncomplete(taskIndex);
       });
-      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', '', '', this.props);
+      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
     }
   }, {
     key: 'render',
