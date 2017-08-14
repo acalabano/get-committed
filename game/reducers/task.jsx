@@ -18,10 +18,11 @@ export const removeTask = (taskIndex) => ({
 })
 
 export const UPDATE_TASK = 'UPDATE_TASK'
-export const updateTask = (taskIndex, taskDone) => ({
+export const updateTask = (taskIndex, taskDone, taskDay) => ({
   type: UPDATE_TASK,
   taskIndex,
   taskDone,
+  taskDay
 })
 
 export const GET_TASKS='GET_TASKS'
@@ -61,7 +62,8 @@ const taskReducer = (state = initial, action) => {
     return {...state,
       tasks: state.tasks.set(action.taskIndex, {
         ...state.tasks.get(action.taskIndex),
-        taskDone: action.taskDone
+        taskDone: action.taskDone,
+        taskDay: action.taskDay,
       })
     }
   }

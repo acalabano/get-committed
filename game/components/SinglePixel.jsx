@@ -33,11 +33,11 @@ class SinglePixel extends React.Component {
     removeOnePixel(this.props.pixelId)
     const removeATask = this.props.removeATask
     const todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
-    let idx
-    todayTasks.forEach((task) => {
-      idx=this.props.tasks.indexOf(task)
+    todayTasks?todayTasks.forEach((task) => {
+      let idx=this.props.tasks.indexOf(task)
       removeATask(idx)
-    })
+    }):null
+    todayTasks? todayTasks.pop():null
     this.setState({deletedSuccesfully: true})
     browserHistory.push(`/deleted/${this.props.userId}`)
   }
@@ -47,7 +47,9 @@ class SinglePixel extends React.Component {
     let updatedPixelInfo = {
       day: event.target.day.value,
     }
-    this.props.updateOnePixel(this.props.pixelId, this.props.pixels.get(this.props.pixelId).pixelColor, updatedPixelInfo.day, '', this.props.pixels.get(this.props.pixelId).pixelTasks)
+    let todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
+    if (todayTasks) todayTasks.forEach(task => this.props.updateATask(this.props.tasks.indexOf(task), task.taskFrequency, updatedPixelInfo.day))
+    this.props.updateOnePixel(this.props.pixelId, this.props.pixels.get(this.props.pixelId).pixelColor, updatedPixelInfo.day)
   }
 
   onTaskSubmit(event) {
@@ -76,7 +78,7 @@ class SinglePixel extends React.Component {
   }
 
   markTaskDone(idx) {
-    this.props.updateATask(idx, true)
+    this.props.updateATask(idx, true, this.props.pixels.get(this.props.pixelId).pixelDay)
     let todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
     if (((todayTasks.filter((task) => task.taskDone === true).size+1) *1.0/(todayTasks).size > (2.0/3)) && (todayTasks.size>=6)) {
       this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '')
@@ -88,7 +90,7 @@ class SinglePixel extends React.Component {
   }
 
   markIncomplete(idx) {
-    this.props.updateATask(idx, false)
+    this.props.updateATask(idx, false, this.props.pixels.get(this.props.pixelId).pixelDay)
     let todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
     if ((todayTasks.filter((task) => task.taskDone === false)).size+1 >= todayTasks.size) {
       this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '')
@@ -113,6 +115,7 @@ class SinglePixel extends React.Component {
   render() {
     let thatPixel=this.props.pixels.get(parseInt(this.props.pixelId))
     let thatDay= thatPixel?thatPixel.pixelDay:undefined
+    console.log(thatDay)
     return (thatPixel)?
     (
 
@@ -166,7 +169,7 @@ class SinglePixel extends React.Component {
                <h3>Incomplete tasks</h3>
                <div>
                {
-                 this.props.tasks.filter((task) => task.taskDay===thatDay && task.taskDone === false).map(task => {
+                 this.props.tasks.filter((task) => task.taskDay==thatDay && task.taskDone === false).map(task => {
                    let taskIndex= this.props.tasks.indexOf(task)
                    return (
                      <div key={taskIndex}><input className="task-item" type="checkbox" onChange={(event) => {
@@ -184,7 +187,7 @@ class SinglePixel extends React.Component {
              <div className="col-lg-6">
              <h3>Done!</h3>
              {
-               this.props.tasks.filter((task) => task.taskDay===thatDay && task.taskDone === true).map(task => {
+               this.props.tasks.filter((task) => task.taskDay==thatDay && task.taskDone == true).map(task => {
                  let taskIndex= this.props.tasks.indexOf(task)
                  return (
                    <div key={taskIndex}><input className="task-item" type="checkbox" checked={true} onChange={(event) => {
@@ -234,8 +237,8 @@ const mapDispatchToProps = (dispatch) => ({
   removeATask: (taskId) => {
     dispatch(removeTask(taskId))
   },
-  updateATask: (taskId, taskDone) => {
-    dispatch(updateTask(taskId, taskDone))
+  updateATask: (taskId, taskDone, taskDay) => {
+    dispatch(updateTask(taskId, taskDone, taskDay))
   },
   loadTasks: () => {
     dispatch(getTasks())

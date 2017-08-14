@@ -16,15 +16,10 @@ class AllPixels extends React.Component {
       currentUserId: '',
       currentUsername: '',
       addButtonClicked: false,
-      todayTasks: this.props.tasks.filter((task) => task.taskDay==='' && task.taskFrequency === 'daily' && task.taskDone === false)
     }
     this.onPixelSubmit=this.onPixelSubmit.bind(this)
     this.onTaskSubmit=this.onTaskSubmit.bind(this)
     this.removeTaskCallback=this.removeTaskCallback.bind(this)
-  }
-
-  componentWillReceiveProps() {
-    this.setState({todayTasks: this.props.tasks.filter((task) => task.taskDay==='' && task.taskFrequency === 'daily' && task.taskDone === false)})
   }
 
   onPixelSubmit(event) {

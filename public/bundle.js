@@ -14225,11 +14225,12 @@ var removeTask = exports.removeTask = function removeTask(taskIndex) {
 };
 
 var UPDATE_TASK = exports.UPDATE_TASK = 'UPDATE_TASK';
-var updateTask = exports.updateTask = function updateTask(taskIndex, taskDone) {
+var updateTask = exports.updateTask = function updateTask(taskIndex, taskDone, taskDay) {
   return {
     type: UPDATE_TASK,
     taskIndex: taskIndex,
-    taskDone: taskDone
+    taskDone: taskDone,
+    taskDay: taskDay
   };
 };
 
@@ -14273,7 +14274,8 @@ var initial = {
     case UPDATE_TASK:
       return _extends({}, state, {
         tasks: state.tasks.set(action.taskIndex, _extends({}, state.tasks.get(action.taskIndex), {
-          taskDone: action.taskDone
+          taskDone: action.taskDone,
+          taskDay: action.taskDay
         }))
       });
   }
@@ -31222,10 +31224,7 @@ var AllPixels = function (_React$Component) {
     _this.state = {
       currentUserId: '',
       currentUsername: '',
-      addButtonClicked: false,
-      todayTasks: _this.props.tasks.filter(function (task) {
-        return task.taskDay === '' && task.taskFrequency === 'daily' && task.taskDone === false;
-      })
+      addButtonClicked: false
     };
     _this.onPixelSubmit = _this.onPixelSubmit.bind(_this);
     _this.onTaskSubmit = _this.onTaskSubmit.bind(_this);
@@ -31234,13 +31233,6 @@ var AllPixels = function (_React$Component) {
   }
 
   _createClass(AllPixels, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps() {
-      this.setState({ todayTasks: this.props.tasks.filter(function (task) {
-          return task.taskDay === '' && task.taskFrequency === 'daily' && task.taskDone === false;
-        }) });
-    }
-  }, {
     key: 'onPixelSubmit',
     value: function onPixelSubmit(event) {
       var _this2 = this;
@@ -32240,22 +32232,30 @@ var SinglePixel = function (_React$Component) {
       var todayTasks = this.props.tasks.filter(function (task) {
         return task.taskDay === _this2.props.pixels.get(parseInt(_this2.props.pixelId)).pixelDay;
       });
-      var idx = void 0;
-      todayTasks.forEach(function (task) {
-        idx = _this2.props.tasks.indexOf(task);
+      todayTasks ? todayTasks.forEach(function (task) {
+        var idx = _this2.props.tasks.indexOf(task);
         removeATask(idx);
-      });
+      }) : null;
+      todayTasks ? todayTasks.pop() : null;
       this.setState({ deletedSuccesfully: true });
       _reactRouter.browserHistory.push('/deleted/' + this.props.userId);
     }
   }, {
     key: 'onUpdatePixelSubmit',
     value: function onUpdatePixelSubmit(event) {
+      var _this3 = this;
+
       event.preventDefault();
       var updatedPixelInfo = {
         day: event.target.day.value
       };
-      this.props.updateOnePixel(this.props.pixelId, this.props.pixels.get(this.props.pixelId).pixelColor, updatedPixelInfo.day, '', this.props.pixels.get(this.props.pixelId).pixelTasks);
+      var todayTasks = this.props.tasks.filter(function (task) {
+        return task.taskDay === _this3.props.pixels.get(parseInt(_this3.props.pixelId)).pixelDay;
+      });
+      if (todayTasks) todayTasks.forEach(function (task) {
+        return _this3.props.updateATask(_this3.props.tasks.indexOf(task), task.taskFrequency, updatedPixelInfo.day);
+      });
+      this.props.updateOnePixel(this.props.pixelId, this.props.pixels.get(this.props.pixelId).pixelColor, updatedPixelInfo.day);
     }
   }, {
     key: 'onTaskSubmit',
@@ -32271,12 +32271,12 @@ var SinglePixel = function (_React$Component) {
   }, {
     key: 'removeTaskCallback',
     value: function removeTaskCallback(index) {
-      var _this3 = this;
+      var _this4 = this;
 
       var removeATask = this.props.removeATask;
       removeATask(index);
       var todayTasks = this.props.tasks.filter(function (task) {
-        return task.taskDay === _this3.props.pixels.get(parseInt(_this3.props.pixelId)).pixelDay;
+        return task.taskDay === _this4.props.pixels.get(parseInt(_this4.props.pixelId)).pixelDay;
       });
       if (todayTasks.size - 1 <= 0 || todayTasks.filter(function (task) {
         return task.taskDone === true;
@@ -32303,11 +32303,11 @@ var SinglePixel = function (_React$Component) {
   }, {
     key: 'markTaskDone',
     value: function markTaskDone(idx) {
-      var _this4 = this;
+      var _this5 = this;
 
-      this.props.updateATask(idx, true);
+      this.props.updateATask(idx, true, this.props.pixels.get(this.props.pixelId).pixelDay);
       var todayTasks = this.props.tasks.filter(function (task) {
-        return task.taskDay === _this4.props.pixels.get(parseInt(_this4.props.pixelId)).pixelDay;
+        return task.taskDay === _this5.props.pixels.get(parseInt(_this5.props.pixelId)).pixelDay;
       });
       if ((todayTasks.filter(function (task) {
         return task.taskDone === true;
@@ -32326,11 +32326,11 @@ var SinglePixel = function (_React$Component) {
   }, {
     key: 'markIncomplete',
     value: function markIncomplete(idx) {
-      var _this5 = this;
+      var _this6 = this;
 
-      this.props.updateATask(idx, false);
+      this.props.updateATask(idx, false, this.props.pixels.get(this.props.pixelId).pixelDay);
       var todayTasks = this.props.tasks.filter(function (task) {
-        return task.taskDay === _this5.props.pixels.get(parseInt(_this5.props.pixelId)).pixelDay;
+        return task.taskDay === _this6.props.pixels.get(parseInt(_this6.props.pixelId)).pixelDay;
       });
       if (todayTasks.filter(function (task) {
         return task.taskDone === false;
@@ -32353,26 +32353,27 @@ var SinglePixel = function (_React$Component) {
   }, {
     key: 'onResetTasks',
     value: function onResetTasks(frequencyString) {
-      var _this6 = this;
+      var _this7 = this;
 
       var todayTasks = this.props.tasks.filter(function (task) {
-        return task.taskDay === _this6.props.pixels.get(parseInt(_this6.props.pixelId)).pixelDay;
+        return task.taskDay === _this7.props.pixels.get(parseInt(_this7.props.pixelId)).pixelDay;
       });
       todayTasks.filter(function (task) {
         return task.taskFrequency === frequencyString && task.taskDone === true;
       }).forEach(function (task) {
-        var taskIndex = _this6.props.tasks.indexOf(task);
-        _this6.markIncomplete(taskIndex);
+        var taskIndex = _this7.props.tasks.indexOf(task);
+        _this7.markIncomplete(taskIndex);
       });
       this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '');
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this7 = this;
+      var _this8 = this;
 
       var thatPixel = this.props.pixels.get(parseInt(this.props.pixelId));
       var thatDay = thatPixel ? thatPixel.pixelDay : undefined;
+      console.log(thatDay);
       return thatPixel ? _react2.default.createElement(
         'div',
         null,
@@ -32494,7 +32495,7 @@ var SinglePixel = function (_React$Component) {
           _react2.default.createElement(
             'button',
             { className: 'btn btn-warning', onClick: function onClick() {
-                return _this7.onResetTasks('daily');
+                return _this8.onResetTasks('daily');
               } },
             'Reset my Dailies'
           ),
@@ -32516,15 +32517,15 @@ var SinglePixel = function (_React$Component) {
                   'div',
                   null,
                   this.props.tasks.filter(function (task) {
-                    return task.taskDay === thatDay && task.taskDone === false;
+                    return task.taskDay == thatDay && task.taskDone === false;
                   }).map(function (task) {
-                    var taskIndex = _this7.props.tasks.indexOf(task);
+                    var taskIndex = _this8.props.tasks.indexOf(task);
                     return _react2.default.createElement(
                       'div',
                       { key: taskIndex },
                       _react2.default.createElement('input', { className: 'task-item', type: 'checkbox', onChange: function onChange(event) {
                           event.preventDefault();
-                          _this7.markTaskDone(taskIndex);
+                          _this8.markTaskDone(taskIndex);
                         } }),
                       task.taskContent,
                       ' ',
@@ -32532,7 +32533,7 @@ var SinglePixel = function (_React$Component) {
                         'button',
                         { className: 'btn-danger', onClick: function onClick(event) {
                             event.preventDefault();
-                            _this7.removeTaskCallback(taskIndex);
+                            _this8.removeTaskCallback(taskIndex);
                           } },
                         'X'
                       )
@@ -32549,15 +32550,15 @@ var SinglePixel = function (_React$Component) {
                   'Done!'
                 ),
                 this.props.tasks.filter(function (task) {
-                  return task.taskDay === thatDay && task.taskDone === true;
+                  return task.taskDay == thatDay && task.taskDone == true;
                 }).map(function (task) {
-                  var taskIndex = _this7.props.tasks.indexOf(task);
+                  var taskIndex = _this8.props.tasks.indexOf(task);
                   return _react2.default.createElement(
                     'div',
                     { key: taskIndex },
                     _react2.default.createElement('input', { className: 'task-item', type: 'checkbox', checked: true, onChange: function onChange(event) {
                         event.preventDefault;
-                        _this7.markIncomplete(taskIndex);
+                        _this8.markIncomplete(taskIndex);
                       } }),
                     task.taskContent,
                     ' ',
@@ -32565,7 +32566,7 @@ var SinglePixel = function (_React$Component) {
                       'button',
                       { className: 'btn-danger', onClick: function onClick(event) {
                           event.preventDefault();
-                          _this7.removeTaskCallback(taskIndex);
+                          _this8.removeTaskCallback(taskIndex);
                         } },
                       'X'
                     )
@@ -32614,8 +32615,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     removeATask: function removeATask(taskId) {
       dispatch((0, _task.removeTask)(taskId));
     },
-    updateATask: function updateATask(taskId, taskDone) {
-      dispatch((0, _task.updateTask)(taskId, taskDone));
+    updateATask: function updateATask(taskId, taskDone, taskDay) {
+      dispatch((0, _task.updateTask)(taskId, taskDone, taskDay));
     },
     loadTasks: function loadTasks() {
       dispatch((0, _task.getTasks)());
