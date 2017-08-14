@@ -15,15 +15,16 @@ class AllPixels extends React.Component {
     this.state= {
       currentUserId: '',
       currentUsername: '',
-      addButtonClicked: false
+      addButtonClicked: false,
+      todayTasks: this.props.tasks.filter((task) => task.taskDay==='' && task.taskFrequency === 'daily' && task.taskDone === false)
     }
     this.onPixelSubmit=this.onPixelSubmit.bind(this)
     this.onTaskSubmit=this.onTaskSubmit.bind(this)
     this.removeTaskCallback=this.removeTaskCallback.bind(this)
   }
 
-  componentWillMount() {
-    this.props.loadPixels()
+  componentWillReceiveProps() {
+    this.setState({todayTasks: this.props.tasks.filter((task) => task.taskDay==='' && task.taskFrequency === 'daily' && task.taskDone === false)})
   }
 
   onPixelSubmit(event) {
@@ -103,7 +104,6 @@ class AllPixels extends React.Component {
                   {
                     this.props.pixels.map(pixel => {
                       let pixelIndex= this.props.pixels.indexOf(pixel)
-                      let pointerEventCondition= pixelIndex === (this.props.pixels.size - 1)? 'auto': 'none'
                       return (
                           <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
                             <div className={`col-md-${offset}`} id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `${width}vh`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
@@ -136,7 +136,7 @@ class AllPixels extends React.Component {
                <div className="col-lg-6">
                <div>
                {
-                 this.props.tasks.filter((task) => task.taskDay==='' && task.taskFrequency === 'daily' && task.taskDone === false).map(task => {
+                 this.props.tasks.filter((task) => task.taskDay==='').map(task => {
                    let taskIndex= this.props.tasks.indexOf(task)
                    return (
                      <div key={taskIndex}>{task.taskContent} <button className="btn-danger" onClick={(event) => {

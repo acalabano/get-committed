@@ -31222,7 +31222,10 @@ var AllPixels = function (_React$Component) {
     _this.state = {
       currentUserId: '',
       currentUsername: '',
-      addButtonClicked: false
+      addButtonClicked: false,
+      todayTasks: _this.props.tasks.filter(function (task) {
+        return task.taskDay === '' && task.taskFrequency === 'daily' && task.taskDone === false;
+      })
     };
     _this.onPixelSubmit = _this.onPixelSubmit.bind(_this);
     _this.onTaskSubmit = _this.onTaskSubmit.bind(_this);
@@ -31231,9 +31234,11 @@ var AllPixels = function (_React$Component) {
   }
 
   _createClass(AllPixels, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      this.props.loadPixels();
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps() {
+      this.setState({ todayTasks: this.props.tasks.filter(function (task) {
+          return task.taskDay === '' && task.taskFrequency === 'daily' && task.taskDone === false;
+        }) });
     }
   }, {
     key: 'onPixelSubmit',
@@ -31363,7 +31368,6 @@ var AllPixels = function (_React$Component) {
               { className: 'row' },
               this.props.pixels.map(function (pixel) {
                 var pixelIndex = _this3.props.pixels.indexOf(pixel);
-                var pointerEventCondition = pixelIndex === _this3.props.pixels.size - 1 ? 'auto' : 'none';
                 return _react2.default.createElement(
                   _reactRouter.Link,
                   { to: '/pixel/' + _this3.props.userId + '/' + _this3.props.hubId + '/' + pixelIndex, key: pixelIndex, style: { textDecoration: 'none' } },
@@ -31433,7 +31437,7 @@ var AllPixels = function (_React$Component) {
                   'div',
                   null,
                   this.props.tasks.filter(function (task) {
-                    return task.taskDay === '' && task.taskFrequency === 'daily' && task.taskDone === false;
+                    return task.taskDay === '';
                   }).map(function (task) {
                     var taskIndex = _this3.props.tasks.indexOf(task);
                     return _react2.default.createElement(
@@ -32187,8 +32191,6 @@ var _fire2 = _interopRequireDefault(_fire);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -32210,9 +32212,6 @@ var SinglePixel = function (_React$Component) {
     _this.state = {
       chosenPixel: _this.props.pixels.get(parseInt(_this.props.pixelId)),
       deletedSuccesfully: false,
-      completedTasks: [].concat(_toConsumableArray(_this.props.tasks.filter(function (task) {
-        return task.taskDone === true;
-      }))),
       todayTasks: _this.props.tasks.filter(function (task) {
         return task.taskDay === _this.props.pixels.get(parseInt(_this.props.pixelId));
       })
@@ -32228,9 +32227,7 @@ var SinglePixel = function (_React$Component) {
 
   _createClass(SinglePixel, [{
     key: 'componentDidMount',
-    value: function componentDidMount() {
-      console.log('GETTING HERE AGAIN');
-    }
+    value: function componentDidMount() {}
   }, {
     key: 'removePixelCallback',
     value: function removePixelCallback(event) {
@@ -32246,7 +32243,6 @@ var SinglePixel = function (_React$Component) {
       var idx = void 0;
       todayTasks.forEach(function (task) {
         idx = _this2.props.tasks.indexOf(task);
-        console.log('BEING DELETEEEDDDDD', task);
         removeATask(idx);
       });
       this.setState({ deletedSuccesfully: true });
@@ -32259,7 +32255,6 @@ var SinglePixel = function (_React$Component) {
       var updatedPixelInfo = {
         day: event.target.day.value
       };
-      console.log('PIXEL INFO UPDATED', updatedPixelInfo);
       this.props.updateOnePixel(this.props.pixelId, this.props.pixels.get(this.props.pixelId).pixelColor, updatedPixelInfo.day, '', this.props.pixels.get(this.props.pixelId).pixelTasks);
     }
   }, {
@@ -32283,7 +32278,6 @@ var SinglePixel = function (_React$Component) {
       var todayTasks = this.props.tasks.filter(function (task) {
         return task.taskDay === _this3.props.pixels.get(parseInt(_this3.props.pixelId)).pixelDay;
       });
-      console.log('current SIZE ISSSS', todayTasks.size);
       if (todayTasks.size - 1 <= 0 || todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size <= 0) {
@@ -32312,13 +32306,9 @@ var SinglePixel = function (_React$Component) {
       var _this4 = this;
 
       this.props.updateATask(idx, true);
-      console.log(this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay);
       var todayTasks = this.props.tasks.filter(function (task) {
         return task.taskDay === _this4.props.pixels.get(parseInt(_this4.props.pixelId)).pixelDay;
       });
-      console.log('TESTING DONNNE TASKS AFTER', todayTasks.filter(function (task) {
-        return task.taskDone === true;
-      }).size + 1);
       if ((todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size + 1) * 1.0 / todayTasks.size > 2.0 / 3 && todayTasks.size >= 6) {
@@ -32332,7 +32322,6 @@ var SinglePixel = function (_React$Component) {
       }).size + 1 * 1.0 / todayTasks.size < 1.0 / 3) {
         this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       }
-      console.log(todayTasks);
     }
   }, {
     key: 'markIncomplete',
@@ -32343,9 +32332,6 @@ var SinglePixel = function (_React$Component) {
       var todayTasks = this.props.tasks.filter(function (task) {
         return task.taskDay === _this5.props.pixels.get(parseInt(_this5.props.pixelId)).pixelDay;
       });
-      this.setState({ completedTasks: [].concat(_toConsumableArray(this.props.tasks.filter(function (task) {
-          return task.taskDone === true;
-        }))) });
       if (todayTasks.filter(function (task) {
         return task.taskDone === false;
       }).size + 1 >= todayTasks.size) {
@@ -32378,7 +32364,6 @@ var SinglePixel = function (_React$Component) {
         var taskIndex = _this6.props.tasks.indexOf(task);
         _this6.markIncomplete(taskIndex);
       });
-      console.log('todayTasks after RESET', todayTasks);
       this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '');
     }
   }, {
@@ -32387,12 +32372,10 @@ var SinglePixel = function (_React$Component) {
       var _this7 = this;
 
       var thatPixel = this.props.pixels.get(parseInt(this.props.pixelId));
-      console.log(thatPixel);
       var thatDay = thatPixel ? thatPixel.pixelDay : undefined;
       return thatPixel ? _react2.default.createElement(
         'div',
         null,
-        console.log('THESE ARE THE PROPS FROM THE SINGLE PIXEL COMPONENT', this.props),
         _react2.default.createElement(
           'div',
           { className: 'row' },
@@ -32566,7 +32549,7 @@ var SinglePixel = function (_React$Component) {
                   'Done!'
                 ),
                 this.props.tasks.filter(function (task) {
-                  return task.taskDay === thatDay && task.taskFrequency === 'daily' && task.taskDone === true;
+                  return task.taskDay === thatDay && task.taskDone === true;
                 }).map(function (task) {
                   var taskIndex = _this7.props.tasks.indexOf(task);
                   return _react2.default.createElement(
@@ -32617,7 +32600,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       dispatch((0, _pixel.removePixel)(pixelId));
     },
     updateOnePixel: function updateOnePixel(pixelId, pixelColor, pixelDay, pixelContent, pixelTasks) {
-      console.log('DISPATCHING WORKS?', pixelColor);
       dispatch((0, _pixel.updatePixel)(pixelId, pixelColor, pixelDay, pixelContent, pixelTasks));
     },
     loadSinglePixel: function loadSinglePixel(pixelId) {
