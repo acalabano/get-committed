@@ -4,6 +4,7 @@ import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import {Grid, Row, Col, Clearfix, Image} from 'react-bootstrap'
 import {addPixel, getPixels} from '../reducers/pixel'
+import {createTask} from '../reducers/task'
 import reducer from '../reducers/'
 import firebase from 'APP/fire'
 import {List} from 'immutable'
@@ -33,10 +34,11 @@ class AllPixels extends React.Component {
     }
     this.props.addAPixel('#E3E3E3', pixelInfo.day, '')
     this.setState({addButtonClicked: false})
+    // this.props.tasks? this.props.tasks.forEach((taskInfo) => this.props.addATask(taskInfo.taskContent, taskInfo.taskDone, taskInfo.taskFrequency, pixelInfo.day)):null
+    // console.log('THESE ARE THE TASKS SO FARRR', this.props.tasks)
   }
 
   render() {
-    console.log('THESE ARE the PROPS IN ALL PIXELS', this.props)
     let pixLength= this.props.pixels.size
     let height=100/(pixLength)
     let width
@@ -55,6 +57,7 @@ class AllPixels extends React.Component {
     else {
       offset=Math.floor(12/pixLength)
     }
+    console.log('THESE ARE THE PROPS IN ALLPIXELS')
     return (
       <div className="">
         <h1>Welcome to the Pixel Mood App</h1>
@@ -67,6 +70,7 @@ class AllPixels extends React.Component {
                   {
                     this.props.pixels.map(pixel => {
                       let pixelIndex= this.props.pixels.indexOf(pixel)
+                      let pointerEventCondition= pixelIndex === (this.props.pixels.size - 1)? 'auto': 'none'
                       return (
                           <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
                             <div className={`col-md-${offset}`} id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `${width}vh`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
@@ -99,8 +103,9 @@ class AllPixels extends React.Component {
 
 // -- // -- // Container // -- // -- //
 
-const mapState = ({pixel}) => ({
-  pixels: pixel.pixels
+const mapState = ({pixel, task}) => ({
+  pixels: pixel.pixels,
+  tasks: task.tasks
 })
 
 const mapDispatch = dispatch => ({
@@ -109,6 +114,9 @@ const mapDispatch = dispatch => ({
   },
   loadPixels: () => {
     dispatch(getPixels())
+  },
+  addATask: (taskContent, taskDone, taskFrequency, taskDay) => {
+    dispatch(createTask(taskContent, taskDone, taskFrequency, taskDay))
   }
 })
 

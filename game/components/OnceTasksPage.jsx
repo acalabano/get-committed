@@ -2,46 +2,15 @@ import React from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import {createTask, removeTask, updateTask, getTasks} from '../reducers/task'
-import {removePixel, updatePixel, loadPixel, createPixelTask} from '../reducers/pixel'
 import firebase from 'APP/fire'
-const db = firebase.database()
-// import OnceTasksPage from './TasksPage'
 
-class SinglePixel extends React.Component {
+class OnceTasksPage extends React.Component {
   constructor(props) {
     super(props)
-    this.props.loadSinglePixel(this.props.pixelId)
-    this.state={
-      chosenPixel: this.props.pixels.get(parseInt(this.props.pixelId)-1),
-      deletedSuccesfully: false,
-      completedTasks: [...(this.props.tasks.filter(task => task.taskDone === true))]
-    }
-    this.removePixelCallback=this.removePixelCallback.bind(this)
-    this.onUpdatePixelSubmit=this.onUpdatePixelSubmit.bind(this)
     this.onTaskSubmit=this.onTaskSubmit.bind(this)
     this.removeTaskCallback=this.removeTaskCallback.bind(this)
     this.markTaskDone=this.markTaskDone.bind(this)
     this.onResetTasks=this.onResetTasks.bind(this)
-  }
-
-  componentDidMount() {
-    console.log('GETTING HERE AGAIN')
-  }
-
-  removePixelCallback(event) {
-    const removeOnePixel = this.props.removeOnePixel
-    removeOnePixel(this.props.pixelId)
-    this.setState({deletedSuccesfully: true})
-    browserHistory.push(`/deleted/${this.props.userId}`)
-  }
-
-  onUpdatePixelSubmit(event) {
-    event.preventDefault()
-    let updatedPixelInfo = {
-      day: event.target.day.value,
-    }
-    console.log('PIXEL INFO UPDATED', updatedPixelInfo)
-    this.props.updateOnePixel(this.props.pixelId, this.props.pixels.get(this.props.pixelId).pixelColor, updatedPixelInfo.day, '', this.props.pixels.get(this.props.pixelId).pixelTasks)
   }
 
   onTaskSubmit(event) {
@@ -49,9 +18,9 @@ class SinglePixel extends React.Component {
     let taskInfo = {
       content: event.target.taskContent.value,
       done: false,
-      taskFrequency: event.target.taskFrequency.value,
+      taskFrequency: event.target.taskFrequency.value
     }
-    this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, '')
+    this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency)
   }
 
   removeTaskCallback(index) {
@@ -155,9 +124,6 @@ class SinglePixel extends React.Component {
         </div>
         <br></br>
         <h2>Daily Tasks</h2>
-      {
-        this.props.pixelId == (this.props.pixels.size-1)?
-        <div>
         <button className="btn btn-warning" onClick={() => this.onResetTasks('daily')}>Reset my Dailies</button>
           <div className="container-fluid">
              <div className="row">
@@ -199,9 +165,8 @@ class SinglePixel extends React.Component {
               </div>
             </div>
            </div>
-         </div>:<div>Woops! You're not allowed to edit commits past your latest pixel at this time because that would be cheating! Delete your latest pixel if you made a mistake!</div>
-       }
-      {/*  <TasksPage fireRef={db.ref('tasks')} pixelId={this.props.pixelId} userId={this.props.userId}/> */}
+        <h2>One-Time Tasks</h2>
+      <OnceTasksPage fireRef={db.ref('board').child(this.props.userId).child(this.props.hubId).child(this.props.pixelId)} userId={this.props.userId} hubId= {this.props.hubId} pixelId={this.props.pixelId} pixelColor={this.props.pixels.get(this.props.pixelId).pixelColor}/>
       </div>
     ):null
   }
@@ -212,7 +177,8 @@ const mapStateToProps = (state, ownProps) => ({
   pixels: state.pixel.pixels,
   tasks: state.task.tasks,
   userId: ownProps.userId,
-  pixelId: ownProps.pixelId
+  pixelId: ownProps.pixelId,
+  pixelColor: ownProps.pixelColor
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -229,8 +195,8 @@ const mapDispatchToProps = (dispatch) => ({
   addAPixelTask: (pixelId, taskContent, taskDone, taskFrequency) => {
     dispatch(createPixelTask(pixelId, taskContent, taskDone, taskFrequency))
   },
-  addATask: (taskContent, taskDone, taskFrequency, taskDay) => {
-    dispatch(createTask(taskContent, taskDone, taskFrequency, taskDay))
+  addATask: (taskContent, taskDone, taskFrequency) => {
+    dispatch(createTask(taskContent, taskDone, taskFrequency))
   },
   removeATask: (taskId) => {
     dispatch(removeTask(taskId))

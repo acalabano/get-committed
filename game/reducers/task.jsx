@@ -3,11 +3,12 @@ import {List} from 'immutable'
 // -- // -- // Actions // -- // -- //
 
 export const CREATE_TASK = 'CREATE_TASK'
-export const createTask = (taskContent, taskDone, taskFrequency) => ({
+export const createTask = (taskContent, taskDone, taskFrequency, taskDay) => ({
   type: CREATE_TASK,
   taskContent,
   taskDone,
-  taskFrequency
+  taskFrequency,
+  taskDay
 })
 
 export const REMOVE_TASK = 'REMOVE_TASK'
@@ -47,6 +48,7 @@ const taskReducer = (state = initial, action) => {
         taskContent: action.taskContent,
         taskDone: action.taskDone,
         taskFrequency: action.taskFrequency,
+        taskDay: (action.taskDay==='' || action.taskDay=== undefined)? '' : action.taskDay,
         error: null
       })
     }
