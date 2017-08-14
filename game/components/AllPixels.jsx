@@ -24,14 +24,11 @@ class AllPixels extends React.Component {
 
   componentWillMount() {
     this.props.loadPixels()
-    console.log('IS Willmount GOING FIRST')
   }
 
   onPixelSubmit(event) {
     event.preventDefault()
     let defaultTasks= this.props.tasks.filter((task) => task.taskDay=== '')
-    console.log('EVENT TARGETSSSS', event.target)
-    console.log(event.target.day)
     let pixelInfo = {
       day: event.target.day.value,
     }
@@ -48,9 +45,7 @@ class AllPixels extends React.Component {
       done: false,
       taskFrequency: event.target.taskFrequency.value,
     }
-    console.log(taskInfo)
     this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, '')
-    console.log('checking if tasks was updated with undefined day', this.props.tasks)
     event.target.taskContent.value=''
     event.target.taskFrequency.value='daily'
   }
@@ -79,7 +74,6 @@ class AllPixels extends React.Component {
     else {
       offset=Math.floor(12/pixLength)
     }
-    console.log('THESE ARE THE PROPS IN ALLPIXELS')
     return (
       <div className="">
         <h1>Welcome to the Get Committed App</h1>

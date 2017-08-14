@@ -10,7 +10,6 @@ class AddPixel extends React.Component {
   }
 
   componentDidMount() {
-    console.log('ADDDD PIXELLLLL', this.props)
   }
   onPixelSubmit(event) {
     event.preventDefault()

@@ -22,8 +22,6 @@ class WelcomePage extends React.Component {
     })
   }
   render() {
-    console.log('WELCOMEEEE', this.state.currentUsername)
-
     return (
       <div className='homepage-background'>
       {

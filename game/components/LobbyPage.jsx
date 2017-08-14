@@ -64,7 +64,6 @@ export default class extends React.Component {
     const {store} = this.state || {}
         , {children} = this.props
     if (!store) return null
-    console.log('LobbyPageeeeeeeeee')
     return <Provider store={store}>
       <Grid className="main-grid">
         <Lobby fireRef={this.props.fireRef} />

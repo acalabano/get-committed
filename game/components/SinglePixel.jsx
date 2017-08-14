@@ -30,8 +30,8 @@ class SinglePixel extends React.Component {
   }
 
   removePixelCallback(event) {
-    event.preventDefault()
     const removeOnePixel = this.props.removeOnePixel
+    event.stopPropagation()
     removeOnePixel(this.props.pixelId)
     const removeATask = this.props.removeATask
     const todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
@@ -70,13 +70,13 @@ class SinglePixel extends React.Component {
     const todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
     console.log('current SIZE ISSSS', todayTasks.size)
     if (todayTasks.size-1 <=0 || (todayTasks.filter((task) => task.taskDone === true)).size <=0) {
-      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     } else if (((todayTasks.filter((task) => task.taskDone === true).size-1) *1.0/todayTasks.size > (2.0/3)) && (todayTasks.size>=6)) {
-      this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     } else if (((todayTasks.filter((task) => task.taskDone === true)).size-1) *1.0/todayTasks.size > (1.0/3) && (todayTasks.filter((task) => task.taskDone === true)).size >= 3) {
-      this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     } else if ((todayTasks.filter((task) => task.taskDone === true)).size <=5 || (todayTasks.filter((task) => task.taskDone === true)).size-1 *1.0/todayTasks.size < (1.0/3)) {
-      this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     }
   }
 
@@ -86,11 +86,11 @@ class SinglePixel extends React.Component {
     let todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
     console.log('TESTING DONNNE TASKS AFTER', (todayTasks.filter((task) => task.taskDone === true)).size+1)
     if (((todayTasks.filter((task) => task.taskDone === true).size+1) *1.0/(todayTasks).size > (2.0/3)) && (todayTasks.size>=6)) {
-      this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     } else if (((todayTasks.filter((task) => task.taskDone === true)).size+1) *1.0/todayTasks.size > (1.0/3) && todayTasks.size >= 3) {
-      this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     } else if (todayTasks.size <=5 || (todayTasks.filter((task) => task.taskDone === true)).size+1 *1.0/todayTasks.size < (1.0/3)) {
-      this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     }
     console.log(todayTasks)
   }
@@ -100,13 +100,13 @@ class SinglePixel extends React.Component {
     let todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
     this.setState({completedTasks: ([...(this.props.tasks.filter(task => task.taskDone === true))])})
     if ((todayTasks.filter((task) => task.taskDone === false)).size+1 >= todayTasks.size) {
-      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     } else if (todayTasks.size <=5 || ((todayTasks.filter((task) => task.taskDone === false)).size+1) *1.0/todayTasks.size > (2.0/3)) {
-      this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     } else if (((todayTasks.filter((task) => task.taskDone === false)).size+1) *1.0/todayTasks.size > (2.0/6) && todayTasks.size>=3) {
-      this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     } else if ((((todayTasks.filter((task) => task.taskDone === false)).size+1) *1.0/todayTasks.size > (1.0/3)) && (todayTasks.size> 5)) {
-      this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+      this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '')
     }
   }
 
@@ -117,11 +117,10 @@ class SinglePixel extends React.Component {
       this.markIncomplete(taskIndex)
     })
     console.log('todayTasks after RESET', todayTasks)
-    this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
+    this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '')
   }
 
   render() {
-    console.log('BEFORE THE RETURN, THESE ARE THE PROPS FROM THE SINGLE PIXEL COMPONENT', this.props)
     let thatPixel=this.props.pixels.get(parseInt(this.props.pixelId))
     console.log(thatPixel)
     let thatDay= thatPixel?thatPixel.pixelDay:undefined

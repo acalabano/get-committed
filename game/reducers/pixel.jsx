@@ -26,12 +26,11 @@ export const removePixel = (pixelIndex) => ({
 })
 
 export const UPDATE_PIXEL = 'UPDATE_PIXEL'
-export const updatePixel = (pixelIndex, pixelColor, pixelDay, pixelContent) => ({
+export const updatePixel = (pixelIndex, pixelColor, pixelDay) => ({
   type: UPDATE_PIXEL,
   pixelIndex,
   pixelColor,
   pixelDay,
-  pixelContent
 })
 
 // -- // -- // State // -- // -- //
@@ -65,7 +64,6 @@ const pixelReducer = (state = initial, action) => {
         ...state.pixels.get(action.pixelIndex),
         pixelColor: action.pixelColor,
         pixelDay: action.pixelDay,
-        pixelContent: action.pixelContent,
       })
     }
   }

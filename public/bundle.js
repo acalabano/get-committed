@@ -6633,13 +6633,12 @@ var removePixel = exports.removePixel = function removePixel(pixelIndex) {
 };
 
 var UPDATE_PIXEL = exports.UPDATE_PIXEL = 'UPDATE_PIXEL';
-var updatePixel = exports.updatePixel = function updatePixel(pixelIndex, pixelColor, pixelDay, pixelContent) {
+var updatePixel = exports.updatePixel = function updatePixel(pixelIndex, pixelColor, pixelDay) {
   return {
     type: UPDATE_PIXEL,
     pixelIndex: pixelIndex,
     pixelColor: pixelColor,
-    pixelDay: pixelDay,
-    pixelContent: pixelContent
+    pixelDay: pixelDay
   };
 };
 
@@ -6674,8 +6673,7 @@ var initial = {
       return _extends({}, state, {
         pixels: state.pixels.set(action.pixelIndex, _extends({}, state.pixels.get(action.pixelIndex), {
           pixelColor: action.pixelColor,
-          pixelDay: action.pixelDay,
-          pixelContent: action.pixelContent
+          pixelDay: action.pixelDay
         }))
       });
   }
@@ -30549,8 +30547,6 @@ var WelcomePage = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log('WELCOMEEEE', this.state.currentUsername);
-
       return _react2.default.createElement(
         'div',
         { className: 'homepage-background' },
@@ -30905,9 +30901,7 @@ var AddPixel = function (_React$Component) {
 
   _createClass(AddPixel, [{
     key: 'componentDidMount',
-    value: function componentDidMount() {
-      console.log('ADDDD PIXELLLLL', this.props);
-    }
+    value: function componentDidMount() {}
   }, {
     key: 'onPixelSubmit',
     value: function onPixelSubmit(event) {
@@ -31240,7 +31234,6 @@ var AllPixels = function (_React$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.props.loadPixels();
-      console.log('IS Willmount GOING FIRST');
     }
   }, {
     key: 'onPixelSubmit',
@@ -31251,8 +31244,6 @@ var AllPixels = function (_React$Component) {
       var defaultTasks = this.props.tasks.filter(function (task) {
         return task.taskDay === '';
       });
-      console.log('EVENT TARGETSSSS', event.target);
-      console.log(event.target.day);
       var pixelInfo = {
         day: event.target.day.value
       };
@@ -31272,9 +31263,7 @@ var AllPixels = function (_React$Component) {
         done: false,
         taskFrequency: event.target.taskFrequency.value
       };
-      console.log(taskInfo);
       this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, '');
-      console.log('checking if tasks was updated with undefined day', this.props.tasks);
       event.target.taskContent.value = '';
       event.target.taskFrequency.value = 'daily';
     }
@@ -31305,7 +31294,6 @@ var AllPixels = function (_React$Component) {
       } else {
         offset = Math.floor(12 / pixLength);
       }
-      console.log('THESE ARE THE PROPS IN ALLPIXELS');
       return _react2.default.createElement(
         'div',
         { className: '' },
@@ -31893,13 +31881,11 @@ var Lobby = function (_React$Component) {
           _this2.setState({ currentUserId: user.uid, currentUsername: user.displayName });
         }
       });
-      console.log('LOBBYYYYY DIDMOUNT', this.props);
     }
   }, {
     key: 'onLobbySubmit',
     value: function onLobbySubmit(event) {
       event.preventDefault();
-      console.log('ADDING HUB?', event.target.name.value);
       this.props.createAGame(this.props.games.size + 1, event.target.name.value);
     }
   }, {
@@ -32152,7 +32138,6 @@ var _class = function (_React$Component) {
           children = this.props.children;
 
       if (!store) return null;
-      console.log('LobbyPageeeeeeeeee');
       return _react2.default.createElement(
         _reactRedux.Provider,
         { store: store },
@@ -32251,8 +32236,8 @@ var SinglePixel = function (_React$Component) {
     value: function removePixelCallback(event) {
       var _this2 = this;
 
-      event.preventDefault();
       var removeOnePixel = this.props.removeOnePixel;
+      event.stopPropagation();
       removeOnePixel(this.props.pixelId);
       var removeATask = this.props.removeATask;
       var todayTasks = this.props.tasks.filter(function (task) {
@@ -32302,23 +32287,23 @@ var SinglePixel = function (_React$Component) {
       if (todayTasks.size - 1 <= 0 || todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size <= 0) {
-        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       } else if ((todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size - 1) * 1.0 / todayTasks.size > 2.0 / 3 && todayTasks.size >= 6) {
-        this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       } else if ((todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size - 1) * 1.0 / todayTasks.size > 1.0 / 3 && todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size >= 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       } else if (todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size <= 5 || todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size - 1 * 1.0 / todayTasks.size < 1.0 / 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       }
     }
   }, {
@@ -32337,15 +32322,15 @@ var SinglePixel = function (_React$Component) {
       if ((todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size + 1) * 1.0 / todayTasks.size > 2.0 / 3 && todayTasks.size >= 6) {
-        this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       } else if ((todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size + 1) * 1.0 / todayTasks.size > 1.0 / 3 && todayTasks.size >= 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       } else if (todayTasks.size <= 5 || todayTasks.filter(function (task) {
         return task.taskDone === true;
       }).size + 1 * 1.0 / todayTasks.size < 1.0 / 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       }
       console.log(todayTasks);
     }
@@ -32364,19 +32349,19 @@ var SinglePixel = function (_React$Component) {
       if (todayTasks.filter(function (task) {
         return task.taskDone === false;
       }).size + 1 >= todayTasks.size) {
-        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       } else if (todayTasks.size <= 5 || (todayTasks.filter(function (task) {
         return task.taskDone === false;
       }).size + 1) * 1.0 / todayTasks.size > 2.0 / 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       } else if ((todayTasks.filter(function (task) {
         return task.taskDone === false;
       }).size + 1) * 1.0 / todayTasks.size > 2.0 / 6 && todayTasks.size >= 3) {
-        this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       } else if ((todayTasks.filter(function (task) {
         return task.taskDone === false;
       }).size + 1) * 1.0 / todayTasks.size > 1.0 / 3 && todayTasks.size > 5) {
-        this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+        this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '');
       }
     }
   }, {
@@ -32394,14 +32379,13 @@ var SinglePixel = function (_React$Component) {
         _this6.markIncomplete(taskIndex);
       });
       console.log('todayTasks after RESET', todayTasks);
-      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props);
+      this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '');
     }
   }, {
     key: 'render',
     value: function render() {
       var _this7 = this;
 
-      console.log('BEFORE THE RETURN, THESE ARE THE PROPS FROM THE SINGLE PIXEL COMPONENT', this.props);
       var thatPixel = this.props.pixels.get(parseInt(this.props.pixelId));
       console.log(thatPixel);
       var thatDay = thatPixel ? thatPixel.pixelDay : undefined;

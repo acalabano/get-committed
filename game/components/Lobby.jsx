@@ -29,11 +29,9 @@ class Lobby extends React.Component {
         this.setState({ currentUserId: user.uid, currentUsername: user.displayName })
       }
     })
-    console.log('LOBBYYYYY DIDMOUNT', this.props)
   }
   onLobbySubmit(event) {
     event.preventDefault()
-    console.log('ADDING HUB?', event.target.name.value)
     this.props.createAGame(this.props.games.size+1, event.target.name.value)
   }
 
