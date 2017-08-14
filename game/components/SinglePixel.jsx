@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import {createTask, removeTask, updateTask, getTasks} from '../reducers/task'
 import {removePixel, updatePixel, loadPixel, createPixelTask} from '../reducers/pixel'
 import firebase from 'APP/fire'
-const db = firebase.database()
-// import OnceTasksPage from './TasksPage'
 
 class SinglePixel extends React.Component {
   constructor(props) {
@@ -124,21 +122,13 @@ class SinglePixel extends React.Component {
         <h1>{thatPixel.pixelDay} Pixel</h1>
         <div id="wrapper" style={{backgroundColor: thatPixel.pixelColor, width: `${10}vh`, height: `${10}vh`}}><p className="text">{thatPixel.pixelColor}</p></div>
         </div>
-        <h3>Update Pixel Information:</h3>
         <div className= "col-lg-6">
         <div className="row col-lg-4">
-          <form onSubmit={this.onUpdatePixelSubmit}>
-            <label htmlFor="day" className="mr-sm-2"> Day: </label>
-            <div className="form-group">
-              <input className="form-control" type="date" id="day" />
-            </div>
-            <button className="btn btn-default" type="submit">Update</button>
-          </form>
         </div>
         </div>
         </div>
+        <hr />
         <div className="row col-lg-12">
-
           <button className="btn btn-danger" name="deletePixel" onClick={this.removePixelCallback}>Delete Pixel</button>
 
         </div>
@@ -203,7 +193,6 @@ class SinglePixel extends React.Component {
             </div>
            </div>
          </div>
-      {/*  <TasksPage fireRef={db.ref('tasks')} pixelId={this.props.pixelId} userId={this.props.userId}/> */}
       </div>
     ):null
   }

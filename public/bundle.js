@@ -29978,7 +29978,7 @@ var NavbarComp = function NavbarComp(_ref) {
           _react2.default.createElement(
             _reactRouter.Link,
             { to: '/lobby/' + userId },
-            'HUBS'
+            'REPOSITORIES'
           )
         )
       )
@@ -32192,9 +32192,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var db = _fire2.default.database();
-// import OnceTasksPage from './TasksPage'
-
 var SinglePixel = function (_React$Component) {
   _inherits(SinglePixel, _React$Component);
 
@@ -32404,38 +32401,12 @@ var SinglePixel = function (_React$Component) {
             )
           ),
           _react2.default.createElement(
-            'h3',
-            null,
-            'Update Pixel Information:'
-          ),
-          _react2.default.createElement(
             'div',
             { className: 'col-lg-6' },
-            _react2.default.createElement(
-              'div',
-              { className: 'row col-lg-4' },
-              _react2.default.createElement(
-                'form',
-                { onSubmit: this.onUpdatePixelSubmit },
-                _react2.default.createElement(
-                  'label',
-                  { htmlFor: 'day', className: 'mr-sm-2' },
-                  ' Day: '
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'form-group' },
-                  _react2.default.createElement('input', { className: 'form-control', type: 'date', id: 'day' })
-                ),
-                _react2.default.createElement(
-                  'button',
-                  { className: 'btn btn-default', type: 'submit' },
-                  'Update'
-                )
-              )
-            )
+            _react2.default.createElement('div', { className: 'row col-lg-4' })
           )
         ),
+        _react2.default.createElement('hr', null),
         _react2.default.createElement(
           'div',
           { className: 'row col-lg-12' },
