@@ -4,7 +4,7 @@ import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import {Grid, Row, Col, Clearfix, Image} from 'react-bootstrap'
 import {addPixel, getPixels} from '../reducers/pixel'
-import {createTask} from '../reducers/task'
+import {createTask, removeTask} from '../reducers/task'
 import reducer from '../reducers/'
 import firebase from 'APP/fire'
 import {List} from 'immutable'
@@ -18,6 +18,8 @@ class AllPixels extends React.Component {
       addButtonClicked: false
     }
     this.onPixelSubmit=this.onPixelSubmit.bind(this)
+    this.onTaskSubmit=this.onTaskSubmit.bind(this)
+    this.removeTaskCallback=this.removeTaskCallback.bind(this)
   }
 
   componentWillMount() {
@@ -27,15 +29,35 @@ class AllPixels extends React.Component {
 
   onPixelSubmit(event) {
     event.preventDefault()
+    let defaultTasks= this.props.tasks.filter((task) => task.taskDay=== '')
     console.log('EVENT TARGETSSSS', event.target)
     console.log(event.target.day)
     let pixelInfo = {
       day: event.target.day.value,
     }
     this.props.addAPixel('#E3E3E3', pixelInfo.day, '')
-    this.setState({addButtonClicked: false})
-    // this.props.tasks? this.props.tasks.forEach((taskInfo) => this.props.addATask(taskInfo.taskContent, taskInfo.taskDone, taskInfo.taskFrequency, pixelInfo.day)):null
+    defaultTasks? defaultTasks.forEach((taskInfo) => this.props.addATask(taskInfo.taskContent, taskInfo.taskDone, taskInfo.taskFrequency, pixelInfo.day)):null
     // console.log('THESE ARE THE TASKS SO FARRR', this.props.tasks)
+    this.setState({addButtonClicked: false})
+  }
+
+  onTaskSubmit(event) {
+    event.preventDefault()
+    let taskInfo = {
+      content: event.target.taskContent.value,
+      done: false,
+      taskFrequency: event.target.taskFrequency.value,
+    }
+    console.log(taskInfo)
+    this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, '')
+    console.log('checking if tasks was updated with undefined day', this.props.tasks)
+    event.target.taskContent.value=''
+    event.target.taskFrequency.value='daily'
+  }
+
+  removeTaskCallback(index) {
+    const removeATask = this.props.removeATask
+    removeATask(index)
   }
 
   render() {
@@ -60,7 +82,24 @@ class AllPixels extends React.Component {
     console.log('THESE ARE THE PROPS IN ALLPIXELS')
     return (
       <div className="">
-        <h1>Welcome to the Pixel Mood App</h1>
+        <h1>Welcome to the Get Committed App</h1>
+          <hr />
+          <div className="row">
+          <div className="col-lg-4">
+            <form onSubmit={this.onTaskSubmit}>
+              <label htmlFor="taskContent" className="mr-sm-2"> Task Content: </label>
+            <div className="form-group">
+              <input className="form-control" placeholder="Do my project, make a thing" type="text" id="taskContent" defaultValue=""></input>
+            </div>
+            <select id="taskFrequency" defaultValue="daily">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+            </select>
+              <button className="btn btn-default" type="submit">Add Task</button>
+            </form>
+          </div>
+          </div>
+          <br></br>
         {this.state.addButtonClicked===false?
           <div>
             <button onClick={() => (this.setState({addButtonClicked: true}))} className="btn btn-default">Add Pixel +</button>
@@ -96,6 +135,28 @@ class AllPixels extends React.Component {
               </div>
             </div>
         }
+        <h2>Daily tasks you've added</h2>
+        <div>
+          <div className="container-fluid">
+             <div className="row">
+               <div className="col-lg-6">
+               <div>
+               {
+                 this.props.tasks.filter((task) => task.taskDay==='' && task.taskFrequency === 'daily' && task.taskDone === false).map(task => {
+                   let taskIndex= this.props.tasks.indexOf(task)
+                   return (
+                     <div key={taskIndex}>{task.taskContent} <button className="btn-danger" onClick={(event) => {
+                       event.preventDefault()
+                       this.removeTaskCallback(taskIndex)
+                     }}>X</button></div>
+                   )
+                 })
+               }
+              </div>
+             </div>
+           </div>
+         </div>
+       </div>
       </div>
     )
   }
@@ -117,6 +178,9 @@ const mapDispatch = dispatch => ({
   },
   addATask: (taskContent, taskDone, taskFrequency, taskDay) => {
     dispatch(createTask(taskContent, taskDone, taskFrequency, taskDay))
+  },
+  removeATask: (taskId) => {
+    dispatch(removeTask(taskId))
   }
 })
 

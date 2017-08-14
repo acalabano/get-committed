@@ -12,9 +12,10 @@ class SinglePixel extends React.Component {
     super(props)
     this.props.loadSinglePixel(this.props.pixelId)
     this.state={
-      chosenPixel: this.props.pixels.get(parseInt(this.props.pixelId)-1),
+      chosenPixel: this.props.pixels.get(parseInt(this.props.pixelId)),
       deletedSuccesfully: false,
-      completedTasks: [...(this.props.tasks.filter(task => task.taskDone === true))]
+      completedTasks: [...(this.props.tasks.filter(task => task.taskDone === true))],
+      todayTasks: this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)))
     }
     this.removePixelCallback=this.removePixelCallback.bind(this)
     this.onUpdatePixelSubmit=this.onUpdatePixelSubmit.bind(this)
@@ -29,8 +30,17 @@ class SinglePixel extends React.Component {
   }
 
   removePixelCallback(event) {
+    event.preventDefault()
     const removeOnePixel = this.props.removeOnePixel
     removeOnePixel(this.props.pixelId)
+    const removeATask = this.props.removeATask
+    const todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
+    let idx
+    todayTasks.forEach((task) => {
+      idx=this.props.tasks.indexOf(task)
+      console.log('BEING DELETEEEDDDDD', task)
+      removeATask(idx)
+    })
     this.setState({deletedSuccesfully: true})
     browserHistory.push(`/deleted/${this.props.userId}`)
   }
@@ -51,62 +61,70 @@ class SinglePixel extends React.Component {
       done: false,
       taskFrequency: event.target.taskFrequency.value,
     }
-    this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, '')
+    this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, this.props.pixels.get(this.props.pixelId).pixelDay)
   }
 
   removeTaskCallback(index) {
     const removeATask = this.props.removeATask
     removeATask(index)
-    console.log('current SIZE ISSSS', this.props.tasks.size)
-    if (this.props.tasks.size-1 ===0 || (this.props.tasks.filter((task) => task.taskDone === true)).size ===0) {
+    const todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
+    console.log('current SIZE ISSSS', todayTasks.size)
+    if (todayTasks.size-1 <=0 || (todayTasks.filter((task) => task.taskDone === true)).size <=0) {
       this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
-    } else if (((this.props.tasks.filter((task) => task.taskDone === true).size-1) *1.0/(this.props.tasks).size > (2.0/3)) && ((this.props.tasks).size>=6)) {
+    } else if (((todayTasks.filter((task) => task.taskDone === true).size-1) *1.0/todayTasks.size > (2.0/3)) && (todayTasks.size>=6)) {
       this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
-    } else if (((this.props.tasks.filter((task) => task.taskDone === true)).size-1) *1.0/(this.props.tasks).size > (1.0/3) && (this.props.tasks.filter((task) => task.taskDone === true)).size >= 3) {
+    } else if (((todayTasks.filter((task) => task.taskDone === true)).size-1) *1.0/todayTasks.size > (1.0/3) && (todayTasks.filter((task) => task.taskDone === true)).size >= 3) {
       this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
-    } else if ((this.props.tasks.filter((task) => task.taskDone === true)).size <=5 || (this.props.tasks.filter((task) => task.taskDone === true)).size-1 *1.0/(this.props.tasks).size < (1.0/3)) {
+    } else if ((todayTasks.filter((task) => task.taskDone === true)).size <=5 || (todayTasks.filter((task) => task.taskDone === true)).size-1 *1.0/todayTasks.size < (1.0/3)) {
       this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
     }
   }
 
   markTaskDone(idx) {
     this.props.updateATask(idx, true)
-    console.log('TESTING DONNNE TASKS AFTER', (this.props.tasks.filter((task) => task.taskDone === true)).size+1)
-    if (((this.props.tasks.filter((task) => task.taskDone === true).size+1) *1.0/(this.props.tasks).size > (2.0/3)) && ((this.props.tasks).size>=6)) {
+    console.log(this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
+    let todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
+    console.log('TESTING DONNNE TASKS AFTER', (todayTasks.filter((task) => task.taskDone === true)).size+1)
+    if (((todayTasks.filter((task) => task.taskDone === true).size+1) *1.0/(todayTasks).size > (2.0/3)) && (todayTasks.size>=6)) {
       this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
-    } else if (((this.props.tasks.filter((task) => task.taskDone === true)).size+1) *1.0/(this.props.tasks).size > (1.0/3) && (this.props.tasks).size >= 3) {
+    } else if (((todayTasks.filter((task) => task.taskDone === true)).size+1) *1.0/todayTasks.size > (1.0/3) && todayTasks.size >= 3) {
       this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
-    } else if ((this.props.tasks).size <=5 || (this.props.tasks.filter((task) => task.taskDone === true)).size+1 *1.0/(this.props.tasks).size < (1.0/3)) {
+    } else if (todayTasks.size <=5 || (todayTasks.filter((task) => task.taskDone === true)).size+1 *1.0/todayTasks.size < (1.0/3)) {
       this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
     }
+    console.log(todayTasks)
   }
 
   markIncomplete(idx) {
     this.props.updateATask(idx, false)
+    let todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
     this.setState({completedTasks: ([...(this.props.tasks.filter(task => task.taskDone === true))])})
-    if ((this.props.tasks.filter((task) => task.taskDone === false)).size+1 >= this.props.tasks.size) {
+    if ((todayTasks.filter((task) => task.taskDone === false)).size+1 >= todayTasks.size) {
       this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
-    } else if ((this.props.tasks).size <=5 || ((this.props.tasks.filter((task) => task.taskDone === false)).size+1) *1.0/(this.props.tasks).size > (2.0/3)) {
+    } else if (todayTasks.size <=5 || ((todayTasks.filter((task) => task.taskDone === false)).size+1) *1.0/todayTasks.size > (2.0/3)) {
       this.props.updateOnePixel(this.props.pixelId, '#CCFF99', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
-    } else if (((this.props.tasks.filter((task) => task.taskDone === false)).size+1) *1.0/(this.props.tasks).size > (2.0/6) && (this.props.tasks).size>=3) {
+    } else if (((todayTasks.filter((task) => task.taskDone === false)).size+1) *1.0/todayTasks.size > (2.0/6) && todayTasks.size>=3) {
       this.props.updateOnePixel(this.props.pixelId, '#00FF00', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
-    } else if ((((this.props.tasks.filter((task) => task.taskDone === false)).size+1) *1.0/(this.props.tasks).size > (1.0/3)) && ((this.props.tasks).size> 5)) {
+    } else if ((((todayTasks.filter((task) => task.taskDone === false)).size+1) *1.0/todayTasks.size > (1.0/3)) && (todayTasks.size> 5)) {
       this.props.updateOnePixel(this.props.pixelId, '#006600', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
     }
   }
 
   onResetTasks(frequencyString) {
-    this.props.tasks.filter((task) => task.taskFrequency === frequencyString && task.taskDone === true).forEach(task => {
+    let todayTasks= this.props.tasks.filter((task) => task.taskDay=== this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay)
+    todayTasks.filter((task) => task.taskFrequency === frequencyString && task.taskDone === true).forEach(task => {
       const taskIndex= this.props.tasks.indexOf(task)
       this.markIncomplete(taskIndex)
     })
+    console.log('todayTasks after RESET', todayTasks)
     this.props.updateOnePixel(this.props.pixelId, '#E3E3E3', this.props.pixels.get(this.props.pixelId).pixelDay, '', this.props)
   }
 
   render() {
     console.log('BEFORE THE RETURN, THESE ARE THE PROPS FROM THE SINGLE PIXEL COMPONENT', this.props)
-
     let thatPixel=this.props.pixels.get(parseInt(this.props.pixelId))
+    console.log(thatPixel)
+    let thatDay= thatPixel?thatPixel.pixelDay:undefined
     return (thatPixel)?
     (
 
@@ -155,8 +173,6 @@ class SinglePixel extends React.Component {
         </div>
         <br></br>
         <h2>Daily Tasks</h2>
-      {
-        this.props.pixelId == (this.props.pixels.size-1)?
         <div>
         <button className="btn btn-warning" onClick={() => this.onResetTasks('daily')}>Reset my Dailies</button>
           <div className="container-fluid">
@@ -165,7 +181,7 @@ class SinglePixel extends React.Component {
                <h3>Incomplete tasks</h3>
                <div>
                {
-                 this.props.tasks.filter((task) => task.taskFrequency === 'daily' && task.taskDone === false).map(task => {
+                 this.props.tasks.filter((task) => task.taskDay===thatDay && task.taskDone === false).map(task => {
                    let taskIndex= this.props.tasks.indexOf(task)
                    return (
                      <div key={taskIndex}><input className="task-item" type="checkbox" onChange={(event) => {
@@ -183,7 +199,7 @@ class SinglePixel extends React.Component {
              <div className="col-lg-6">
              <h3>Done!</h3>
              {
-               this.props.tasks.filter((task) => task.taskFrequency === 'daily' && task.taskDone === true).map(task => {
+               this.props.tasks.filter((task) => task.taskDay===thatDay && task.taskFrequency === 'daily' && task.taskDone === true).map(task => {
                  let taskIndex= this.props.tasks.indexOf(task)
                  return (
                    <div key={taskIndex}><input className="task-item" type="checkbox" checked={true} onChange={(event) => {
@@ -199,8 +215,7 @@ class SinglePixel extends React.Component {
               </div>
             </div>
            </div>
-         </div>:<div>Woops! You're not allowed to edit commits past your latest pixel at this time because that would be cheating! Delete your latest pixel if you made a mistake!</div>
-       }
+         </div>
       {/*  <TasksPage fireRef={db.ref('tasks')} pixelId={this.props.pixelId} userId={this.props.userId}/> */}
       </div>
     ):null

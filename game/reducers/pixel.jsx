@@ -26,7 +26,7 @@ export const removePixel = (pixelIndex) => ({
 })
 
 export const UPDATE_PIXEL = 'UPDATE_PIXEL'
-export const updatePixel = (pixelIndex, pixelColor, pixelDay, pixelContent, ) => ({
+export const updatePixel = (pixelIndex, pixelColor, pixelDay, pixelContent) => ({
   type: UPDATE_PIXEL,
   pixelIndex,
   pixelColor,
