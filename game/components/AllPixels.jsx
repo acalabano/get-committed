@@ -52,6 +52,7 @@ class AllPixels extends React.Component {
   }
 
   render() {
+    const defaultTasks=this.props.tasks.filter((task) => task.taskDay==='')
     let pixLength= this.props.pixels.size
     let height=100/(pixLength)
     let width
@@ -131,7 +132,7 @@ class AllPixels extends React.Component {
                <div className="col-lg-6">
                <div>
                {
-                 this.props.tasks.filter((task) => task.taskDay==='').map(task => {
+                 defaultTasks.map(task => {
                    let taskIndex= this.props.tasks.indexOf(task)
                    return (
                      <div key={taskIndex}>{task.taskContent} <button className="btn-danger" onClick={(event) => {
