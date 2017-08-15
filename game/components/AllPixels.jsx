@@ -56,20 +56,27 @@ class AllPixels extends React.Component {
     let height=100/(pixLength)
     let width
     let offset
-    if (pixLength>20) {
-      offset=2
-      height=100/Math.ceil(pixLength/5)
-      width=100/(pixLength)
-      width=100/Math.ceil(pixLength/5)
+    let columns= [1, 2]
+
+    if (pixLength <=7) {
+      offset=12
+      height= 100/Math.ceil(pixLength)
+      width=100/pixLength
     }
-    else if (pixLength>6) {
-      offset=2
-      width=100/Math.ceil(pixLength/3)
-      height=100/Math.ceil(pixLength/3)
-    }
-    else {
-      offset=Math.floor(12/pixLength)
-    }
+    // if (pixLength>20) {
+    //   offset=2
+    //   height=100/Math.ceil(pixLength/5)
+    //   width=100/(pixLength)
+    //   width=100/Math.ceil(pixLength/5)
+    // }
+    // else if (pixLength>6) {
+    //   offset=2
+    //   width=100/Math.ceil(pixLength/3)
+    //   height=100/Math.ceil(pixLength/3)
+    // }
+    // else {
+    //   offset=Math.floor(12/pixLength)
+    // }
     return (
       <div className="">
         <h1>Welcome to the Get Committed App</h1>
@@ -91,17 +98,22 @@ class AllPixels extends React.Component {
             <button onClick={() => (this.setState({addButtonClicked: true}))} className="btn btn-default">Add Pixel +</button>
               <div className="container-fluid">
                 <div className="row">
-
                   {
-                    this.props.pixels.map(pixel => {
-                      let pixelIndex= this.props.pixels.indexOf(pixel)
-                      return (
-                          <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
-                            <div className={`col-md-${offset}`} id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `${width}vh`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
-                          </Link>
+                    columns.map(column =>
+                      <div className={`col-md-${offset}`}>
+                        {
+                          this.props.pixels.map(pixel => {
+                            let pixelIndex= this.props.pixels.indexOf(pixel)
+                            return (
+                                <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
+                                  <div id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `${width}vh`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
+                                </Link>
 
-                      )
-                    })
+                            )
+                          })
+                        }
+                      </div>
+                    )
                   }
                 </div>
               </div>
