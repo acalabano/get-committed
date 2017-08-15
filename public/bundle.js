@@ -31258,11 +31258,10 @@ var AllPixels = function (_React$Component) {
       var taskInfo = {
         content: event.target.taskContent.value,
         done: false,
-        taskFrequency: event.target.taskFrequency.value
+        taskFrequency: 'daily'
       };
       this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, '');
       event.target.taskContent.value = '';
-      event.target.taskFrequency.value = 'daily';
     }
   }, {
     key: 'removeTaskCallback',
@@ -31323,23 +31322,9 @@ var AllPixels = function (_React$Component) {
                 _react2.default.createElement('input', { className: 'form-control', placeholder: 'Do my project, make a thing', type: 'text', id: 'taskContent', defaultValue: '' })
               ),
               _react2.default.createElement(
-                'select',
-                { id: 'taskFrequency', defaultValue: 'daily' },
-                _react2.default.createElement(
-                  'option',
-                  { value: 'daily' },
-                  'Daily'
-                ),
-                _react2.default.createElement(
-                  'option',
-                  { value: 'weekly' },
-                  'Weekly'
-                )
-              ),
-              _react2.default.createElement(
                 'button',
                 { className: 'btn btn-default', type: 'submit' },
-                'Add Task'
+                'Add a Daily Task'
               )
             )
           )
@@ -32260,7 +32245,7 @@ var SinglePixel = function (_React$Component) {
       var taskInfo = {
         content: event.target.taskContent.value,
         done: false,
-        taskFrequency: event.target.taskFrequency.value
+        taskFrequency: 'once'
       };
       this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, this.props.pixels.get(this.props.pixelId).pixelDay);
     }
@@ -32437,23 +32422,9 @@ var SinglePixel = function (_React$Component) {
                 _react2.default.createElement('input', { className: 'form-control', placeholder: 'Do my project, make a thing', type: 'text', id: 'taskContent' })
               ),
               _react2.default.createElement(
-                'select',
-                { id: 'taskFrequency' },
-                _react2.default.createElement(
-                  'option',
-                  { value: 'daily' },
-                  'Daily'
-                ),
-                _react2.default.createElement(
-                  'option',
-                  { value: 'weekly' },
-                  'Weekly'
-                )
-              ),
-              _react2.default.createElement(
                 'button',
                 { className: 'btn btn-default', type: 'submit' },
-                'Add Task'
+                'Add an extra task just for today!'
               )
             )
           )
@@ -32462,7 +32433,7 @@ var SinglePixel = function (_React$Component) {
         _react2.default.createElement(
           'h2',
           null,
-          'Daily Tasks'
+          'Your tasks for Today'
         ),
         _react2.default.createElement(
           'div',

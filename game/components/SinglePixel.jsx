@@ -53,7 +53,7 @@ class SinglePixel extends React.Component {
     const taskInfo = {
       content: event.target.taskContent.value,
       done: false,
-      taskFrequency: event.target.taskFrequency.value,
+      taskFrequency: 'once',
     }
     this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, this.props.pixels.get(this.props.pixelId).pixelDay)
   }
@@ -140,16 +140,12 @@ class SinglePixel extends React.Component {
           <div className="form-group">
             <input className="form-control" placeholder="Do my project, make a thing" type="text" id="taskContent"></input>
           </div>
-          <select id="taskFrequency">
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-          </select>
-            <button className="btn btn-default" type="submit">Add Task</button>
+            <button className="btn btn-default" type="submit">Add an extra task just for today!</button>
           </form>
         </div>
         </div>
         <br></br>
-        <h2>Daily Tasks</h2>
+        <h2>Your tasks for Today</h2>
         <div>
         <button className="btn btn-warning" onClick={() => this.onResetTasks('daily')}>Reset my Dailies</button>
           <div className="container-fluid">

@@ -39,11 +39,10 @@ class AllPixels extends React.Component {
     let taskInfo = {
       content: event.target.taskContent.value,
       done: false,
-      taskFrequency: event.target.taskFrequency.value,
+      taskFrequency: 'daily',
     }
     this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, '')
     event.target.taskContent.value=''
-    event.target.taskFrequency.value='daily'
   }
 
   removeTaskCallback(index) {
@@ -82,11 +81,7 @@ class AllPixels extends React.Component {
             <div className="form-group">
               <input className="form-control" placeholder="Do my project, make a thing" type="text" id="taskContent" defaultValue=""></input>
             </div>
-            <select id="taskFrequency" defaultValue="daily">
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-            </select>
-              <button className="btn btn-default" type="submit">Add Task</button>
+              <button className="btn btn-default" type="submit">Add a Daily Task</button>
             </form>
           </div>
           </div>
