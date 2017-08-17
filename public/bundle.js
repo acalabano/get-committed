@@ -31355,28 +31355,48 @@ var AllPixels = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'row' },
-              columns.map(function (column) {
-                return _react2.default.createElement(
-                  'div',
-                  { className: 'col-md-' + offset },
-                  _this3.props.pixels.map(function (pixel) {
-                    var pixelIndex = _this3.props.pixels.indexOf(pixel);
-                    return _react2.default.createElement(
-                      _reactRouter.Link,
-                      { to: '/pixel/' + _this3.props.userId + '/' + _this3.props.hubId + '/' + pixelIndex, key: pixelIndex, style: { textDecoration: 'none' } },
+              _react2.default.createElement(
+                'div',
+                { className: 'col-md-1' },
+                this.props.pixels.slice(7 * (1 - 1), 1 * 7).map(function (pixel) {
+                  var pixelIndex = _this3.props.pixels.indexOf(pixel);
+                  pixelIndex;
+                  return _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: '/pixel/' + _this3.props.userId + '/' + _this3.props.hubId + '/' + pixelIndex, key: pixelIndex, style: { textDecoration: 'none' } },
+                    _react2.default.createElement(
+                      'div',
+                      { id: 'wrapper', style: { backgroundColor: pixel.pixelColor, width: width + 'vh', height: height + 'vh' } },
                       _react2.default.createElement(
-                        'div',
-                        { id: 'wrapper', style: { backgroundColor: pixel.pixelColor, width: width + 'vh', height: height + 'vh' } },
-                        _react2.default.createElement(
-                          'p',
-                          { className: 'text' },
-                          pixel.pixelDay
-                        )
+                        'p',
+                        { className: 'text' },
+                        pixel.pixelDay
                       )
-                    );
-                  })
-                );
-              })
+                    )
+                  );
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-md-1' },
+                this.props.pixels.slice(7 * (2 - 1), 2 * 7).map(function (pixel) {
+                  var pixelIndex = _this3.props.pixels.indexOf(pixel);
+                  pixelIndex;
+                  return _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: '/pixel/' + _this3.props.userId + '/' + _this3.props.hubId + '/' + pixelIndex, key: pixelIndex, style: { textDecoration: 'none' } },
+                    _react2.default.createElement(
+                      'div',
+                      { id: 'wrapper', style: { backgroundColor: pixel.pixelColor, width: width + 'vh', height: height + 'vh' } },
+                      _react2.default.createElement(
+                        'p',
+                        { className: 'text' },
+                        pixel.pixelDay
+                      )
+                    )
+                  );
+                })
+              )
             )
           )
         ) : _react2.default.createElement(

@@ -99,21 +99,38 @@ class AllPixels extends React.Component {
               <div className="container-fluid">
                 <div className="row">
                   {
-                    columns.map(column =>
-                      <div className={`col-md-${offset}`}>
-                        {
-                          this.props.pixels.map(pixel => {
-                            let pixelIndex= this.props.pixels.indexOf(pixel)
-                            return (
-                                <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
-                                  <div id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `${width}vh`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
-                                </Link>
+                        <div className={`col-md-1`}>
 
-                            )
-                          })
-                        }
-                      </div>
-                    )
+                          {
+                            this.props.pixels.slice(7*(1-1), 1*7).map(pixel => {
+                              let pixelIndex= this.props.pixels.indexOf(pixel)
+                              pixelIndex
+                              return (
+                                  <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
+                                    <div id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `${width}vh`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
+                                  </Link>
+
+                              )
+                            })
+                          }
+                        </div>
+                  }
+                  {
+                        <div className={`col-md-1`}>
+
+                          {
+                            this.props.pixels.slice(7*(2-1), 2*7).map(pixel => {
+                              let pixelIndex= this.props.pixels.indexOf(pixel)
+                              pixelIndex
+                              return (
+                                  <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
+                                    <div id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `${width}vh`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
+                                  </Link>
+
+                              )
+                            })
+                          }
+                        </div>
                   }
                 </div>
               </div>
