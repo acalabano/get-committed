@@ -53,15 +53,25 @@ class AllPixels extends React.Component {
   render() {
     const defaultTasks=this.props.tasks.filter((task) => task.taskDay==='')
     let pixLength= this.props.pixels.size
-    let height=100/(pixLength)
+    let height=11
     let width
-    let offset
-    let columns= [1, 2]
+    console.log('FINDING COLUMNS', pixLength/7)
+    let columns= Array.from(new Array(Math.ceil(pixLength/7)), (x, i) => (i+1))
+    console.log('FINDING COLUMNS ARRAY', columns)
+    let offset=Math.floor(12/columns.length)
 
-    if (pixLength <=7) {
-      offset=12
+    if (pixLength <= 1) {
+      offset= 12
       height= 100/Math.ceil(pixLength)
       width=100/pixLength
+      width=100/Math.ceil(pixLength/6)
+    } else {
+      offset=1
+    }
+
+    let columnsShown = columns.slice()
+    if (columns.length > 12) {
+      columnsShown= columns.slice(columns.length-12, columns.length)
     }
     // if (pixLength>20) {
     //   offset=2
@@ -92,46 +102,37 @@ class AllPixels extends React.Component {
             </form>
           </div>
           </div>
-          <br></br>
+          <hr></hr>
         {this.state.addButtonClicked===false?
           <div>
             <button onClick={() => (this.setState({addButtonClicked: true}))} className="btn btn-default">Add Pixel +</button>
+              <br></br>
+              <br></br>
               <div className="container-fluid">
                 <div className="row">
                   {
-                        <div className={`col-md-1`}>
+                    columnsShown.map(column =>
+                      (
+                        <div className={`col-lg-${offset}`} style ={{paddingRight: '0px'}} key={column}>
 
                           {
-                            this.props.pixels.slice(7*(1-1), 1*7).map(pixel => {
+                            this.props.pixels.slice(7*(column-1), column*7).map(pixel => {
                               let pixelIndex= this.props.pixels.indexOf(pixel)
                               pixelIndex
                               return (
+                                <div key={pixelIndex} style ={{paddingBottom: '5px'}}>
                                   <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
-                                    <div id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `${width}vh`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
+                                    <div id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `100%`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
                                   </Link>
+                                </div>
 
                               )
                             })
                           }
                         </div>
-                  }
-                  {
-                        <div className={`col-md-1`}>
-
-                          {
-                            this.props.pixels.slice(7*(2-1), 2*7).map(pixel => {
-                              let pixelIndex= this.props.pixels.indexOf(pixel)
-                              pixelIndex
-                              return (
-                                  <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
-                                    <div id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `${width}vh`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
-                                  </Link>
-
-                              )
-                            })
-                          }
-                        </div>
-                  }
+                      )
+                      )
+                    }
                 </div>
               </div>
             </div>:

@@ -31278,15 +31278,27 @@ var AllPixels = function (_React$Component) {
         return task.taskDay === '';
       });
       var pixLength = this.props.pixels.size;
-      var height = 100 / pixLength;
+      var height = 11;
       var width = void 0;
-      var offset = void 0;
-      var columns = [1, 2];
+      console.log('FINDING COLUMNS', pixLength / 7);
+      var columns = Array.from(new Array(Math.ceil(pixLength / 7)), function (x, i) {
+        return i + 1;
+      });
+      console.log('FINDING COLUMNS ARRAY', columns);
+      var offset = Math.floor(12 / columns.length);
 
-      if (pixLength <= 7) {
+      if (pixLength <= 1) {
         offset = 12;
         height = 100 / Math.ceil(pixLength);
         width = 100 / pixLength;
+        width = 100 / Math.ceil(pixLength / 6);
+      } else {
+        offset = 1;
+      }
+
+      var columnsShown = columns.slice();
+      if (columns.length > 12) {
+        columnsShown = columns.slice(columns.length - 12, columns.length);
       }
       // if (pixLength>20) {
       //   offset=2
@@ -31338,7 +31350,7 @@ var AllPixels = function (_React$Component) {
             )
           )
         ),
-        _react2.default.createElement('br', null),
+        _react2.default.createElement('hr', null),
         this.state.addButtonClicked === false ? _react2.default.createElement(
           'div',
           null,
@@ -31349,54 +31361,41 @@ var AllPixels = function (_React$Component) {
               }, className: 'btn btn-default' },
             'Add Pixel +'
           ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement('br', null),
           _react2.default.createElement(
             'div',
             { className: 'container-fluid' },
             _react2.default.createElement(
               'div',
               { className: 'row' },
-              _react2.default.createElement(
-                'div',
-                { className: 'col-md-1' },
-                this.props.pixels.slice(7 * (1 - 1), 1 * 7).map(function (pixel) {
-                  var pixelIndex = _this3.props.pixels.indexOf(pixel);
-                  pixelIndex;
-                  return _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/pixel/' + _this3.props.userId + '/' + _this3.props.hubId + '/' + pixelIndex, key: pixelIndex, style: { textDecoration: 'none' } },
-                    _react2.default.createElement(
+              columnsShown.map(function (column) {
+                return _react2.default.createElement(
+                  'div',
+                  { className: 'col-lg-' + offset, style: { paddingRight: '0px' }, key: column },
+                  _this3.props.pixels.slice(7 * (column - 1), column * 7).map(function (pixel) {
+                    var pixelIndex = _this3.props.pixels.indexOf(pixel);
+                    pixelIndex;
+                    return _react2.default.createElement(
                       'div',
-                      { id: 'wrapper', style: { backgroundColor: pixel.pixelColor, width: width + 'vh', height: height + 'vh' } },
+                      { key: pixelIndex, style: { paddingBottom: '5px' } },
                       _react2.default.createElement(
-                        'p',
-                        { className: 'text' },
-                        pixel.pixelDay
+                        _reactRouter.Link,
+                        { to: '/pixel/' + _this3.props.userId + '/' + _this3.props.hubId + '/' + pixelIndex, key: pixelIndex, style: { textDecoration: 'none' } },
+                        _react2.default.createElement(
+                          'div',
+                          { id: 'wrapper', style: { backgroundColor: pixel.pixelColor, width: '100%', height: height + 'vh' } },
+                          _react2.default.createElement(
+                            'p',
+                            { className: 'text' },
+                            pixel.pixelDay
+                          )
+                        )
                       )
-                    )
-                  );
-                })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-md-1' },
-                this.props.pixels.slice(7 * (2 - 1), 2 * 7).map(function (pixel) {
-                  var pixelIndex = _this3.props.pixels.indexOf(pixel);
-                  pixelIndex;
-                  return _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/pixel/' + _this3.props.userId + '/' + _this3.props.hubId + '/' + pixelIndex, key: pixelIndex, style: { textDecoration: 'none' } },
-                    _react2.default.createElement(
-                      'div',
-                      { id: 'wrapper', style: { backgroundColor: pixel.pixelColor, width: width + 'vh', height: height + 'vh' } },
-                      _react2.default.createElement(
-                        'p',
-                        { className: 'text' },
-                        pixel.pixelDay
-                      )
-                    )
-                  );
-                })
-              )
+                    );
+                  })
+                );
+              })
             )
           )
         ) : _react2.default.createElement(
