@@ -8,6 +8,8 @@ import {createTask, removeTask} from '../reducers/task'
 import reducer from '../reducers/'
 import firebase from 'APP/fire'
 import {List} from 'immutable'
+import DatePicker from 'react-datepicker'
+import moment from 'moment'
 
 class AllPixels extends React.Component {
   constructor(props) {
@@ -52,12 +54,24 @@ class AllPixels extends React.Component {
 
   render() {
     const defaultTasks=this.props.tasks.filter((task) => task.taskDay==='')
+    let today = new Date()
+    let dd = today.getDate()
+    let mm = today.getMonth()+1
+    const yyyy = today.getFullYear()
+
+    if (dd<10) {
+      dd = '0'+dd
+    }
+
+    if (mm<10) {
+      mm = '0'+mm
+    }
+
+    today = yyyy + '-' + mm + '-' + dd
     let pixLength= this.props.pixels.size
     let height=11
     let width
-    console.log('FINDING COLUMNS', pixLength/7)
     let columns= Array.from(new Array(Math.ceil(pixLength/7)), (x, i) => (i+1))
-    console.log('FINDING COLUMNS ARRAY', columns)
     let offset=Math.floor(12/columns.length)
 
     if (pixLength <= 1) {
@@ -73,20 +87,7 @@ class AllPixels extends React.Component {
     if (columns.length > 12) {
       columnsShown= columns.slice(columns.length-12, columns.length)
     }
-    // if (pixLength>20) {
-    //   offset=2
-    //   height=100/Math.ceil(pixLength/5)
-    //   width=100/(pixLength)
-    //   width=100/Math.ceil(pixLength/5)
-    // }
-    // else if (pixLength>6) {
-    //   offset=2
-    //   width=100/Math.ceil(pixLength/3)
-    //   height=100/Math.ceil(pixLength/3)
-    // }
-    // else {
-    //   offset=Math.floor(12/pixLength)
-    // }
+
     return (
       <div className="">
         <h1>Welcome to the Get Committed App</h1>
@@ -142,7 +143,7 @@ class AllPixels extends React.Component {
                 <form onSubmit={this.onPixelSubmit}>
                 <div className="form-group">
                   <label htmlFor="day">Date: </label>
-                  <input className="form-control" type="date" id="day" />
+                  <input className="form-control" type="date" id="day" defaultValue={today}/>
                 </div>
                   <button className="btn btn-default" type="submit">Add New Pixel</button>
                 </form>
