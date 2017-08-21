@@ -6,10 +6,7 @@ import {Grid, Row, Col, Clearfix, Image} from 'react-bootstrap'
 import {addPixel, getPixels} from '../reducers/pixel'
 import {createTask, removeTask} from '../reducers/task'
 import reducer from '../reducers/'
-import firebase from 'APP/fire'
-import {List} from 'immutable'
-import DatePicker from 'react-datepicker'
-import moment from 'moment'
+import Loader from 'react-loader'
 
 class AllPixels extends React.Component {
   constructor(props) {
@@ -18,10 +15,15 @@ class AllPixels extends React.Component {
       currentUserId: '',
       currentUsername: '',
       addButtonClicked: false,
+      loaded: false
     }
     this.onPixelSubmit=this.onPixelSubmit.bind(this)
     this.onTaskSubmit=this.onTaskSubmit.bind(this)
     this.removeTaskCallback=this.removeTaskCallback.bind(this)
+  }
+
+  componentDidMount() {
+    setTimeout(() => this.setState({ loaded: true }), 500)
   }
 
   onPixelSubmit(event) {
@@ -109,6 +111,7 @@ class AllPixels extends React.Component {
             <button onClick={() => (this.setState({addButtonClicked: true}))} className="btn btn-default">Add Pixel +</button>
               <br></br>
               <br></br>
+              <Loader loaded={this.state.loaded}>
               <div className="container-fluid">
                 <div className="row">
                   {
@@ -136,6 +139,7 @@ class AllPixels extends React.Component {
                     }
                 </div>
               </div>
+            </Loader>
             </div>:
             <div className="gamePage">
             <h1>Add a Pixel</h1>
