@@ -23,7 +23,7 @@ class AllPixels extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(() => this.setState({ loaded: true }), 500)
+  //  setTimeout(() => this.setState({ loaded: true }), 5000)
   }
 
   onPixelSubmit(event) {
@@ -111,7 +111,6 @@ class AllPixels extends React.Component {
             <button onClick={() => (this.setState({addButtonClicked: true}))} className="btn btn-default">Add Pixel +</button>
               <br></br>
               <br></br>
-              <Loader loaded={this.state.loaded}>
               <div className="container-fluid">
                 <div className="row">
                   {
@@ -139,7 +138,6 @@ class AllPixels extends React.Component {
                     }
                 </div>
               </div>
-            </Loader>
             </div>:
             <div className="gamePage">
             <h1>Add a Pixel</h1>
