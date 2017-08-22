@@ -30563,7 +30563,7 @@ var WelcomePage = function (_React$Component) {
         ) : _react2.default.createElement(
           'h1',
           null,
-          'Please Log in'
+          'Please Log in to Preserve your data!'
         )
       );
     }
@@ -31296,7 +31296,7 @@ var AllPixels = function (_React$Component) {
 
       today = yyyy + '-' + mm + '-' + dd;
       var pixLength = this.props.pixels.size;
-      var height = 11;
+      var height = 60 + 'px';
       var width = void 0;
       var columns = Array.from(new Array(Math.ceil(pixLength / 7)), function (x, i) {
         return i + 1;
@@ -31305,7 +31305,7 @@ var AllPixels = function (_React$Component) {
 
       if (pixLength <= 1) {
         offset = 12;
-        height = 100 / Math.ceil(pixLength);
+        height = 100 / Math.ceil(pixLength) + 'vh';
         width = 100 / pixLength;
         width = 100 / Math.ceil(pixLength / 6);
       } else {
@@ -31331,7 +31331,7 @@ var AllPixels = function (_React$Component) {
           { className: 'row' },
           _react2.default.createElement(
             'div',
-            { className: 'col-lg-4' },
+            { className: 'col-sm-4' },
             _react2.default.createElement(
               'form',
               { onSubmit: this.onTaskSubmit },
@@ -31375,7 +31375,7 @@ var AllPixels = function (_React$Component) {
               columnsShown.map(function (column) {
                 return _react2.default.createElement(
                   'div',
-                  { className: 'col-lg-' + offset, style: { paddingRight: '0px' }, key: column },
+                  { className: 'col-sm-' + offset, style: { paddingRight: '0px' }, key: column },
                   _this3.props.pixels.slice(7 * (column - 1), column * 7).map(function (pixel) {
                     var pixelIndex = _this3.props.pixels.indexOf(pixel);
                     pixelIndex;
@@ -31387,7 +31387,7 @@ var AllPixels = function (_React$Component) {
                         { to: '/pixel/' + _this3.props.userId + '/' + _this3.props.hubId + '/' + pixelIndex, key: pixelIndex, style: { textDecoration: 'none' } },
                         _react2.default.createElement(
                           'div',
-                          { id: 'wrapper', style: { backgroundColor: pixel.pixelColor, width: '100%', height: height + 'vh' } },
+                          { id: 'wrapper', style: { backgroundColor: pixel.pixelColor, width: '100%', height: '' + height } },
                           _react2.default.createElement(
                             'p',
                             { className: 'text' },
@@ -31411,7 +31411,7 @@ var AllPixels = function (_React$Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'row col-lg-4' },
+            { className: 'row col-sm-4' },
             _react2.default.createElement(
               'form',
               { onSubmit: this.onPixelSubmit },
@@ -31449,7 +31449,7 @@ var AllPixels = function (_React$Component) {
               { className: 'row' },
               _react2.default.createElement(
                 'div',
-                { className: 'col-lg-6' },
+                { className: 'col-sm-6' },
                 _react2.default.createElement(
                   'div',
                   null,
@@ -31882,7 +31882,7 @@ var Lobby = function (_React$Component) {
     _this.state = {
       didUserAddNewLobby: false,
       currentUserId: '',
-      currentUsername: ''
+      currentUsername: "Anonymous User's"
     };
 
     _this.onLobbySubmit = _this.onLobbySubmit.bind(_this);
@@ -31919,6 +31919,7 @@ var Lobby = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
+      var currentUsername = this.state.currentUsername == null ? 'Anonymous User' : this.state.currentUsername;
       return _react2.default.createElement(
         'div',
         { className: 'lobby-background' },
@@ -31941,7 +31942,7 @@ var Lobby = function (_React$Component) {
               _react2.default.createElement(
                 _reactRouter.Link,
                 { key: this.state.currentUserId, className: 'lobby-link', to: '/pixels/' + this.state.currentUserId + '/main' },
-                this.state.currentUsername + "'",
+                currentUsername + "'",
                 's Main Commit Hub'
               )
             ),

@@ -16,7 +16,7 @@ class Lobby extends React.Component {
     this.state= {
       didUserAddNewLobby: false,
       currentUserId: '',
-      currentUsername: '',
+      currentUsername: "Anonymous User's",
     }
 
     this.onLobbySubmit=this.onLobbySubmit.bind(this)
@@ -42,6 +42,7 @@ class Lobby extends React.Component {
   }
 
   render() {
+    const currentUsername= this.state.currentUsername==null?'Anonymous User':this.state.currentUsername
     return (
       <div className='lobby-background'>
         <div className='onfire-image'></div>
@@ -51,7 +52,7 @@ class Lobby extends React.Component {
             CHOOSE A HUB
           </p>
           <div className ='lobby-list text-center'>
-            <h2><Link key={this.state.currentUserId} className='lobby-link' to={`/pixels/${this.state.currentUserId}/main`}>{this.state.currentUsername + "'"}s Main Commit Hub</Link></h2>
+            <h2><Link key={this.state.currentUserId} className='lobby-link' to={`/pixels/${this.state.currentUserId}/main`}>{currentUsername + "'"}s Main Commit Hub</Link></h2>
               {
                  (this.props.games.size>0)?
                  this.props.games.map((game) => {

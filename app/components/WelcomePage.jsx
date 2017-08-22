@@ -28,7 +28,7 @@ class WelcomePage extends React.Component {
         this.state.currentUsername?
         <button className='enter-game btn btn-default'>
           <Link to={`/pixels/${this.state.currentUserId}/main`} activeClassName="active">Click to go to Your Main Commit Hub</Link>
-        </button>:<h1>Please Log in</h1>
+        </button>:<h1>Please Log in to Preserve your data!</h1>
       }
       </div>
     )

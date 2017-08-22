@@ -71,14 +71,14 @@ class AllPixels extends React.Component {
 
     today = yyyy + '-' + mm + '-' + dd
     let pixLength= this.props.pixels.size
-    let height=11
+    let height=60 + 'px'
     let width
     let columns= Array.from(new Array(Math.ceil(pixLength/7)), (x, i) => (i+1))
     let offset=Math.floor(12/columns.length)
 
     if (pixLength <= 1) {
       offset= 12
-      height= 100/Math.ceil(pixLength)
+      height= 100/Math.ceil(pixLength) + 'vh'
       width=100/pixLength
       width=100/Math.ceil(pixLength/6)
     } else {
@@ -95,7 +95,7 @@ class AllPixels extends React.Component {
         <h1>Welcome to the Get Committed App</h1>
           <hr />
           <div className="row">
-          <div className="col-lg-4">
+          <div className="col-sm-4">
             <form onSubmit={this.onTaskSubmit}>
               <label htmlFor="taskContent" className="mr-sm-2"> Task Content: </label>
             <div className="form-group">
@@ -116,7 +116,7 @@ class AllPixels extends React.Component {
                   {
                     columnsShown.map(column =>
                       (
-                        <div className={`col-lg-${offset}`} style ={{paddingRight: '0px'}} key={column}>
+                        <div className={`col-sm-${offset}`} style ={{paddingRight: '0px'}} key={column}>
 
                           {
                             this.props.pixels.slice(7*(column-1), column*7).map(pixel => {
@@ -125,7 +125,7 @@ class AllPixels extends React.Component {
                               return (
                                 <div key={pixelIndex} style ={{paddingBottom: '5px'}}>
                                   <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
-                                    <div id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `100%`, height: `${height}vh`}}><p className="text">{pixel.pixelDay}</p></div>
+                                    <div id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `100%`, height: `${height}`}}><p className="text">{pixel.pixelDay}</p></div>
                                   </Link>
                                 </div>
 
@@ -141,7 +141,7 @@ class AllPixels extends React.Component {
             </div>:
             <div className="gamePage">
             <h1>Add a Pixel</h1>
-              <div className="row col-lg-4">
+              <div className="row col-sm-4">
                 <form onSubmit={this.onPixelSubmit}>
                 <div className="form-group">
                   <label htmlFor="day">Date: </label>
@@ -157,7 +157,7 @@ class AllPixels extends React.Component {
         <div>
           <div className="container-fluid">
              <div className="row">
-               <div className="col-lg-6">
+               <div className="col-sm-6">
                <div>
                {
                  defaultTasks.map(task => {
