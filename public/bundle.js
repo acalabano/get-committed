@@ -30561,9 +30561,22 @@ var WelcomePage = function (_React$Component) {
             'Click to go to Your Main Commit Hub'
           )
         ) : _react2.default.createElement(
-          'h1',
+          'div',
           null,
-          'Please Log in to Preserve your data!'
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Please Log in to preserve your data! But you can still use this app anonymously'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'enter-game btn btn-default' },
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/pixels/' + this.state.currentUserId + '/main', activeClassName: 'active' },
+              'Click to go to Your Main Commit Hub'
+            )
+          )
         )
       );
     }
