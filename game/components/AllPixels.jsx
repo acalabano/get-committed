@@ -3,7 +3,7 @@ import React from 'react'
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import {Grid, Row, Col, Clearfix, Image} from 'react-bootstrap'
-import {addPixel, getPixels} from '../reducers/pixel'
+import {addPixel, getPixels, sortPixels} from '../reducers/pixel'
 import {createTask, removeTask} from '../reducers/task'
 import reducer from '../reducers/'
 import Loader from 'react-loader'
@@ -15,12 +15,15 @@ class AllPixels extends React.Component {
       currentUserId: '',
       currentUsername: '',
       addButtonClicked: false,
-      loaded: false
+      loaded: false,
+      repoName:''
     }
     this.onPixelSubmit=this.onPixelSubmit.bind(this)
     this.onTaskSubmit=this.onTaskSubmit.bind(this)
     this.removeTaskCallback=this.removeTaskCallback.bind(this)
+    this.onSort=this.onSort.bind(this)
   }
+
 
   componentDidMount() {
   //  setTimeout(() => this.setState({ loaded: true }), 5000)
@@ -34,10 +37,13 @@ class AllPixels extends React.Component {
     }
     this.props.addAPixel('#E3E3E3', pixelInfo.day, '')
     defaultTasks? defaultTasks.forEach((taskInfo) => this.props.addATask(taskInfo.taskContent, taskInfo.taskDone, taskInfo.taskFrequency, pixelInfo.day)):null
-    // console.log('THESE ARE THE TASKS SO FARRR', this.props.tasks)
     this.setState({addButtonClicked: false})
   }
 
+  onSort(){
+    this.props.sortThePixels()
+    console.log('THESE ARE THE Pixels SO FARRR', this.props.pixels)
+  }
   onTaskSubmit(event) {
     event.preventDefault()
     let taskInfo = {
@@ -60,6 +66,8 @@ class AllPixels extends React.Component {
     let dd = today.getDate()
     let mm = today.getMonth()+1
     const yyyy = today.getFullYear()
+    const name=''
+   console.log(this.props.games)
 
     if (dd<10) {
       dd = '0'+dd
@@ -92,7 +100,8 @@ class AllPixels extends React.Component {
 
     return (
       <div className="">
-        <h1>Welcome to the Get Committed App</h1>
+        <button onClick={this.onSort}>SORT</button>
+        <h1>My goal repository: {`${this.props.hubId}`}</h1>
           <hr />
           <div className="row">
           <div className="col-sm-4">
@@ -182,7 +191,8 @@ class AllPixels extends React.Component {
 
 // -- // -- // Container // -- // -- //
 
-const mapState = ({pixel, task}) => ({
+const mapState = ({game, pixel, task}) => ({
+  games: game.games,
   pixels: pixel.pixels,
   tasks: task.tasks
 })
@@ -193,6 +203,9 @@ const mapDispatch = dispatch => ({
   },
   loadPixels: () => {
     dispatch(getPixels())
+  },
+  sortThePixels: () =>{
+    dispatch(sortPixels())
   },
   addATask: (taskContent, taskDone, taskFrequency, taskDay) => {
     dispatch(createTask(taskContent, taskDone, taskFrequency, taskDay))

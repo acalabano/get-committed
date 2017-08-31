@@ -33,6 +33,11 @@ export const updatePixel = (pixelIndex, pixelColor, pixelDay) => ({
   pixelDay,
 })
 
+export const SORT_PIXELS = 'SORT_PIXELS'
+export const sortPixels = () => ({
+  type: SORT_PIXELS
+})
+
 // -- // -- // State // -- // -- //
 
 const initial = {
@@ -65,6 +70,11 @@ const pixelReducer = (state = initial, action) => {
         pixelColor: action.pixelColor,
         pixelDay: action.pixelDay,
       })
+    }
+  
+  case SORT_PIXELS:
+    return {...state,
+      pixels: state.pixels.sort((a,b)=> a.pixelDay>b.pixelDay)
     }
   }
   return state
