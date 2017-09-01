@@ -508,7 +508,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__StyleConfig__ = __webpack_require__(23);
 
 
 // TODO: The publicly exposed parts of this should be in lib/BootstrapUtils.
@@ -1534,6 +1534,41 @@ module.exports = ExecutionEnvironment;
 
 /***/ }),
 /* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var firebase = __webpack_require__(407);
+
+// -- // -- // -- // Firebase Config // -- // -- // -- //
+
+var config = exports.config = {
+  apiKey: 'AIzaSyClWZXJ5bJdjzKtEAZdjl5FR-yQyUKYK2c',
+  authDomain: 'getcommittedapp.firebaseapp.com',
+  databaseURL: 'https://getcommittedapp.firebaseio.com',
+  projectId: 'getcommittedapp',
+  storageBucket: '',
+  messagingSenderId: '459123561795'
+
+  // -- // -- // -- // -- // -- // -- // -- // -- // -- //
+
+  // Initialize the app, but make sure to do it only once.
+  //   (We need this for the tests. The test runner busts the require
+  //   cache when in watch mode; this will cause us to evaluate this
+  //   file multiple times. Without this protection, we would try to
+  //   initialize the app again, which causes Firebase to throw.
+  //
+  //   This is why global state makes a sad panda.)
+};firebase.__bonesApp || (firebase.__bonesApp = firebase.initializeApp(config));
+
+module.exports = firebase;
+
+/***/ }),
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1574,41 +1609,6 @@ var Style = {
   LINK: 'link',
   INVERSE: 'inverse'
 };
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var firebase = __webpack_require__(407);
-
-// -- // -- // -- // Firebase Config // -- // -- // -- //
-
-var config = exports.config = {
-  apiKey: 'AIzaSyClWZXJ5bJdjzKtEAZdjl5FR-yQyUKYK2c',
-  authDomain: 'getcommittedapp.firebaseapp.com',
-  databaseURL: 'https://getcommittedapp.firebaseio.com',
-  projectId: 'getcommittedapp',
-  storageBucket: '',
-  messagingSenderId: '459123561795'
-
-  // -- // -- // -- // -- // -- // -- // -- // -- // -- //
-
-  // Initialize the app, but make sure to do it only once.
-  //   (We need this for the tests. The test runner busts the require
-  //   cache when in watch mode; this will cause us to evaluate this
-  //   file multiple times. Without this protection, we would try to
-  //   initialize the app again, which causes Firebase to throw.
-  //
-  //   This is why global state makes a sad panda.)
-};firebase.__bonesApp || (firebase.__bonesApp = firebase.initializeApp(config));
-
-module.exports = firebase;
 
 /***/ }),
 /* 24 */
@@ -6320,7 +6320,7 @@ exports.default = ContentClear;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_prop_types_extra_lib_elementType__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__SafeAnchor__ = __webpack_require__(35);
 
 
@@ -9172,7 +9172,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -18744,7 +18744,7 @@ var _reactBootstrap = __webpack_require__(28);
 
 var _reactRouter = __webpack_require__(19);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -18870,7 +18870,7 @@ var _reactBootstrap = __webpack_require__(28);
 
 var _reactRouter = __webpack_require__(19);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -19025,7 +19025,7 @@ var _reactBootstrap = __webpack_require__(28);
 
 var _reactRouter = __webpack_require__(19);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -22436,7 +22436,7 @@ Grid.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(23);
 
 
 
@@ -29911,7 +29911,7 @@ var _WhoAmI2 = _interopRequireDefault(_WhoAmI);
 
 var _reactBootstrap = __webpack_require__(28);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -30283,7 +30283,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = __webpack_require__(28);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -30479,7 +30479,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(19);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -30607,7 +30607,7 @@ var _Navbar = __webpack_require__(292);
 
 var _Navbar2 = _interopRequireDefault(_Navbar);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -30671,7 +30671,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(19);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -30709,7 +30709,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(19);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -30747,7 +30747,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(19);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -30788,7 +30788,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(19);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -30826,7 +30826,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(19);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -31192,6 +31192,10 @@ var _reactLoader = __webpack_require__(616);
 
 var _reactLoader2 = _interopRequireDefault(_reactLoader);
 
+var _fire = __webpack_require__(22);
+
+var _fire2 = _interopRequireDefault(_fire);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31225,7 +31229,7 @@ var AllPixels = function (_React$Component) {
   _createClass(AllPixels, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      //  setTimeout(() => this.setState({ loaded: true }), 5000)
+      //  setTimeout(() => this.setState({ loaded: true }), 5000))
     }
   }, {
     key: 'onPixelSubmit',
@@ -31282,7 +31286,7 @@ var AllPixels = function (_React$Component) {
       var mm = today.getMonth() + 1;
       var yyyy = today.getFullYear();
       var name = '';
-      console.log(this.props.games);
+      //  console.log(this.props.games)
 
       if (dd < 10) {
         dd = '0' + dd;
@@ -31318,11 +31322,6 @@ var AllPixels = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: '' },
-        _react2.default.createElement(
-          'button',
-          { onClick: this.onSort },
-          'SORT'
-        ),
         _react2.default.createElement(
           'h1',
           null,
@@ -31361,6 +31360,11 @@ var AllPixels = function (_React$Component) {
         this.state.addButtonClicked === false ? _react2.default.createElement(
           'div',
           null,
+          _react2.default.createElement(
+            'button',
+            { onClick: this.onSort, className: 'btn btn-default' },
+            'SORT'
+          ),
           _react2.default.createElement(
             'button',
             { onClick: function onClick() {
@@ -31868,7 +31872,7 @@ var _reducers = __webpack_require__(50);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -31958,7 +31962,15 @@ var Lobby = function (_React$Component) {
             this.props.games.size > 0 ? this.props.games.map(function (game) {
               var idx = _this3.props.games.indexOf(game);
               console.log('THUS FAR', _this3.props.games.slice(0, idx));
-              var futureLinkName = game.name;
+              var futureLinkName = '' + game.name;
+              console.log('FILTERED?', _this3.props.games.slice(0, idx).filter(function (hub) {
+                return hub.name === futureLinkName;
+              }));
+              if (_this3.props.games.slice(0, idx).filter(function (hub) {
+                return hub.name === futureLinkName;
+              }).size > 0) {
+                futureLinkName = game.name + '-id-' + game.id;
+              }
               return _react2.default.createElement(
                 'div',
                 { key: game.id },
@@ -32212,7 +32224,7 @@ var _task = __webpack_require__(114);
 
 var _pixel = __webpack_require__(90);
 
-var _fire = __webpack_require__(23);
+var _fire = __webpack_require__(22);
 
 var _fire2 = _interopRequireDefault(_fire);
 
@@ -45012,7 +45024,7 @@ var Accordion = function (_React$Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__CloseButton__ = __webpack_require__(145);
 
 
@@ -45996,7 +46008,7 @@ Checkbox.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_capitalize__ = __webpack_require__(238);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(23);
 
 
 
@@ -46119,7 +46131,7 @@ Clearfix.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types_extra_lib_elementType__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(23);
 
 
 
@@ -46865,7 +46877,7 @@ Form.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__FormControlFeedback__ = __webpack_require__(496);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__FormControlStatic__ = __webpack_require__(497);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__utils_StyleConfig__ = __webpack_require__(23);
 
 
 
@@ -47178,7 +47190,7 @@ FormControlStatic.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_ValidComponentChildren__ = __webpack_require__(25);
 
 
@@ -47454,7 +47466,7 @@ Image.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__InputGroupAddon__ = __webpack_require__(502);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__InputGroupButton__ = __webpack_require__(503);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(23);
 
 
 
@@ -47718,7 +47730,7 @@ Jumbotron.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(23);
 
 
 
@@ -48556,7 +48568,7 @@ MenuItem.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__utils_bootstrapUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__utils_createChainedFunction__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__utils_splitComponentProps__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__utils_StyleConfig__ = __webpack_require__(23);
 
 
 
@@ -48861,7 +48873,7 @@ Modal.BACKDROP_TRANSITION_DURATION = 150;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_StyleConfig__ = __webpack_require__(23);
 
 
 
@@ -49100,7 +49112,7 @@ NavDropdown.propTypes = propTypes;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__NavbarHeader__ = __webpack_require__(519);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__NavbarToggle__ = __webpack_require__(520);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__utils_StyleConfig__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__utils_createChainedFunction__ = __webpack_require__(20);
 
 
@@ -50447,7 +50459,7 @@ Pagination.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Collapse__ = __webpack_require__(146);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_StyleConfig__ = __webpack_require__(23);
 
 
 
@@ -50847,7 +50859,7 @@ Popover.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_StyleConfig__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_ValidComponentChildren__ = __webpack_require__(25);
 
 
@@ -52295,7 +52307,7 @@ Tooltip.defaultProps = defaultProps;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils_bootstrapUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_StyleConfig__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_StyleConfig__ = __webpack_require__(23);
 
 
 

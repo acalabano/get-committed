@@ -7,6 +7,7 @@ import {addPixel, getPixels, sortPixels} from '../reducers/pixel'
 import {createTask, removeTask} from '../reducers/task'
 import reducer from '../reducers/'
 import Loader from 'react-loader'
+import firebase from 'APP/fire'
 
 class AllPixels extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class AllPixels extends React.Component {
       currentUsername: '',
       addButtonClicked: false,
       loaded: false,
-      repoName:''
+      repoName: ''
     }
     this.onPixelSubmit=this.onPixelSubmit.bind(this)
     this.onTaskSubmit=this.onTaskSubmit.bind(this)
@@ -24,9 +25,8 @@ class AllPixels extends React.Component {
     this.onSort=this.onSort.bind(this)
   }
 
-
   componentDidMount() {
-  //  setTimeout(() => this.setState({ loaded: true }), 5000)
+  //  setTimeout(() => this.setState({ loaded: true }), 5000))
   }
 
   onPixelSubmit(event) {
@@ -40,7 +40,7 @@ class AllPixels extends React.Component {
     this.setState({addButtonClicked: false})
   }
 
-  onSort(){
+  onSort() {
     this.props.sortThePixels()
     console.log('THESE ARE THE Pixels SO FARRR', this.props.pixels)
   }
@@ -67,7 +67,7 @@ class AllPixels extends React.Component {
     let mm = today.getMonth()+1
     const yyyy = today.getFullYear()
     const name=''
-   console.log(this.props.games)
+  //  console.log(this.props.games)
 
     if (dd<10) {
       dd = '0'+dd
@@ -100,7 +100,6 @@ class AllPixels extends React.Component {
 
     return (
       <div className="">
-        <button onClick={this.onSort}>SORT</button>
         <h1>My goal repository: {`${this.props.hubId}`}</h1>
           <hr />
           <div className="row">
@@ -117,6 +116,7 @@ class AllPixels extends React.Component {
           <hr></hr>
         {this.state.addButtonClicked===false?
           <div>
+          <button onClick={this.onSort} className="btn btn-default">SORT</button>
             <button onClick={() => (this.setState({addButtonClicked: true}))} className="btn btn-default">Add Pixel +</button>
               <br></br>
               <br></br>
@@ -204,7 +204,7 @@ const mapDispatch = dispatch => ({
   loadPixels: () => {
     dispatch(getPixels())
   },
-  sortThePixels: () =>{
+  sortThePixels: () => {
     dispatch(sortPixels())
   },
   addATask: (taskContent, taskDone, taskFrequency, taskDay) => {

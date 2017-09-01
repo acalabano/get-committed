@@ -58,7 +58,11 @@ class Lobby extends React.Component {
                  this.props.games.map((game) => {
                    let idx= this.props.games.indexOf(game)
                    console.log('THUS FAR', this.props.games.slice(0, idx))
-                   let futureLinkName= game.name
+                   let futureLinkName= `${game.name}`
+                   console.log('FILTERED?', this.props.games.slice(0, idx).filter((hub) => hub.name===futureLinkName))
+                   if (this.props.games.slice(0, idx).filter((hub) => hub.name===futureLinkName).size>0) {
+                     futureLinkName=`${game.name}-id-${game.id}`
+                   }
                    return (
                    <div key={game.id}><h2><Link className='lobby-link' to={`/pixels/${this.state.currentUserId}/${futureLinkName}`}>Hub Name: {game.name}</Link></h2>
                      <button className="btn btn-danger" name="delete" id={idx} onClick={this.removeGameCallback}>X</button>
