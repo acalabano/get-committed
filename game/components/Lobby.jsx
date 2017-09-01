@@ -52,7 +52,7 @@ class Lobby extends React.Component {
             CHOOSE A HUB
           </p>
           <div className ='lobby-list text-center'>
-            <h2><Link key={this.state.currentUserId} className='lobby-link' to={`/pixels/${this.state.currentUserId}/main`}>{currentUsername + "'"}s Main Commit Hub</Link></h2>
+            <h2><Link key={this.state.currentUserId} className='lobby-link' to={`/pixels/${this.state.currentUserId}/tutorial`}>{currentUsername + "'"}s Tutorial Goal: Job Search</Link></h2>
               {
                  (this.props.games.size>0)?
                  this.props.games.map((game) => {

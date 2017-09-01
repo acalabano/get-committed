@@ -25,8 +25,16 @@ class AllPixels extends React.Component {
     this.onSort=this.onSort.bind(this)
   }
 
-  componentDidMount() {
+  componentWillMount() {
   //  setTimeout(() => this.setState({ loaded: true }), 5000))
+    if (this.props.hubId==='tutorial'){
+      this.props.addATask('This task is done daily', false, 'daily', '')
+      this.props.addATask('Shower daily', false, 'daily', '')
+      this.props.addATask('Apply to jobs', false, 'daily', '')
+      this.props.addATask('Try to seem normal on the subway', false, 'daily', '')
+      this.props.addATask('Bonus points if they smile, false', false, 'daily', '')
+      this.props.addATask('Get to sleep before 2am', false, 'daily', '')
+    }
   }
 
   onPixelSubmit(event) {

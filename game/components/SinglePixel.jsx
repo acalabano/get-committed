@@ -20,7 +20,7 @@ class SinglePixel extends React.Component {
     this.onResetTasks=this.onResetTasks.bind(this)
   }
 
-  componentDidMount() {
+  componentWillMount() {
   }
 
   removePixelCallback(event) {
@@ -55,6 +55,7 @@ class SinglePixel extends React.Component {
       done: false,
       taskFrequency: 'once',
     }
+    this.props.hubId==='tutorial'? this.props.addATask("This task is special! It's being added just for this day! It's very speshulllll!", false, 'daily', this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay):    
     this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, this.props.pixels.get(this.props.pixelId).pixelDay)
   }
 

@@ -30532,8 +30532,8 @@ var WelcomePage = function (_React$Component) {
           { className: 'enter-game btn btn-default' },
           _react2.default.createElement(
             _reactRouter.Link,
-            { to: '/pixels/' + this.state.currentUserId + '/main', activeClassName: 'active' },
-            'Click to go to Your Main Commit Hub'
+            { to: '/pixels/' + this.state.currentUserId + '/tutorial', activeClassName: 'active' },
+            'Click to go to Your Tutorial Commit Hub'
           )
         ) : _react2.default.createElement(
           'div',
@@ -30548,10 +30548,25 @@ var WelcomePage = function (_React$Component) {
             { className: 'enter-game btn btn-default' },
             _react2.default.createElement(
               _reactRouter.Link,
-              { to: '/pixels/' + this.state.currentUserId + '/main', activeClassName: 'active' },
-              'Click to go to Your Main Commit Hub'
+              { to: '/pixels/' + this.state.currentUserId + '/tutorial', activeClassName: 'active' },
+              'Click to go to Your Tutorial Commit Hub'
             )
           )
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Please note that the tutorial named Job Search is only an example'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'So some data will repeat everytime you refresh.'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'All is normal for your other repositories/goals'
         )
       );
     }
@@ -31227,9 +31242,17 @@ var AllPixels = function (_React$Component) {
   }
 
   _createClass(AllPixels, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
       //  setTimeout(() => this.setState({ loaded: true }), 5000))
+      if (this.props.hubId === 'tutorial') {
+        this.props.addATask('This task is done daily', false, 'daily', '');
+        this.props.addATask('Shower daily', false, 'daily', '');
+        this.props.addATask('Apply to jobs', false, 'daily', '');
+        this.props.addATask('Try to seem normal on the subway', false, 'daily', '');
+        this.props.addATask('Bonus points if they smile, false', false, 'daily', '');
+        this.props.addATask('Get to sleep before 2am', false, 'daily', '');
+      }
     }
   }, {
     key: 'onPixelSubmit',
@@ -31954,9 +31977,9 @@ var Lobby = function (_React$Component) {
               null,
               _react2.default.createElement(
                 _reactRouter.Link,
-                { key: this.state.currentUserId, className: 'lobby-link', to: '/pixels/' + this.state.currentUserId + '/main' },
+                { key: this.state.currentUserId, className: 'lobby-link', to: '/pixels/' + this.state.currentUserId + '/tutorial' },
                 currentUsername + "'",
-                's Main Commit Hub'
+                's Tutorial Goal: Job Search'
               )
             ),
             this.props.games.size > 0 ? this.props.games.map(function (game) {
@@ -32258,8 +32281,8 @@ var SinglePixel = function (_React$Component) {
   }
 
   _createClass(SinglePixel, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {}
+    key: 'componentWillMount',
+    value: function componentWillMount() {}
   }, {
     key: 'removePixelCallback',
     value: function removePixelCallback(event) {
@@ -32306,7 +32329,7 @@ var SinglePixel = function (_React$Component) {
         done: false,
         taskFrequency: 'once'
       };
-      this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, this.props.pixels.get(this.props.pixelId).pixelDay);
+      this.props.hubId === 'tutorial' ? this.props.addATask("This task is special! It's being added just for this day! It's very speshulllll!", false, 'daily', this.props.pixels.get(parseInt(this.props.pixelId)).pixelDay) : this.props.addATask(taskInfo.content, taskInfo.done, taskInfo.taskFrequency, this.props.pixels.get(this.props.pixelId).pixelDay);
     }
   }, {
     key: 'removeTaskCallback',

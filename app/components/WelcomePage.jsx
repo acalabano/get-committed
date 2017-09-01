@@ -27,11 +27,14 @@ class WelcomePage extends React.Component {
       {
         this.state.currentUsername?
         <button className='enter-game btn btn-default'>
-          <Link to={`/pixels/${this.state.currentUserId}/main`} activeClassName="active">Click to go to Your Main Commit Hub</Link>
+          <Link to={`/pixels/${this.state.currentUserId}/tutorial`} activeClassName="active">Click to go to Your Tutorial Commit Hub</Link>
         </button>:<div><h1>Please Log in to preserve your data! But you can still use this app anonymously</h1><button className='enter-game btn btn-default'>
-          <Link to={`/pixels/${this.state.currentUserId}/main`} activeClassName="active">Click to go to Your Main Commit Hub</Link>
+          <Link to={`/pixels/${this.state.currentUserId}/tutorial`} activeClassName="active">Click to go to Your Tutorial Commit Hub</Link>
         </button></div>
       }
+        <p>Please note that the tutorial named Job Search is only an example</p>
+        <p>So some data will repeat everytime you refresh.</p>
+        <p>All is normal for your other repositories/goals</p>
       </div>
     )
   }
