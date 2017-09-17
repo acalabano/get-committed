@@ -17,7 +17,8 @@ class AllPixels extends React.Component {
       currentUsername: '',
       addButtonClicked: false,
       loaded: false,
-      repoName: ''
+      repoName: '',
+      addedTutorialTask: false
     }
     this.onPixelSubmit=this.onPixelSubmit.bind(this)
     this.onTaskSubmit=this.onTaskSubmit.bind(this)
@@ -25,14 +26,15 @@ class AllPixels extends React.Component {
     this.onSort=this.onSort.bind(this)
   }
 
-  componentWillMount() {
+  componentDidMount() {
   //  setTimeout(() => this.setState({ loaded: true }), 5000))
-    if (this.props.hubId==='tutorial'){
+    console.log('current state----', this.props.tasks.size)
+    if (this.props.hubId==='tutorial') {
       this.props.addATask('This task is done daily', false, 'daily', '')
       this.props.addATask('Shower daily', false, 'daily', '')
       this.props.addATask('Apply to jobs', false, 'daily', '')
       this.props.addATask('Try to seem normal on the subway', false, 'daily', '')
-      this.props.addATask('Bonus points if they smile, false', false, 'daily', '')
+      this.props.addATask('Bonus points if they smile', false, 'daily', '')
       this.props.addATask('Get to sleep before 2am', false, 'daily', '')
     }
   }
@@ -131,17 +133,15 @@ class AllPixels extends React.Component {
               <div className="container-fluid">
                 <div className="row">
                   {
-                    columnsShown.map(column =>
-                      (
+                    columnsShown.map(column => {
+                      return (
                         <div className={`col-sm-${offset}`} style ={{paddingRight: '0px'}} key={column}>
-
                           {
-                            this.props.pixels.slice(7*(column-1), column*7).map(pixel => {
+                            this.props.pixels.slice(7*(column-1), column*7).map((pixel) => {
                               let pixelIndex= this.props.pixels.indexOf(pixel)
-                              pixelIndex
                               return (
                                 <div key={pixelIndex} style ={{paddingBottom: '5px'}}>
-                                  <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}}>
+                                  <Link to={`/pixel/${this.props.userId}/${this.props.hubId}/${pixelIndex}`} key={pixelIndex} style={{textDecoration: 'none'}} target="_blank">
                                     <div id="wrapper" style={{backgroundColor: pixel.pixelColor, width: `100%`, height: `${height}`}}><p className="text">{pixel.pixelDay}</p></div>
                                   </Link>
                                 </div>
@@ -150,9 +150,9 @@ class AllPixels extends React.Component {
                             })
                           }
                         </div>
-                      )
-                      )
-                    }
+                      )}
+                    )
+                  }
                 </div>
               </div>
             </div>:
